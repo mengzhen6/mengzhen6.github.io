@@ -350,16 +350,24 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
 .mask:hover img{transform:scale(1.14);opacity:1;filter:saturate(1.1)}
 .mask:hover::after{opacity:1}
 
-/* ---------- parallax stack ---------- */
-.stack{position:relative;height:min(78vh,700px)}
-.stack .layer{position:absolute;width:min(42%,420px);height:min(58vh,540px);object-fit:cover;border-radius:14px;
-  box-shadow:0 40px 80px rgba(0,0,0,.6);opacity:0;transition:opacity 1s,transform 1s cubic-bezier(.16,.7,.3,1)}
-.stack .l1{left:2%;top:8%;background:#111}
-.stack .l2{left:34%;top:20%;z-index:2}
-.stack .l3{right:2%;top:6%}
-.stack.in .l1{opacity:1}
-.stack.in .l2{opacity:1}
-.stack.in .l3{opacity:1}
+/* ---------- 18 展会活动：前期 / 中期 / 后期 ---------- */
+#expo .stages{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:6px}
+#expo .stage{position:relative;padding:28px 26px 26px;border:1px solid var(--line);border-radius:16px;
+  background:linear-gradient(160deg,#15171d,#0e0f13);transition:transform .45s,border-color .45s,box-shadow .45s;overflow:hidden}
+#expo .stage::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%,rgba(201,169,110,.10),transparent 60%);
+  opacity:0;transition:.45s;pointer-events:none}
+#expo .stage:hover{transform:translateY(-8px);border-color:rgba(201,169,110,.55);box-shadow:0 26px 54px rgba(0,0,0,.5)}
+#expo .stage:hover::after{opacity:1}
+#expo .sn{font-family:var(--serif);font-size:44px;line-height:1;font-weight:700;color:rgba(201,169,110,.34);position:relative;z-index:1}
+#expo .sh{display:flex;align-items:baseline;gap:12px;margin:12px 0 18px;padding-bottom:14px;border-bottom:1px solid var(--line);position:relative;z-index:1}
+#expo .sh h3{font-size:20px;letter-spacing:.08em;margin:0}
+#expo .sh span{font-size:11.5px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase}
+#expo .stage ul{list-style:none;position:relative;z-index:1}
+#expo .stage li{position:relative;padding-left:18px;font-size:13.8px;color:var(--muted);line-height:1.6;margin-bottom:11px}
+#expo .stage li:last-child{margin-bottom:0}
+#expo .stage li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:1px;background:var(--gold)}
+#expo .stage li b{color:#dcd7cc;font-weight:600}
+@media (max-width:980px){#expo .stages{grid-template-columns:1fr;gap:16px}}
 
 /* ---------- counters ---------- */
 .counters{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin:40px 0}
@@ -654,15 +662,46 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
   </div>
 </section>
 
-<!-- 18 图文 parallax stack -->
-<section class="scene" id="visualStack">
+<!-- 18 展会活动：前期 / 中期 / 后期 -->
+<section class="scene" id="expo">
   <div class="content">
-    <div class="kicker reveal">图文作品 · 场景呈现</div>
-    <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:30px">品牌视觉 · 实拍作品</h2>
-    <div class="stack reveal" id="stack">
-      <img class="layer l1" loading="lazy" decoding="async" src="assets/image77.webp" data-ps="0.06" alt=""/>
-      <img class="layer l2" loading="lazy" decoding="async" src="assets/image78.webp" data-ps="0.10" alt=""/>
-      <img class="layer l3" loading="lazy" decoding="async" src="assets/image79.webp" data-ps="0.14" alt=""/>
+    <div class="kicker reveal">展会活动 · 全流程执行</div>
+    <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:16px">展会前期 · 中期 · 后期</h2>
+    <p class="reveal" style="color:var(--muted);max-width:74ch;margin-bottom:38px">从展前筹备到展后复盘，整条链路独立跟进：物料设计、展位布置、现场拍摄、社媒传播、客户跟进与数据复盘，一气贯通。</p>
+    <div class="stages reveal">
+      <div class="stage">
+        <div class="sn">01</div>
+        <div class="sh"><h3>展会前期</h3><span>Prep</span></div>
+        <ul>
+          <li><b>主视觉与展位</b>：主题定调、展位效果图、动线与陈列规划</li>
+          <li><b>宣传物料</b>：易拉宝、海报、产品手册、样册、伴手礼设计与打样</li>
+          <li><b>展品准备</b>：产品实拍修图、卖点与参数整理、演示样机调试</li>
+          <li><b>展前预热</b>：预告海报、社媒预热内容、老客户定向邀约</li>
+          <li><b>人员与流程</b>：话术培训、分工排班、客户登记表与报价单</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <div class="sn">02</div>
+        <div class="sh"><h3>展会中期</h3><span>On-site</span></div>
+        <ul>
+          <li><b>展位现场</b>：陈列维护、动线引导、产品讲解与演示</li>
+          <li><b>现场拍摄</b>：产品实拍、展位花絮、客户互动，当天出片</li>
+          <li><b>社媒实时播报</b>：图文与短视频日更，话题与标签同步运营</li>
+          <li><b>客户接待</b>：意向登记、名片归档、需求与报价备注</li>
+          <li><b>素材回传</b>：现场素材即时回传，当日二次剪辑发布</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <div class="sn">03</div>
+        <div class="sh"><h3>展会后期</h3><span>Review</span></div>
+        <ul>
+          <li><b>素材归档</b>：照片视频分类整理，成片与源文件留档</li>
+          <li><b>二次传播</b>：展会回顾图文、案例包装、长尾内容分发</li>
+          <li><b>客户跟进</b>：意向清单移交、资料补发与后续触达</li>
+          <li><b>数据复盘</b>：曝光 / 互动 / 留资统计，效果报告输出</li>
+          <li><b>流程沉淀</b>：物料模板、话术与执行 SOP 沉淀复用</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -746,7 +785,7 @@ rs();addEventListener('resize',rs);
 
 /* ---- IntersectionObserver reveals ---- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.18});
-document.querySelectorAll('.reveal,.stagger,.stack,.divider').forEach(el=>io.observe(el));
+document.querySelectorAll('.reveal,.stagger,.divider').forEach(el=>io.observe(el));
 const io2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io2.unobserve(e.target);}}),{threshold:.05});
 document.querySelectorAll('.strip,.pols').forEach(el=>io2.observe(el));
 
@@ -1069,17 +1108,6 @@ function countUp(el){
   ioC.observe(el);
 }
 document.querySelectorAll('.num[data-c]').forEach(countUp);
-
-/* ---- parallax stack ---- */
-const stack=document.getElementById('stack');
-addEventListener('scroll',()=>{
-  if(!stack)return;const r=stack.getBoundingClientRect();
-  const mid=innerHeight-r.top;
-  stack.querySelectorAll('.layer').forEach(l=>{
-    const ps=parseFloat(l.dataset.ps);const y=(mid-innerHeight*.5)*ps;
-    l.style.transform=`translateY(${y}px)`;
-  });
-},{passive:true});
 
 /* ---- 大幅聚焦轮播：完整展示 · 自动切换 · 拖拽/按键/圆点 · 点击放大 ---- */
 function initFocus(cfg){
