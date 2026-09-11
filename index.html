@@ -432,7 +432,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
 
 <!-- 01 cover -->
 <section class="scene" id="cover">
-  <img class="bgimg" src="assets/image1.png" alt="" />
+  <img class="bgimg" src="assets/image1.webp" fetchpriority="high" decoding="async" alt="" />
   <canvas id="stars"></canvas>
   <div class="shine"></div>
   <div class="content">
@@ -660,9 +660,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
     <div class="kicker reveal">图文作品 · 场景呈现</div>
     <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:30px">品牌视觉 · 实拍作品</h2>
     <div class="stack reveal" id="stack">
-      <img class="layer l1" src="assets/image77.png" data-ps="0.06" alt=""/>
-      <img class="layer l2" src="assets/image78.png" data-ps="0.10" alt=""/>
-      <img class="layer l3" src="assets/image79.jpeg" data-ps="0.14" alt=""/>
+      <img class="layer l1" loading="lazy" decoding="async" src="assets/image77.webp" data-ps="0.06" alt=""/>
+      <img class="layer l2" loading="lazy" decoding="async" src="assets/image78.webp" data-ps="0.10" alt=""/>
+      <img class="layer l3" loading="lazy" decoding="async" src="assets/image79.webp" data-ps="0.14" alt=""/>
     </div>
   </div>
 </section>
@@ -712,6 +712,17 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
 
 <script>
 document.documentElement.classList.add('js');
+
+/* ---- 图片加载失败自动重试（应对弱网 / 跨境链路抖动） ---- */
+document.addEventListener('error',function(e){
+  var t=e.target;
+  if(!t||t.tagName!=='IMG')return;
+  if((+t.dataset.retry||0)>=2)return;
+  t.dataset.retry=(+t.dataset.retry||0)+1;
+  var s=t.getAttribute('src');
+  if(!s)return;
+  setTimeout(function(){t.removeAttribute('src');t.setAttribute('src',s);},700);
+},true);
 
 /* ---- split text into chars/letters ---- */
 function splitChars(el){const t=el.dataset.txt||el.textContent;el.textContent='';[...t].forEach((c,i)=>{const s=document.createElement('span');s.className='l';s.style.setProperty('--i',i);s.textContent=c===' '?'\u00A0':c;el.appendChild(s);});}
@@ -799,17 +810,17 @@ setupCfl('cflDom');
   const cards=document.getElementById('cardsDom');if(!cards)return;
   const track=document.getElementById('cardsTrack');
   const data=[
-    {src:'assets/xhs1.png', k:'小红书', v:'海伯官方账号'},
-    {src:'assets/xhs2.jpg', k:'小红书', v:'SWAGE海水时代'},
-    {src:'assets/dy3.png',  k:'抖音',   v:'海伯官方旗舰店'},
-    {src:'assets/dy12.jpg', k:'抖音',   v:'SWAGE海水时代'},
-    {src:'assets/ls2.jpg',  k:'公众号', v:'LS电气'},
-    {src:'assets/sp.jpg',   k:'视频',   v:'利宝保险'},
-    {src:'assets/sph1.png', k:'视频号', v:'利宝保险'}
+    {src:'assets/xhs1.webp', k:'小红书', v:'海伯官方账号'},
+    {src:'assets/xhs2.webp', k:'小红书', v:'SWAGE海水时代'},
+    {src:'assets/dy3.webp',  k:'抖音',   v:'海伯官方旗舰店'},
+    {src:'assets/dy12.webp', k:'抖音',   v:'SWAGE海水时代'},
+    {src:'assets/ls2.webp',  k:'公众号', v:'LS电气'},
+    {src:'assets/sp.webp',   k:'视频',   v:'利宝保险'},
+    {src:'assets/sph1.webp', k:'视频号', v:'利宝保险'}
   ];
   function card(d){
     const c=document.createElement('div');c.className='pcard';
-    c.innerHTML=`<div class="img"><img src="${d.src}" alt="${d.k}"/></div><div class="cap"><span class="k">${d.k}</span><span class="d">—</span><span class="v">${d.v}</span></div>`;
+    c.innerHTML=`<div class="img"><img loading="lazy" decoding="async" src="${d.src}" alt="${d.k}"/></div><div class="cap"><span class="k">${d.k}</span><span class="d">—</span><span class="v">${d.v}</span></div>`;
     c.querySelector('img').addEventListener('click',()=>lightbox(d.src));
     return c;
   }
@@ -890,7 +901,7 @@ function initCirc(cfg){
   const dotsEl=document.getElementById(cfg.dots);
   cfg.data.forEach(d=>{
     const s=document.createElement('div');s.className='ci';
-    s.innerHTML=`<div class="im"><img src="${d.src}" alt="${d.k}"/></div><div class="cap"><span class="k">${d.k}</span><span class="d">—</span><span class="v">${d.v}</span></div>`;
+    s.innerHTML=`<div class="im"><img loading="lazy" decoding="async" src="${d.src}" alt="${d.k}"/></div><div class="cap"><span class="k">${d.k}</span><span class="d">—</span><span class="v">${d.v}</span></div>`;
     s.querySelector('img').addEventListener('click',()=>lightbox(d.src));
     track.appendChild(s);
   });
@@ -926,14 +937,14 @@ function initCirc(cfg){
 initCirc({
   id:'galOvs', track:'stageOvs', dots:'galDotsOvs',
   data:[
-    {src:'assets/os10.jpg', k:'YT', v:'LS ELECTRIC Automation Oasis'},
-    {src:'assets/os6.png', k:'INS', v:'HAIBO MARINE EUROPE'},
-    {src:'assets/os2.png', k:'INS', v:'swage_fishing 账号主页'},
-    {src:'assets/os3.png', k:'INS', v:'swage_fishing 产品 / 服务'},
-    {src:'assets/os1.png', k:'FB', v:'SWAGE Fishing Gear 官方主页'},
-    {src:'assets/os9.png', k:'YT',  v:'AutomationDirect 频道'},
-    {src:'assets/os7.png', k:'AUT', v:'AutomationDirect Safety Relays'},
-    {src:'assets/os8.png', k:'LS',  v:'LS Electric XMC 运动控制器'}
+    {src:'assets/os10.webp', k:'YT', v:'LS ELECTRIC Automation Oasis'},
+    {src:'assets/os6.webp', k:'INS', v:'HAIBO MARINE EUROPE'},
+    {src:'assets/os2.webp', k:'INS', v:'swage_fishing 账号主页'},
+    {src:'assets/os3.webp', k:'INS', v:'swage_fishing 产品 / 服务'},
+    {src:'assets/os1.webp', k:'FB', v:'SWAGE Fishing Gear 官方主页'},
+    {src:'assets/os9.webp', k:'YT',  v:'AutomationDirect 频道'},
+    {src:'assets/os7.webp', k:'AUT', v:'AutomationDirect Safety Relays'},
+    {src:'assets/os8.webp', k:'LS',  v:'LS Electric XMC 运动控制器'}
   ]
 });
 
@@ -1041,7 +1052,7 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
 })();
 const pols=document.getElementById('pols');
 const polImgs=[65,66,67,68,69,70];const polCaps=['个人公众号','KOL 采访','线上摄影展','作品案例','内容发布','品牌内容'];
-polImgs.forEach((n,i)=>{const d=document.createElement('div');d.className='p';d.style.setProperty('--r',(Math.random()*6-3).toFixed(1)+'deg');d.innerHTML=`<img src="assets/image${n}.png"/><div class="cap">${polCaps[i]}</div>`;pols.appendChild(d);});
+polImgs.forEach((n,i)=>{const d=document.createElement('div');d.className='p';d.style.setProperty('--r',(Math.random()*6-3).toFixed(1)+'deg');d.innerHTML=`<img loading="lazy" decoding="async" src="assets/image${n}.webp"/><div class="cap">${polCaps[i]}</div>`;pols.appendChild(d);});
 drag(pols);
 
 /* ---- divider counters (d6) ---- */
@@ -1079,7 +1090,7 @@ function initFocus(cfg){
   const DATA=cfg.data;const n=DATA.length;let cur=0;
   const auto=cfg.auto??3800;
   const imgs=DATA.map(d=>{
-    const img=document.createElement('img');img.src=d.src;img.alt=d.name;
+    const img=document.createElement('img');img.loading='lazy';img.decoding='async';img.src=d.src;img.alt=d.name;
     img.addEventListener('click',()=>lightbox(d.src));
     stage.appendChild(img);return img;
   });
@@ -1105,7 +1116,7 @@ function initVista(cfg){
   const auto=cfg.auto??3600;
   const items=DATA.map((d,k)=>{
     const it=document.createElement('div');it.className='vitem';
-    it.innerHTML=`<img src="${d.src}" alt="${d.name}"/><div class="vtag">${d.name}</div>`;
+    it.innerHTML=`<img loading="lazy" decoding="async" src="${d.src}" alt="${d.name}"/><div class="vtag">${d.name}</div>`;
     it.querySelector('img').addEventListener('click',()=>lightbox(d.src));
     track.appendChild(it);
     const b=document.createElement('i');b.addEventListener('click',()=>go(k));dotsEl.appendChild(b);
@@ -1140,30 +1151,30 @@ function initVista(cfg){
 initVista({
   id:'visVista', track:'visTrack', dots:'visDots',
   data:[
-    {src:'assets/v1.png', name:'MELIORA AIR AMC+ 微物水滴轮'},
-    {src:'assets/v2.png', name:'Liberty 加油卡天天抽'},
-    {src:'assets/v3.png', name:'SWAGE 强势来袭'},
-    {src:'assets/v4.png', name:'MELIORA 鱼线轮立体保护贴'},
-    {src:'assets/v5.png', name:'SWAGE 品牌视觉'},
-    {src:'assets/v6.png', name:'SWAGE mirage 幻影系列'},
-    {src:'assets/v7.png', name:'HAIBO 海伯磐石动力锂电池'},
-    {src:'assets/v8.png', name:'MELIORA 113g 微物水滴轮'},
-    {src:'assets/v9.png', name:'LS XGB 系列 样册'},
-    {src:'assets/v10.png', name:'LS XGT 系列 样册'},
-    {src:'assets/v11.png', name:'LS ELECTRIC 自动化 CIC 企业介绍'},
-    {src:'assets/v12.png', name:'LS 集团发展历程 · 业务解决方案'}
+    {src:'assets/v1.webp', name:'MELIORA AIR AMC+ 微物水滴轮'},
+    {src:'assets/v2.webp', name:'Liberty 加油卡天天抽'},
+    {src:'assets/v3.webp', name:'SWAGE 强势来袭'},
+    {src:'assets/v4.webp', name:'MELIORA 鱼线轮立体保护贴'},
+    {src:'assets/v5.webp', name:'SWAGE 品牌视觉'},
+    {src:'assets/v6.webp', name:'SWAGE mirage 幻影系列'},
+    {src:'assets/v7.webp', name:'HAIBO 海伯磐石动力锂电池'},
+    {src:'assets/v8.webp', name:'MELIORA 113g 微物水滴轮'},
+    {src:'assets/v9.webp', name:'LS XGB 系列 样册'},
+    {src:'assets/v10.webp', name:'LS XGT 系列 样册'},
+    {src:'assets/v11.webp', name:'LS ELECTRIC 自动化 CIC 企业介绍'},
+    {src:'assets/v12.webp', name:'LS 集团发展历程 · 业务解决方案'}
   ]
 });
 // 粉丝福利 · 活动赛事 · 大幅聚焦轮播
 initFocus({
   id:'fanPk', stage:'fanStage', dots:'fanDots', tag:'fanTag',
   data:[
-    {src:'assets/fa1.png', name:'年度任务总览 · 200 项计划'},
-    {src:'assets/fa2.png', name:'内容推广规划 · 2–3 月'},
-    {src:'assets/fa3.png', name:'月度内容节奏 · 5–12 月'},
-    {src:'assets/fa4.png', name:'互动福利 · 积分抽奖'},
-    {src:'assets/fa5.png', name:'海伯赛事 · 任务&礼遇'},
-    {src:'assets/fa6.png', name:'直播总体规划 · 技术系列化'}
+    {src:'assets/fa1.webp', name:'年度任务总览 · 200 项计划'},
+    {src:'assets/fa2.webp', name:'内容推广规划 · 2–3 月'},
+    {src:'assets/fa3.webp', name:'月度内容节奏 · 5–12 月'},
+    {src:'assets/fa4.webp', name:'互动福利 · 积分抽奖'},
+    {src:'assets/fa5.webp', name:'海伯赛事 · 任务&礼遇'},
+    {src:'assets/fa6.webp', name:'直播总体规划 · 技术系列化'}
   ]
 });
 
