@@ -94,26 +94,26 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
 
 /* ---------- 01.5 TOC 目录：卡片网格导航 ---------- */
 #toc .content{max-width:1280px}
-#toc .head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:46px;flex-wrap:wrap}
+#toc .head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:30px;flex-wrap:wrap}
 #toc .head h2{font-family:var(--serif);font-size:clamp(34px,5vw,60px);line-height:1.06;font-weight:600;margin-bottom:18px}
 #toc .head p{color:var(--muted);font-size:15.5px;max-width:56ch;line-height:1.75}
 #toc .stat{text-align:right;flex:0 0 auto;padding-left:22px;border-left:1px solid var(--line)}
 #toc .stat .num{font-family:var(--serif);font-size:clamp(38px,4vw,52px);line-height:1;color:var(--gold2);font-weight:700}
 #toc .stat .num span{font-size:.45em;color:var(--muted);margin-left:4px;font-weight:400}
 #toc .stat .lab{margin-top:9px;color:var(--muted);font-size:12px;letter-spacing:.12em}
-#toc .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+#toc .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:900px){#toc .grid{grid-template-columns:1fr 1fr}#toc .head{flex-direction:column;align-items:flex-start}}
 @media(max-width:560px){#toc .grid{grid-template-columns:1fr}}
-#toc .tcard{display:flex;flex-direction:column;min-height:212px;padding:26px 26px 22px;background:linear-gradient(160deg,#15171d,#0e0f13);
+#toc .tcard{display:flex;flex-direction:column;min-height:174px;padding:22px 22px 18px;background:linear-gradient(160deg,#15171d,#0e0f13);
   border:1px solid var(--line);border-radius:16px;transition:.4s;cursor:pointer;position:relative;overflow:hidden}
 #toc .tcard::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%,rgba(201,169,110,.10),transparent 60%);opacity:0;transition:.4s;pointer-events:none}
 #toc .tcard:hover{transform:translateY(-6px);border-color:rgba(201,169,110,.55);box-shadow:0 24px 50px rgba(0,0,0,.5)}
 #toc .tcard:hover::after{opacity:1}
-#toc .tic{width:48px;height:48px;border-radius:14px;border:1px solid var(--gold);background:#0b0c10;display:grid;place-items:center;color:var(--gold2);font-size:20px;margin-bottom:20px;transition:.4s;position:relative;z-index:1}
+#toc .tic{width:42px;height:42px;border-radius:12px;border:1px solid var(--gold);background:#0b0c10;display:grid;place-items:center;color:var(--gold2);font-size:18px;margin-bottom:14px;transition:.4s;position:relative;z-index:1}
 #toc .tcard:hover .tic{background:var(--gold);color:#0b0c10;box-shadow:0 0 20px rgba(201,169,110,.4)}
-#toc .tcard h3{font-size:17px;margin-bottom:10px;letter-spacing:.04em;position:relative;z-index:1}
+#toc .tcard h3{font-size:16.5px;margin-bottom:8px;letter-spacing:.04em;position:relative;z-index:1}
 #toc .tcard p{font-size:13.5px;color:var(--muted);line-height:1.6;position:relative;z-index:1;flex:1}
-#toc .tcard .go{margin-top:18px;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:8px 17px;border:1px solid rgba(255,255,255,.24);border-radius:999px;font-size:12.5px;letter-spacing:.1em;color:#eee;transition:.35s;position:relative;z-index:1}
+#toc .tcard .go{margin-top:12px;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:8px 17px;border:1px solid rgba(255,255,255,.24);border-radius:999px;font-size:12.5px;letter-spacing:.1em;color:#eee;transition:.35s;position:relative;z-index:1}
 #toc .tcard:hover .go{border-color:var(--gold);color:var(--gold2);background:rgba(201,169,110,.08)}
 
 /* ---------- 02 about ---------- */
@@ -489,7 +489,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
       <div>
         <div class="kicker reveal">Contents · 目录</div>
         <h2 class="h-serif reveal">每一页，<br/>都有入口。</h2>
-        <p class="reveal">沿着下方任意板块，一页一主题直达对应内容——从个人简介、国内与海外社媒布局，到视频作品、小红书运营与数据看板，再到联系方式。</p>
+        <p class="reveal">下方每一个板块都对应本作品集的一页：国内社媒、海外账号、视频作品、运营数据看板、个人公众号、平面作品、展会活动、营销与活动，以及联系方式。</p>
       </div>
       <div class="stat reveal">
         <div class="num">12 <span>页</span></div>
@@ -497,12 +497,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
       </div>
     </div>
     <div class="grid reveal">
-      <a class="tcard" href="#about">
-        <div class="tic">✦</div>
-        <h3>关于我</h3>
-        <p>个人简介 · 定位与技能。沉稳认真，把每一个作品当成代表作。</p>
-        <span class="go">进入 →</span>
-      </a>
       <a class="tcard" href="#domestic">
         <div class="tic">◈</div>
         <h3>国内社媒</h3>
@@ -525,6 +519,36 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
         <div class="tic">▣</div>
         <h3>运营数据看板</h3>
         <p>累计播放 / 获赞 / 收藏，播放力 TOP 排名与互动构成可视化。</p>
+        <span class="go">进入 →</span>
+      </a>
+      <a class="tcard" href="#wxSelf">
+        <div class="tic">✎</div>
+        <h3>个人公众号</h3>
+        <p>个人号浏览量 1000+ · KOL 采访点击率 1000+ · 线上摄影展 500+ 人次。</p>
+        <span class="go">进入 →</span>
+      </a>
+      <a class="tcard" href="#visual">
+        <div class="tic">▦</div>
+        <h3>平面作品</h3>
+        <p>产品图 · 海报 · 详情页 · 流程图，产品图均由本人拍摄与修图。</p>
+        <span class="go">进入 →</span>
+      </a>
+      <a class="tcard" href="#expo">
+        <div class="tic">◉</div>
+        <h3>展会活动</h3>
+        <p>展会前期 / 中期 / 后期全流程执行：物料、展位、现场拍摄与复盘。</p>
+        <span class="go">进入 →</span>
+      </a>
+      <a class="tcard" href="#fans">
+        <div class="tic">✧</div>
+        <h3>营销与活动</h3>
+        <p>200 项任务规划 · SNS 传播 · 内容推广 · 互动福利 · 直播规划。</p>
+        <span class="go">进入 →</span>
+      </a>
+      <a class="tcard" href="#contact">
+        <div class="tic">✉</div>
+        <h3>联系方式</h3>
+        <p>邮箱 · 微信 · 电话，期待与你的下一次合作。</p>
         <span class="go">进入 →</span>
       </a>
     </div>
