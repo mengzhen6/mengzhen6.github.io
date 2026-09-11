@@ -3,3 +3,7 @@
 .DS_Store
 *.log
 _optimize.py
+_shot.js
+_check.js
+_*.png
+_*.html
