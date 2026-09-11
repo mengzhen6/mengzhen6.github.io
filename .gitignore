@@ -1,0 +1,4 @@
+.edgeone/
+.env
+.DS_Store
+*.log
