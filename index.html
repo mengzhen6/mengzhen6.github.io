@@ -1107,45 +1107,56 @@ function initFocus(cfg){
   (function slide(){if(!paused){const r=root.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)go(cur+1);}setTimeout(slide,auto);})();
   go(0);
 }
-/* ---- vista 横向滑动卡片带：完整展示 · 无外框 · 中心聚焦两侧露出 · 自动播放 ---- */
+/* ---- vista 横向滑动卡片带：环形无缝 · 无外框 · 中心聚焦两侧露出 · 自动播放 ----
+   卡带复制三份，始终左右环绕，第一张也不会出现左侧空白 */
 function initVista(cfg){
   const root=document.getElementById(cfg.id);if(!root)return;
   const track=document.getElementById(cfg.track);
   const dotsEl=document.getElementById(cfg.dots);
-  const DATA=cfg.data;const n=DATA.length;let cur=0;
+  const DATA=cfg.data;const n=DATA.length;if(!n)return;
   const auto=cfg.auto??3600;
-  const items=DATA.map((d,k)=>{
-    const it=document.createElement('div');it.className='vitem';
-    it.innerHTML=`<img loading="lazy" decoding="async" src="${d.src}" alt="${d.name}"/><div class="vtag">${d.name}</div>`;
-    it.querySelector('img').addEventListener('click',()=>lightbox(d.src));
-    track.appendChild(it);
-    const b=document.createElement('i');b.addEventListener('click',()=>go(k));dotsEl.appendChild(b);
-    return it;
-  });
-  function center(){
-    const cw=root.clientWidth;
-    const it=items[cur];
-    const tx=cw/2-(it.offsetLeft+it.offsetWidth/2);
-    track.style.transform=`translateX(${tx}px)`;
+  const COPY=3;                                   // 三份：当前卡永远有左右邻居
+  const items=[];
+  for(let c=0;c<COPY;c++){
+    DATA.forEach(d=>{
+      const it=document.createElement('div');it.className='vitem';
+      it.innerHTML=`<img loading="lazy" decoding="async" src="${d.src}" alt="${d.name}"/><div class="vtag">${d.name}</div>`;
+      it.querySelector('img').addEventListener('click',()=>lightbox(d.src));
+      track.appendChild(it);items.push(it);
+    });
   }
-  function go(k){cur=((k%n)+n)%n;
-    items.forEach((it,i)=>it.classList.toggle('on',i===cur));
-    [...dotsEl.children].forEach((d,i)=>d.classList.toggle('on',i===cur));
-    center();}
-  root.querySelectorAll('.pbtn').forEach(b=>b.addEventListener('click',()=>go(cur+ +b.dataset.d)));
+  DATA.forEach((d,k)=>{const b=document.createElement('i');b.addEventListener('click',()=>goTo(k));dotsEl.appendChild(b);});
+  const EASE='transform .75s cubic-bezier(.22,1,.36,1)';
+  const norm=k=>((k%n)+n)%n;
+  let idx=n;                                      // 当前卡在中段那份里的位置
+  let timer=null;
+  function place(anim){
+    if(!items[idx])idx=n+norm(idx);
+    const it=items[idx];
+    const tx=root.clientWidth/2-(it.offsetLeft+it.offsetWidth/2);
+    track.style.transition=anim?EASE:'none';
+    track.style.transform=`translateX(${tx}px)`;
+    items.forEach((el,i)=>el.classList.toggle('on',i===idx));
+    [...dotsEl.children].forEach((d,i)=>d.classList.toggle('on',i===norm(idx)));
+    clearTimeout(timer);
+    // 动画结束后无声归位到中段，保证任何方向都能无限环绕（画面完全不变）
+    if(anim)timer=setTimeout(()=>{
+      const t=n+norm(idx-n);
+      if(t!==idx){idx=t;place(false);}
+    },780);
+  }
+  function go(step){idx+=step;place(true);}
+  function goTo(k){idx=n+norm(k);place(true);}
+  root.querySelectorAll('.pbtn').forEach(b=>b.addEventListener('click',()=>go(+b.dataset.d)));
   let sx=null;
   root.addEventListener('mousedown',e=>{sx=e.clientX;});
-  addEventListener('mouseup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>44)go(cur+(dx<0?1:-1));});
+  addEventListener('mouseup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>44)go(dx<0?1:-1);});
   let paused=false;
   root.addEventListener('mouseenter',()=>paused=true);
   root.addEventListener('mouseleave',()=>paused=false);
-  (function slide(){if(!paused){const r=root.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)go(cur+1);}setTimeout(slide,auto);})();
-  go(0);
-  // 图片加载完成后再居中（宽度依赖图片尺寸），并随窗口变化重排
-  let done=0;
-  items.forEach(it=>{const im=it.querySelector('img');
-    if(im.complete){if(++done>=n)center();}else im.addEventListener('load',()=>{if(++done>=n)center();});});
-  addEventListener('resize',center);
+  (function slide(){if(!paused){const r=root.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)go(1);}setTimeout(slide,auto);})();
+  place(false);
+  addEventListener('resize',()=>place(false));
 }
 // 产品图 · 海报 · 详情页 · 流程图 · 横向滑动卡片带(完整 · 无外框)
 initVista({
