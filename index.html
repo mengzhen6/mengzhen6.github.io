@@ -481,25 +481,45 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #web .glab::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(var(--green-rgb),.4),transparent)}
 #web .gset{display:grid;gap:18px}
 #web .gset.g3{grid-template-columns:repeat(3,1fr)}
-#web .gset.g4{grid-template-columns:repeat(4,1fr)}
 #web .wc{position:relative;border-radius:12px;overflow:hidden;background:#0f1014;border:1px solid var(--line);
   cursor:zoom-in;transition:transform .45s,border-color .45s,box-shadow .45s}
 #web .wc img{display:block;width:100%;object-fit:cover;object-position:top;transition:transform .7s}
 #web .gset.g3 .wc img{height:200px}
-#web .gset.g4 .wc img{height:498px}
 #web .wc .cp{padding:10px 13px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);
   background:#0b0c10;line-height:1.5}
 #web .wc:hover{transform:translateY(-5px);border-color:rgba(var(--green-rgb),.55);box-shadow:0 22px 46px rgba(0,0,0,.55)}
 #web .wc:hover img{transform:scale(1.05)}
+#web .glab .ghint{font-style:normal;font-family:var(--sans);font-size:11.5px;letter-spacing:.08em;color:var(--muted)}
+/* 公众号推文卡片（点击在新窗口打开原文） */
+#web .mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+#web .mc{position:relative;display:grid;grid-template-columns:46px 1fr 30px;gap:4px 14px;align-items:center;
+  padding:15px 17px;background:linear-gradient(155deg,#15171d,#0e0f13);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;cursor:pointer;
+  transition:transform .4s,border-color .4s,box-shadow .4s}
+#web .mc::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;border-radius:2px;
+  background:var(--green);opacity:0;transition:.4s}
+#web .mc .mcno{grid-column:1;grid-row:1/3;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.16);
+  display:grid;place-items:center;font-family:var(--serif);font-size:13px;letter-spacing:.04em;color:var(--muted);transition:.4s}
+#web .mc .mct{grid-column:2;grid-row:1;font-size:14.5px;font-weight:600;line-height:1.45;color:#eae7e1;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;transition:.4s}
+#web .mc .mcm{grid-column:2;grid-row:2;display:flex;align-items:center;gap:9px;font-size:11.5px;color:var(--muted);letter-spacing:.04em}
+#web .mc .mcacc{color:var(--green);border:1px solid rgba(var(--green-rgb),.38);border-radius:999px;padding:1px 9px}
+#web .mc .mcgo{grid-column:3;grid-row:1/3;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.2);
+  display:grid;place-items:center;font-size:12px;color:#cfc9bf;justify-self:end;transition:.4s}
+#web .mc:hover{transform:translateY(-4px);border-color:rgba(var(--green-rgb),.55);box-shadow:0 20px 42px rgba(0,0,0,.5)}
+#web .mc:hover::before{opacity:1}
+#web .mc:hover .mcno{background:var(--green);border-color:var(--green);color:#08120c}
+#web .mc:hover .mct{color:var(--green)}
+#web .mc:hover .mcgo{background:var(--green);border-color:var(--green);color:#08120c}
 @media(max-width:980px){
   #web .gset.g3{grid-template-columns:1fr}
-  #web .gset.g4{grid-template-columns:repeat(2,1fr)}
   #web .gset.g3 .wc img{height:auto}
-  #web .gset.g4 .wc img{height:440px}
+  #web .mgrid{grid-template-columns:1fr}
 }
 @media(max-width:560px){
-  #web .gset.g4{grid-template-columns:1fr}
-  #web .gset.g4 .wc img{height:auto}
+  #web .mc{grid-template-columns:38px 1fr 26px;gap:3px 11px;padding:13px 14px}
+  #web .mc .mcno{width:38px;height:38px;font-size:12px}
+  #web .mc .mct{font-size:13.5px}
 }
 </style>
 </head>
@@ -749,12 +769,80 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     </div>
 
     <div class="wg reveal">
-      <div class="glab"><span>公众号 · 原创推文与互动运营</span></div>
-      <div class="gset g4">
-        <div class="wc"><img loading="lazy" decoding="async" src="assets/mp1.webp" alt="公众号留言互动活动"/><div class="cp">留言抽奖活动 · 阅读 4.0 万</div></div>
-        <div class="wc"><img loading="lazy" decoding="async" src="assets/mp2.webp" alt="半导体成套解决方案推文"/><div class="cp">半导体成套解决方案推文</div></div>
-        <div class="wc"><img loading="lazy" decoding="async" src="assets/mp3.webp" alt="船级社权威认证推文"/><div class="cp">全球船级社权威认证推文</div></div>
-        <div class="wc"><img loading="lazy" decoding="async" src="assets/mp4.webp" alt="公众号主页"/><div class="cp">公众号主页 · 15 篇原创内容</div></div>
+      <div class="glab"><span>公众号 · 原创推文</span><em class="ghint">点击卡片在新窗口打开原文</em></div>
+      <div class="mgrid">
+        <a class="mc" href="https://mp.weixin.qq.com/s/qon30YifKQNQpqeEDnRprw" target="_blank" rel="noopener">
+          <span class="mcno">01</span>
+          <span class="mct">LS电气半导体成套解决方案，赋能设备智造新高度</span>
+          <span class="mcm"><span class="mcacc">LS电气</span><span class="mcd">2025.12.12</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/UBGv8mVAG1SFAxmzgo3CEg" target="_blank" rel="noopener">
+          <span class="mcno">02</span>
+          <span class="mct">LS电气以全球船级社权威认证，重新定义船舶可靠控制</span>
+          <span class="mcm"><span class="mcacc">LS电气</span><span class="mcd">2025.12.08</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/tm4a_VqR8_BOjnM4alnW-w" target="_blank" rel="noopener">
+          <span class="mcno">03</span>
+          <span class="mct">深耕海事自动化！LS电气硬核产品矩阵，助力中国船舶工业破浪前行</span>
+          <span class="mcm"><span class="mcacc">LS电气</span><span class="mcd">2026.01.19</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/40q2qjbKUpc4CgvupXROUQ" target="_blank" rel="noopener">
+          <span class="mcno">04</span>
+          <span class="mct">【新品发布】LS电气XSC系列安全PLC全新上市，为工业安全注入智能基因！</span>
+          <span class="mcm"><span class="mcacc">LS电气</span><span class="mcd">2025.11.28</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/uMWtbtPAzK6Vok4OCCVI1g" target="_blank" rel="noopener">
+          <span class="mcno">05</span>
+          <span class="mct">韩国国际电力技术展 2026：LS电气携创新方案，引领全球电力产业新未来</span>
+          <span class="mcm"><span class="mcacc">LS电气</span><span class="mcd">2026.02.11</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/I9qezozPnkP0Y266SA1HQA" target="_blank" rel="noopener">
+          <span class="mcno">06</span>
+          <span class="mct">2025谁鱼争锋丨海伯顶流卡亚克抖音短视频创作大赛重磅开启【内含福利】</span>
+          <span class="mcm"><span class="mcacc">海伯渔具</span><span class="mcd">2025.07.14</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/II9FHMPlsZ24m6l9PIKdCA" target="_blank" rel="noopener">
+          <span class="mcno">07</span>
+          <span class="mct">MELIORA梅罗拉高定战袍来了！【内含福利】</span>
+          <span class="mcm"><span class="mcacc">海伯渔具</span><span class="mcd">2025.06.10</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/PeRvdvi4JELOcmFWACwzFQ" target="_blank" rel="noopener">
+          <span class="mcno">08</span>
+          <span class="mct">油价今晚调整‼️下班要去加油吗⁉️</span>
+          <span class="mcm"><span class="mcacc">利宝保险</span><span class="mcd">2024.06.27</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/BVq4wm1teXpOHKHgAOUGhA" target="_blank" rel="noopener">
+          <span class="mcno">09</span>
+          <span class="mct">8个损车坏习惯，您可能每天都在做</span>
+          <span class="mcm"><span class="mcacc">利宝保险</span><span class="mcd">2024.04.12</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/Uf5y5jJQMmjZnurwgv0Stg" target="_blank" rel="noopener">
+          <span class="mcno">10</span>
+          <span class="mct">杂货馆故事 | “徐叶子的旅行拍摄日志”</span>
+          <span class="mcm"><span class="mcacc">可乐杂货馆</span><span class="mcd">2021.02.25</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/OEOVzTYhxtMcpNHEzVhg4w" target="_blank" rel="noopener">
+          <span class="mcno">11</span>
+          <span class="mct">杂货馆故事 | 李香香爱拍照</span>
+          <span class="mcm"><span class="mcacc">可乐杂货馆</span><span class="mcd">2020.06.20</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        <a class="mc" href="https://mp.weixin.qq.com/s/vhdrjlnP9I5RXRY5bRGUBg" target="_blank" rel="noopener">
+          <span class="mcno">12</span>
+          <span class="mct">杂货馆故事 | “旅行博主” 任小珂</span>
+          <span class="mcm"><span class="mcacc">可乐杂货馆</span><span class="mcd">2020.03.29</span></span>
+          <span class="mcgo">↗</span>
+        </a>
       </div>
     </div>
   </div>
