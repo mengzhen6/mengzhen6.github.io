@@ -14,6 +14,8 @@
   --muted:#8b8b93;
   --gold:#c9a96e;
   --gold2:#e6c98a;
+  --green:#3dff8f;
+  --green-rgb:61,255,143;
   --serif:"Songti SC","SimSun","STSong",Georgia,"Times New Roman",serif;
   --sans:"PingFang SC","Microsoft YaHei","Segoe UI",-apple-system,sans-serif;
 }
@@ -54,8 +56,8 @@ img{display:block;max-width:100%}
 .kicker::before{content:"";width:34px;height:1px;background:var(--gold)}
 .h-serif{font-family:var(--serif);font-weight:600}
 
-/* ---- all titles green + bold ---- */
-h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:800 !important}
+/* ---- all titles bright green + bold ---- */
+h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-weight:800 !important}
 
 /* reveal helpers (IntersectionObserver adds .in) */
 .js .reveal{opacity:0;transform:translateY(38px);transition:opacity .9s cubic-bezier(.16,.7,.3,1),transform .9s cubic-bezier(.16,.7,.3,1)}
@@ -101,20 +103,46 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
 #toc .stat .num{font-family:var(--serif);font-size:clamp(38px,4vw,52px);line-height:1;color:var(--gold2);font-weight:700}
 #toc .stat .num span{font-size:.45em;color:var(--muted);margin-left:4px;font-weight:400}
 #toc .stat .lab{margin-top:9px;color:var(--muted);font-size:12px;letter-spacing:.12em}
-#toc .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:900px){#toc .grid{grid-template-columns:1fr 1fr}#toc .head{flex-direction:column;align-items:flex-start}}
-@media(max-width:560px){#toc .grid{grid-template-columns:1fr}}
-#toc .tcard{display:flex;flex-direction:column;min-height:174px;padding:22px 22px 18px;background:linear-gradient(160deg,#15171d,#0e0f13);
-  border:1px solid var(--line);border-radius:16px;transition:.4s;cursor:pointer;position:relative;overflow:hidden}
-#toc .tcard::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%,rgba(201,169,110,.10),transparent 60%);opacity:0;transition:.4s;pointer-events:none}
-#toc .tcard:hover{transform:translateY(-6px);border-color:rgba(201,169,110,.55);box-shadow:0 24px 50px rgba(0,0,0,.5)}
-#toc .tcard:hover::after{opacity:1}
-#toc .tic{width:42px;height:42px;border-radius:12px;border:1px solid var(--gold);background:#0b0c10;display:grid;place-items:center;color:var(--gold2);font-size:18px;margin-bottom:14px;transition:.4s;position:relative;z-index:1}
-#toc .tcard:hover .tic{background:var(--gold);color:#0b0c10;box-shadow:0 0 20px rgba(201,169,110,.4)}
-#toc .tcard h3{font-size:16.5px;margin-bottom:8px;letter-spacing:.04em;position:relative;z-index:1}
-#toc .tcard p{font-size:13.5px;color:var(--muted);line-height:1.6;position:relative;z-index:1;flex:1}
-#toc .tcard .go{margin-top:12px;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:8px 17px;border:1px solid rgba(255,255,255,.24);border-radius:999px;font-size:12.5px;letter-spacing:.1em;color:#eee;transition:.35s;position:relative;z-index:1}
-#toc .tcard:hover .go{border-color:var(--gold);color:var(--gold2);background:rgba(201,169,110,.08)}
+/* 目录：行式列表导航（悬停 / 点击整行点亮为亮绿色） */
+#toc .tlist{border-bottom:1px solid var(--line)}
+#toc .trow{position:relative;display:grid;align-items:center;
+  grid-template-columns:58px minmax(200px,.95fr) minmax(0,1.5fr) auto;
+  grid-template-areas:"no main desc go";
+  gap:clamp(14px,2.2vw,40px);padding:clamp(14px,1.55vw,20px) 14px;
+  border-top:1px solid var(--line);background:rgba(var(--green-rgb),0);transition:background .45s}
+#toc .trow::before{content:"";position:absolute;left:0;top:16%;bottom:16%;width:2px;border-radius:2px;
+  background:var(--green);box-shadow:0 0 14px var(--green);transform:scaleY(0);transition:transform .45s}
+#toc .trow:hover,#toc .trow:focus-visible{background:rgba(var(--green-rgb),.07);outline:none}
+#toc .trow:hover::before,#toc .trow:focus-visible::before{transform:scaleY(1)}
+#toc .tno{grid-area:no;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.22);
+  display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:13.5px;color:#b6b9bd;transition:.45s}
+#toc .tmain{grid-area:main;display:flex;flex-direction:column;gap:7px;min-width:0}
+#toc .tcat{font-size:10.5px;letter-spacing:.26em;color:#797d84;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;transition:.45s}
+#toc .ttitle{font-family:var(--serif);font-size:clamp(22px,2.6vw,35px);line-height:1.1;font-weight:800;color:var(--green)}
+#toc .tdesc{grid-area:desc;color:var(--muted);font-size:13px;line-height:1.7;transition:.45s}
+#toc .tgo{grid-area:go;display:flex;align-items:center;gap:12px}
+#toc .tpill{padding:7px 16px;border:1px solid rgba(255,255,255,.18);border-radius:999px;font-size:11.5px;
+  letter-spacing:.14em;color:#cfcfcf;white-space:nowrap;transition:.45s}
+#toc .tcirc{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.24);display:grid;
+  place-items:center;font-size:15px;color:#e8e8e8;transition:.45s;flex:0 0 auto}
+#toc .trow:hover .tno,#toc .trow:focus-visible .tno{background:var(--green);border-color:var(--green);color:#06120c;
+  box-shadow:0 0 26px rgba(var(--green-rgb),.5)}
+#toc .trow:hover .tcat,#toc .trow:focus-visible .tcat{color:var(--green)}
+#toc .trow:hover .tdesc,#toc .trow:focus-visible .tdesc{color:#d3ddd7}
+#toc .trow:hover .tpill,#toc .trow:focus-visible .tpill{border-color:var(--green);color:var(--green);background:rgba(var(--green-rgb),.08)}
+#toc .trow:hover .tcirc,#toc .trow:focus-visible .tcirc{background:var(--green);border-color:var(--green);color:#06120c;
+  box-shadow:0 0 26px rgba(var(--green-rgb),.45);transform:translate(2px,-2px)}
+#toc .trow:active{background:rgba(var(--green-rgb),.13)}
+@media(max-width:980px){
+  #toc .trow{grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"no main go" ". desc desc";
+    row-gap:12px;padding:16px 8px}
+  #toc .tno{width:40px;height:40px;font-size:12px}
+  #toc .tcirc{width:40px;height:40px}
+  #toc .tpill{display:none}
+  #toc .tdesc{font-size:12.5px}
+}
+@media(max-width:900px){#toc .head{flex-direction:column;align-items:flex-start}}
 
 /* ---------- 02 about ---------- */
 #about .content{display:grid;grid-template-columns:1.05fr 1fr;gap:60px;align-items:center}
@@ -498,7 +526,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
   </div>
 </section>
 
-<!-- 01.5 TOC 目录：卡片网格导航 -->
+<!-- 01.5 TOC 目录：行式列表导航 -->
 <section class="scene" id="toc">
   <div class="content">
     <div class="head">
@@ -512,60 +540,87 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
         <div class="lab">全流程作品集编排<br/>一页一主题</div>
       </div>
     </div>
-    <div class="grid reveal">
-      <a class="tcard" href="#domestic">
-        <div class="tic">◈</div>
-        <h3>国内社媒</h3>
-        <p>抖音 · 小红书 · 公众号 全流程 0-1 搭建 SWAGE 品牌社媒平台。</p>
-        <span class="go">进入 →</span>
+    <div class="tlist reveal">
+      <a class="trow" href="#domestic">
+        <span class="tno">01</span>
+        <span class="tmain">
+          <span class="tcat">社媒运营 · 0-1 搭建</span>
+          <span class="ttitle">国内社媒</span>
+        </span>
+        <span class="tdesc">抖音 · 小红书 · 公众号 全流程 0-1 搭建 SWAGE 品牌社媒平台。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
-      <a class="tcard" href="#overseas">
-        <div class="tic">❖</div>
-        <h3>海外账号</h3>
-        <p>INS / FACEBOOK / YouTube，海外账号视频运营 · 全球触达。</p>
-        <span class="go">进入 →</span>
+      <a class="trow" href="#overseas">
+        <span class="tno">02</span>
+        <span class="tmain">
+          <span class="tcat">海外运营 · 全球触达</span>
+          <span class="ttitle">海外账号</span>
+        </span>
+        <span class="tdesc">INS / FACEBOOK / YouTube，海外账号视频运营 · 全球触达。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
-      <a class="tcard" href="#works">
-        <div class="tic">▶</div>
-        <h3>视频作品</h3>
-        <p>文案 · 分镜头 · 脚本 · 拍摄 · 剪辑，小红书与抖音精选作品选集。</p>
-        <span class="go">进入 →</span>
+      <a class="trow" href="#works">
+        <span class="tno">03</span>
+        <span class="tmain">
+          <span class="tcat">内容制作 · 拍摄剪辑</span>
+          <span class="ttitle">视频作品</span>
+        </span>
+        <span class="tdesc">文案 · 分镜头 · 脚本 · 拍摄 · 剪辑，小红书与抖音精选作品选集。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
-      <a class="tcard" href="#xhsB">
-        <div class="tic">▣</div>
-        <h3>运营数据看板</h3>
-        <p>累计播放 / 获赞 / 收藏，播放力 TOP 排名与互动构成可视化。</p>
-        <span class="go">进入 →</span>
+      <a class="trow" href="#xhsB">
+        <span class="tno">04</span>
+        <span class="tmain">
+          <span class="tcat">数据分析 · 可视化</span>
+          <span class="ttitle">运营数据看板</span>
+        </span>
+        <span class="tdesc">累计播放 / 获赞 / 收藏，播放力 TOP 排名与互动构成可视化。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
-      <a class="tcard" href="#wxSelf">
-        <div class="tic">✎</div>
-        <h3>KOL / KOC 合作</h3>
-        <p>海内外 KOL、KOC 内容合作：博主筛选 · 商务沟通 · 选题策划 · 内容审核 · 上线复盘。</p>
-        <span class="go">进入 →</span>
+      <a class="trow" href="#wxSelf">
+        <span class="tno">05</span>
+        <span class="tmain">
+          <span class="tcat">内容合作 · 博主营销</span>
+          <span class="ttitle">KOL / KOC 合作</span>
+        </span>
+        <span class="tdesc">海内外 KOL、KOC 内容合作：博主筛选 · 商务沟通 · 选题策划 · 内容审核 · 上线复盘。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
-      <a class="tcard" href="#visual">
-        <div class="tic">▦</div>
-        <h3>平面作品</h3>
-        <p>产品图 · 海报 · 详情页 · 流程图，产品图均由本人拍摄与修图。</p>
-        <span class="go">进入 →</span>
+      <a class="trow" href="#visual">
+        <span class="tno">06</span>
+        <span class="tmain">
+          <span class="tcat">平面设计 · 视觉输出</span>
+          <span class="ttitle">平面作品</span>
+        </span>
+        <span class="tdesc">产品图 · 海报 · 详情页 · 流程图，产品图均由本人拍摄与修图。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
-      <a class="tcard" href="#expo">
-        <div class="tic">◉</div>
-        <h3>展会活动</h3>
-        <p>展会前期 / 中期 / 后期全流程执行：物料、展位、现场拍摄与复盘。</p>
-        <span class="go">进入 →</span>
+      <a class="trow" href="#expo">
+        <span class="tno">07</span>
+        <span class="tmain">
+          <span class="tcat">展会执行 · 全流程</span>
+          <span class="ttitle">展会活动</span>
+        </span>
+        <span class="tdesc">展会前期 / 中期 / 后期全流程执行：物料、展位、现场拍摄与复盘。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
-      <a class="tcard" href="#fans">
-        <div class="tic">✧</div>
-        <h3>营销与活动</h3>
-        <p>200 项任务规划 · SNS 传播 · 内容推广 · 互动福利 · 直播规划。</p>
-        <span class="go">进入 →</span>
+      <a class="trow" href="#fans">
+        <span class="tno">08</span>
+        <span class="tmain">
+          <span class="tcat">活动策划 · SNS 传播</span>
+          <span class="ttitle">营销与活动</span>
+        </span>
+        <span class="tdesc">200 项任务规划 · SNS 传播 · 内容推广 · 互动福利 · 直播规划。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
-      <a class="tcard" href="#contact">
-        <div class="tic">✉</div>
-        <h3>联系方式</h3>
-        <p>邮箱 · 微信 · 电话，期待与你的下一次合作。</p>
-        <span class="go">进入 →</span>
+      <a class="trow" href="#contact">
+        <span class="tno">09</span>
+        <span class="tmain">
+          <span class="tcat">Contact · 联系</span>
+          <span class="ttitle">联系方式</span>
+        </span>
+        <span class="tdesc">邮箱 · 微信 · 电话，期待与你的下一次合作。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
     </div>
   </div>
