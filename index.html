@@ -177,6 +177,11 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:#3fdc84 !important;font-weight:8
 /* ---------- 横向卡片轮播：图片完整展示 · 自动向左滑动 ---------- */
 .right{min-width:0}
 .cards{position:relative;overflow:hidden;width:100%;padding:10px 2px}
+/* 国内社媒卡片带：可按住拖动拨动（自动轮播不因悬停暂停） */
+#cardsDom{cursor:grab;user-select:none;touch-action:pan-y}
+#cardsDom.grabbing{cursor:grabbing}
+#cardsDom .pcard .img img{cursor:inherit}
+#cardsDom img{-webkit-user-drag:none}
 .ctrack{display:flex;gap:clamp(16px,2vw,26px);width:max-content;will-change:transform}
 .pcard{flex:0 0 auto;width:clamp(210px,18vw,295px);border-radius:16px;overflow:hidden;
   background:linear-gradient(170deg,#17181d,#0d0e12);border:1px solid rgba(255,255,255,.09);
@@ -911,10 +916,15 @@ setupCfl('cflDom');
     {src:'assets/sp.webp',   k:'视频',   v:'利宝保险'},
     {src:'assets/sph1.webp', k:'视频号', v:'利宝保险'}
   ];
+  const downAt={x:null,y:null};
   function card(d){
     const c=document.createElement('div');c.className='pcard';
-    c.innerHTML=`<div class="img"><img loading="lazy" decoding="async" src="${d.src}" alt="${d.k}"/></div><div class="cap"><span class="k">${d.k}</span><span class="d">—</span><span class="v">${d.v}</span></div>`;
-    c.querySelector('img').addEventListener('click',()=>lightbox(d.src));
+    c.innerHTML=`<div class="img"><img loading="lazy" decoding="async" draggable="false" src="${d.src}" alt="${d.k}"/></div><div class="cap"><span class="k">${d.k}</span><span class="d">—</span><span class="v">${d.v}</span></div>`;
+    // 拖动过的手势不触发放大：按“按下点”与“点击点”的位移判断，与拖动状态无关
+    c.querySelector('img').addEventListener('click',e=>{
+      if(downAt.x!==null&&Math.hypot(e.clientX-downAt.x,e.clientY-downAt.y)>5){downAt.x=null;return;}
+      downAt.x=null;lightbox(d.src);
+    });
     return c;
   }
   // 生成一组真实卡片 + 一串镜像卡片，用于无缝循环
@@ -926,12 +936,25 @@ setupCfl('cflDom');
   let setW=0;
   function measure(){setW=(track.children[0].offsetWidth+gap)*data.length;}
   measure();addEventListener('resize',measure);
-  // 自动向左滑动（悬停暂停，便于细看）
-  let x=0,paused=false;const SPEED=0.55;
-  cards.addEventListener('mouseenter',()=>paused=true);
-  cards.addEventListener('mouseleave',()=>paused=false);
+  // 自动向左滑动（一直跑，鼠标悬停也不停）+ 按住拖动可手动拨动
+  let x=0,dragging=false,dragX0=0,dragPos0=0;const SPEED=0.55;
+  const wrap=v=>((v%setW)+setW)%setW;
+  const paint=()=>{track.style.transform='translateX('+(-x)+'px)';};
+  cards.addEventListener('pointerdown',e=>{
+    if(e.button&&e.button!==0)return;
+    dragging=true;dragX0=e.clientX;dragPos0=x;downAt.x=e.clientX;downAt.y=e.clientY;
+    cards.classList.add('grabbing');
+  });
+  addEventListener('pointermove',e=>{
+    if(!dragging)return;
+    const dx=e.clientX-dragX0;
+    x=wrap(dragPos0-dx);paint();
+  });
+  function endDrag(){if(!dragging)return;dragging=false;cards.classList.remove('grabbing');}
+  addEventListener('pointerup',endDrag);
+  addEventListener('pointercancel',endDrag);
   function tick(){
-    if(!paused){x+=SPEED;if(x>=setW)x-=setW;track.style.transform='translateX('+(-x)+'px)';}
+    if(!dragging){x=wrap(x+SPEED);paint();}
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
