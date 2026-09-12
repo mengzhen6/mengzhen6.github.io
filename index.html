@@ -471,13 +471,43 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #contact .thanks{margin-top:30px;color:var(--muted);letter-spacing:.5em;font-size:13px;text-transform:uppercase}
 #contact .back{margin-top:40px;font-size:12px;letter-spacing:.3em;color:var(--muted);cursor:pointer;text-transform:uppercase;transition:.3s}
 #contact .back:hover{color:var(--gold2)}
+
+/* ---------- 网站与公众号运营（#web） ---------- */
+#web .content{max-width:1240px}
+#web .wg{margin-bottom:26px}
+#web .wg:last-child{margin-bottom:0}
+#web .glab{display:flex;align-items:center;gap:14px;margin-bottom:14px;font-family:var(--serif);
+  font-size:12.5px;letter-spacing:.16em;color:var(--green)}
+#web .glab::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(var(--green-rgb),.4),transparent)}
+#web .gset{display:grid;gap:18px}
+#web .gset.g3{grid-template-columns:repeat(3,1fr)}
+#web .gset.g4{grid-template-columns:repeat(4,1fr)}
+#web .wc{position:relative;border-radius:12px;overflow:hidden;background:#0f1014;border:1px solid var(--line);
+  cursor:zoom-in;transition:transform .45s,border-color .45s,box-shadow .45s}
+#web .wc img{display:block;width:100%;object-fit:cover;object-position:top;transition:transform .7s}
+#web .gset.g3 .wc img{height:200px}
+#web .gset.g4 .wc img{height:498px}
+#web .wc .cp{padding:10px 13px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);
+  background:#0b0c10;line-height:1.5}
+#web .wc:hover{transform:translateY(-5px);border-color:rgba(var(--green-rgb),.55);box-shadow:0 22px 46px rgba(0,0,0,.55)}
+#web .wc:hover img{transform:scale(1.05)}
+@media(max-width:980px){
+  #web .gset.g3{grid-template-columns:1fr}
+  #web .gset.g4{grid-template-columns:repeat(2,1fr)}
+  #web .gset.g3 .wc img{height:auto}
+  #web .gset.g4 .wc img{height:440px}
+}
+@media(max-width:560px){
+  #web .gset.g4{grid-template-columns:1fr}
+  #web .gset.g4 .wc img{height:auto}
+}
 </style>
 </head>
 <body>
 <div id="progress"></div>
 <div id="topbar">
   <span class="brand">MENG ZHEN · 蒙贞</span>
-  <span class="sceneidx">SCENE <b id="si">01</b> / 12</span>
+  <span class="sceneidx">SCENE <b id="si">01</b> / 13</span>
 </div>
 <div id="nav"></div>
 <div id="cursor"></div>
@@ -533,10 +563,10 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
       <div>
         <div class="kicker reveal">Contents · 目录</div>
         <h2 class="h-serif reveal">每一页，<br/>都有入口。</h2>
-        <p class="reveal">下方每一个板块都对应本作品集的一页：国内社媒、海外账号、视频作品、运营数据看板、KOL / KOC 合作、平面作品、展会活动、营销与活动，以及联系方式。</p>
+        <p class="reveal">下方每一个板块都对应本作品集的一页：国内社媒、海外账号、视频作品、网站与公众号、运营数据看板、KOL / KOC 合作、平面作品、展会活动、营销与活动，以及联系方式。</p>
       </div>
       <div class="stat reveal">
-        <div class="num">12 <span>页</span></div>
+        <div class="num">13 <span>页</span></div>
         <div class="lab">全流程作品集编排<br/>一页一主题</div>
       </div>
     </div>
@@ -568,8 +598,17 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tdesc">文案 · 分镜头 · 脚本 · 拍摄 · 剪辑，小红书与抖音精选作品选集。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
-      <a class="trow" href="#xhsB">
+      <a class="trow" href="#web">
         <span class="tno">04</span>
+        <span class="tmain">
+          <span class="tcat">官网 · 公众号</span>
+          <span class="ttitle">网站与公众号</span>
+        </span>
+        <span class="tdesc">官网栏目与专题内容维护 · 产品页活动弹窗 · 公众号原创推文与留言互动运营。</span>
+        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+      </a>
+      <a class="trow" href="#xhsB">
+        <span class="tno">05</span>
         <span class="tmain">
           <span class="tcat">数据分析 · 可视化</span>
           <span class="ttitle">运营数据看板</span>
@@ -578,7 +617,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#wxSelf">
-        <span class="tno">05</span>
+        <span class="tno">06</span>
         <span class="tmain">
           <span class="tcat">内容合作 · 博主营销</span>
           <span class="ttitle">KOL / KOC 合作</span>
@@ -587,7 +626,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#visual">
-        <span class="tno">06</span>
+        <span class="tno">07</span>
         <span class="tmain">
           <span class="tcat">平面设计 · 视觉输出</span>
           <span class="ttitle">平面作品</span>
@@ -596,7 +635,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#expo">
-        <span class="tno">07</span>
+        <span class="tno">08</span>
         <span class="tmain">
           <span class="tcat">展会执行 · 全流程</span>
           <span class="ttitle">展会活动</span>
@@ -605,7 +644,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#fans">
-        <span class="tno">08</span>
+        <span class="tno">09</span>
         <span class="tmain">
           <span class="tcat">活动策划 · SNS 传播</span>
           <span class="ttitle">营销与活动</span>
@@ -614,7 +653,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#contact">
-        <span class="tno">09</span>
+        <span class="tno">10</span>
         <span class="tmain">
           <span class="tcat">Contact · 联系</span>
           <span class="ttitle">联系方式</span>
@@ -689,6 +728,34 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
       <button class="link vlink" data-v="vid08"><span class="no">08</span><div class="txt"><div class="tag">视频</div><div class="name">作品八</div></div><span class="arrow play">▶</span></button>
       <button class="link vlink" data-v="vid09"><span class="no">09</span><div class="txt"><div class="tag">视频</div><div class="name">作品九</div></div><span class="arrow play">▶</span></button>
       <button class="link vlink" data-v="vid10"><span class="no">10</span><div class="txt"><div class="tag">视频</div><div class="name">作品十</div></div><span class="arrow play">▶</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- 07 网站与公众号运营 -->
+<section class="scene" id="web">
+  <div class="content">
+    <div class="kicker reveal">网站 · 公众号</div>
+    <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:8px">网站与公众号运营</h2>
+    <p class="reveal" style="color:var(--muted);margin-bottom:30px">官网栏目与专题内容维护 · 产品页活动弹窗设计 · 公众号原创推文撰写与留言互动活动运营。</p>
+
+    <div class="wg reveal">
+      <div class="glab"><span>官网 · 栏目与专题内容</span></div>
+      <div class="gset g3">
+        <div class="wc"><img loading="lazy" decoding="async" src="assets/web1.webp" alt="官网 Newsletter 专题页"/><div class="cp">Newsletter 专题页 · 自动化解决方案</div></div>
+        <div class="wc"><img loading="lazy" decoding="async" src="assets/web2.webp" alt="官网产品与解决方案栏目"/><div class="cp">官网「产品与解决方案」栏目</div></div>
+        <div class="wc"><img loading="lazy" decoding="async" src="assets/web3.webp" alt="产品页活动弹窗"/><div class="cp">产品页 S300 活动弹窗</div></div>
+      </div>
+    </div>
+
+    <div class="wg reveal">
+      <div class="glab"><span>公众号 · 原创推文与互动运营</span></div>
+      <div class="gset g4">
+        <div class="wc"><img loading="lazy" decoding="async" src="assets/mp1.webp" alt="公众号留言互动活动"/><div class="cp">留言抽奖活动 · 阅读 4.0 万</div></div>
+        <div class="wc"><img loading="lazy" decoding="async" src="assets/mp2.webp" alt="半导体成套解决方案推文"/><div class="cp">半导体成套解决方案推文</div></div>
+        <div class="wc"><img loading="lazy" decoding="async" src="assets/mp3.webp" alt="船级社权威认证推文"/><div class="cp">全球船级社权威认证推文</div></div>
+        <div class="wc"><img loading="lazy" decoding="async" src="assets/mp4.webp" alt="公众号主页"/><div class="cp">公众号主页 · 15 篇原创内容</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1122,7 +1189,7 @@ initCirc({
 /* ---- popup lightbox for images ---- */
 let lb=null;
 function lightbox(src){if(!lb){lb=document.createElement('div');lb.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:500;display:grid;place-items:center;cursor:zoom-out;';lb.innerHTML='<img style="max-width:94vw;max-height:94vh;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.7)" alt=""/>';lb.addEventListener('click',()=>{lb.style.display='none';});document.body.appendChild(lb);}lb.querySelector('img').src=src;lb.style.display='grid';}
-document.querySelectorAll('.stats .statc img,.masks .mask img,.collage .c img').forEach(img=>{img.addEventListener('click',()=>lightbox(img.src));});
+document.querySelectorAll('.stats .statc img,.masks .mask img,.collage .c img,#web .wc img').forEach(img=>{img.addEventListener('click',()=>lightbox(img.src));});
 
 /* ---- drag strip ---- */
 function drag(el){let down=false,sx=0,sl=0;
