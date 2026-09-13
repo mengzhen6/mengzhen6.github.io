@@ -103,44 +103,50 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .stat .num{font-family:var(--serif);font-size:clamp(38px,4vw,52px);line-height:1;color:var(--gold2);font-weight:700}
 #toc .stat .num span{font-size:.45em;color:var(--muted);margin-left:4px;font-weight:400}
 #toc .stat .lab{margin-top:9px;color:var(--muted);font-size:12px;letter-spacing:.12em}
-/* 目录：行式列表导航（悬停 / 点击整行点亮为亮绿色） */
-#toc .tlist{border-bottom:1px solid var(--line)}
-#toc .trow{position:relative;display:grid;align-items:center;
-  grid-template-columns:58px minmax(200px,.95fr) minmax(0,1.5fr) auto;
-  grid-template-areas:"no main desc go";
-  gap:clamp(14px,2.2vw,40px);padding:clamp(14px,1.55vw,20px) 14px;
-  border-top:1px solid var(--line);background:rgba(var(--green-rgb),0);transition:background .45s}
-#toc .trow::before{content:"";position:absolute;left:0;top:16%;bottom:16%;width:2px;border-radius:2px;
-  background:var(--green);box-shadow:0 0 14px var(--green);transform:scaleY(0);transition:transform .45s}
-#toc .trow:hover,#toc .trow:focus-visible{background:rgba(var(--green-rgb),.07);outline:none}
-#toc .trow:hover::before,#toc .trow:focus-visible::before{transform:scaleY(1)}
-#toc .tno{grid-area:no;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.22);
-  display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:13.5px;color:#b6b9bd;transition:.45s}
-#toc .tmain{grid-area:main;display:flex;flex-direction:column;gap:7px;min-width:0}
-#toc .tcat{font-size:10.5px;letter-spacing:.26em;color:#797d84;white-space:nowrap;overflow:hidden;
-  text-overflow:ellipsis;transition:.45s}
-#toc .ttitle{font-family:var(--serif);font-size:clamp(22px,2.6vw,35px);line-height:1.1;font-weight:800;color:var(--green)}
-#toc .tdesc{grid-area:desc;color:var(--muted);font-size:13px;line-height:1.7;transition:.45s}
+/* 目录：整行大图卡片（文字带底色 / 悬停·点击边框发绿光） */
+#toc .tlist{display:flex;flex-direction:column;gap:clamp(10px,.95vw,15px)}
+#toc .trow{position:relative;display:grid;align-items:center;isolation:isolate;overflow:hidden;
+  grid-template-columns:56px minmax(200px,1fr) auto;
+  grid-template-areas:"no main go";
+  gap:clamp(16px,2.3vw,42px);min-height:clamp(114px,11.6vw,140px);
+  padding:clamp(14px,1.35vw,19px) clamp(16px,1.7vw,28px);
+  border:1px solid rgba(255,255,255,.09);border-radius:16px;background:#050907;
+  transition:border-color .45s,box-shadow .45s}
+#toc .tbg{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:right center;
+  transform:scale(1.02);filter:saturate(.6) brightness(.58);
+  transition:transform 1.1s cubic-bezier(.2,.7,.2,1),filter .7s}
+/* 文字底色：左侧实心暗底，向右侧渐隐，中间与右侧留出图片窗口 */
+#toc .tscrim{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,
+  #050907 0%,#050907 30%,rgba(5,9,7,.97) 38%,rgba(5,9,7,.72) 49%,rgba(5,9,7,.3) 62%,rgba(5,9,7,0) 74%)}
+#toc .tno{grid-area:no;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.28);
+  background:rgba(4,8,6,.55);display:grid;place-items:center;font-family:var(--serif);font-style:italic;
+  font-size:13.5px;color:#c9cdd1;transition:.45s}
+#toc .tmain{grid-area:main;display:flex;flex-direction:column;gap:8px;min-width:0}
+#toc .tcat{font-size:10.5px;letter-spacing:.28em;color:#8b9096;transition:.45s}
+#toc .ttitle{font-family:var(--serif);font-size:clamp(24px,2.85vw,38px);line-height:1.08;font-weight:800;
+  color:var(--green);text-shadow:0 2px 22px rgba(0,0,0,.92),0 0 34px rgba(0,0,0,.7)}
 #toc .tgo{grid-area:go;display:flex;align-items:center;gap:12px}
-#toc .tpill{padding:7px 16px;border:1px solid rgba(255,255,255,.18);border-radius:999px;font-size:11.5px;
-  letter-spacing:.14em;color:#cfcfcf;white-space:nowrap;transition:.45s}
-#toc .tcirc{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.24);display:grid;
-  place-items:center;font-size:15px;color:#e8e8e8;transition:.45s;flex:0 0 auto}
-#toc .trow:hover .tno,#toc .trow:focus-visible .tno{background:var(--green);border-color:var(--green);color:#06120c;
-  box-shadow:0 0 26px rgba(var(--green-rgb),.5)}
-#toc .trow:hover .tcat,#toc .trow:focus-visible .tcat{color:var(--green)}
-#toc .trow:hover .tdesc,#toc .trow:focus-visible .tdesc{color:#d3ddd7}
-#toc .trow:hover .tpill,#toc .trow:focus-visible .tpill{border-color:var(--green);color:var(--green);background:rgba(var(--green-rgb),.08)}
-#toc .trow:hover .tcirc,#toc .trow:focus-visible .tcirc{background:var(--green);border-color:var(--green);color:#06120c;
-  box-shadow:0 0 26px rgba(var(--green-rgb),.45);transform:translate(2px,-2px)}
-#toc .trow:active{background:rgba(var(--green-rgb),.13)}
+#toc .tpill{padding:8px 18px;border:1px solid rgba(255,255,255,.26);border-radius:999px;font-size:11.5px;
+  letter-spacing:.14em;color:#ececec;white-space:nowrap;background:rgba(5,9,7,.82);transition:.45s}
+#toc .tcirc{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;
+  place-items:center;font-size:15px;color:#ececec;background:rgba(5,9,7,.66);transition:.45s;flex:0 0 auto}
+#toc .trow:hover,#toc .trow:focus-visible,#toc .trow.is-on{border-color:var(--green);outline:none;
+  box-shadow:0 0 0 1px rgba(var(--green-rgb),.45),0 0 30px rgba(var(--green-rgb),.28),inset 0 0 46px rgba(var(--green-rgb),.06)}
+#toc .trow:hover .tbg,#toc .trow:focus-visible .tbg,#toc .trow.is-on .tbg{transform:scale(1.06);
+  filter:saturate(1) brightness(.84)}
+#toc .trow:hover .tno,#toc .trow:focus-visible .tno,#toc .trow.is-on .tno{background:var(--green);
+  border-color:var(--green);color:#06120c;box-shadow:0 0 26px rgba(var(--green-rgb),.5)}
+#toc .trow:hover .tcat,#toc .trow:focus-visible .tcat,#toc .trow.is-on .tcat{color:var(--green)}
+#toc .trow:hover .tpill,#toc .trow:focus-visible .tpill,#toc .trow.is-on .tpill{border-color:var(--green);
+  color:var(--green);background:rgba(3,9,6,.88);box-shadow:0 0 20px rgba(var(--green-rgb),.22)}
+#toc .trow:hover .tcirc,#toc .trow:focus-visible .tcirc,#toc .trow.is-on .tcirc{background:var(--green);
+  border-color:var(--green);color:#06120c;box-shadow:0 0 26px rgba(var(--green-rgb),.45);transform:translate(2px,-2px)}
 @media(max-width:980px){
-  #toc .trow{grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"no main go" ". desc desc";
-    row-gap:12px;padding:16px 8px}
-  #toc .tno{width:40px;height:40px;font-size:12px}
-  #toc .tcirc{width:40px;height:40px}
+  #toc .trow{grid-template-columns:42px minmax(0,1fr) auto;gap:14px;padding:16px 14px;min-height:0}
+  #toc .tscrim{background:linear-gradient(90deg,#050907 0%,rgba(5,9,7,.9) 58%,rgba(5,9,7,.62) 100%)}
+  #toc .tno{width:42px;height:42px;font-size:12.5px}
+  #toc .tcirc{width:42px;height:42px}
   #toc .tpill{display:none}
-  #toc .tdesc{font-size:12.5px}
 }
 @media(max-width:900px){#toc .head{flex-direction:column;align-items:flex-start}}
 
@@ -592,93 +598,93 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     </div>
     <div class="tlist reveal">
       <a class="trow" href="#domestic">
+        <span class="tbg" style="background-image:url('assets/tc01.webp')"></span><span class="tscrim"></span>
         <span class="tno">01</span>
         <span class="tmain">
           <span class="tcat">社媒运营 · 0-1 搭建</span>
           <span class="ttitle">国内社媒</span>
         </span>
-        <span class="tdesc">抖音 · 小红书 · 公众号 全流程 0-1 搭建 SWAGE 品牌社媒平台。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#overseas">
+        <span class="tbg" style="background-image:url('assets/tc02.webp')"></span><span class="tscrim"></span>
         <span class="tno">02</span>
         <span class="tmain">
           <span class="tcat">海外运营 · 全球触达</span>
           <span class="ttitle">海外账号</span>
         </span>
-        <span class="tdesc">INS / FACEBOOK / YouTube，海外账号视频运营 · 全球触达。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#works">
+        <span class="tbg" style="background-image:url('assets/tc03.webp')"></span><span class="tscrim"></span>
         <span class="tno">03</span>
         <span class="tmain">
           <span class="tcat">内容制作 · 拍摄剪辑</span>
           <span class="ttitle">视频作品</span>
         </span>
-        <span class="tdesc">文案 · 分镜头 · 脚本 · 拍摄 · 剪辑，小红书与抖音精选作品选集。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#web">
+        <span class="tbg" style="background-image:url('assets/tc04.webp')"></span><span class="tscrim"></span>
         <span class="tno">04</span>
         <span class="tmain">
           <span class="tcat">官网 · 公众号</span>
           <span class="ttitle">网站与公众号</span>
         </span>
-        <span class="tdesc">官网栏目与专题内容维护 · 产品页活动弹窗 · 公众号原创推文与留言互动运营。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#xhsB">
+        <span class="tbg" style="background-image:url('assets/tc05.webp')"></span><span class="tscrim"></span>
         <span class="tno">05</span>
         <span class="tmain">
           <span class="tcat">数据分析 · 可视化</span>
           <span class="ttitle">运营数据看板</span>
         </span>
-        <span class="tdesc">累计播放 / 获赞 / 收藏，播放力 TOP 排名与互动构成可视化。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#wxSelf">
+        <span class="tbg" style="background-image:url('assets/tc06.webp')"></span><span class="tscrim"></span>
         <span class="tno">06</span>
         <span class="tmain">
           <span class="tcat">内容合作 · 博主营销</span>
           <span class="ttitle">KOL / KOC 合作</span>
         </span>
-        <span class="tdesc">海内外 KOL、KOC 内容合作：博主筛选 · 商务沟通 · 选题策划 · 内容审核 · 上线复盘。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#visual">
+        <span class="tbg" style="background-image:url('assets/tc07.webp')"></span><span class="tscrim"></span>
         <span class="tno">07</span>
         <span class="tmain">
           <span class="tcat">平面设计 · 视觉输出</span>
           <span class="ttitle">平面作品</span>
         </span>
-        <span class="tdesc">产品图 · 海报 · 详情页 · 流程图，产品图均由本人拍摄与修图。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#expo">
+        <span class="tbg" style="background-image:url('assets/tc08.webp')"></span><span class="tscrim"></span>
         <span class="tno">08</span>
         <span class="tmain">
           <span class="tcat">展会执行 · 全流程</span>
           <span class="ttitle">展会活动</span>
         </span>
-        <span class="tdesc">展会前期 / 中期 / 后期全流程执行：物料、展位、现场拍摄与复盘。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#fans">
+        <span class="tbg" style="background-image:url('assets/tc09.webp')"></span><span class="tscrim"></span>
         <span class="tno">09</span>
         <span class="tmain">
           <span class="tcat">活动策划 · SNS 传播</span>
           <span class="ttitle">营销与活动</span>
         </span>
-        <span class="tdesc">200 项任务规划 · SNS 传播 · 内容推广 · 互动福利 · 直播规划。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#contact">
+        <span class="tbg" style="background-image:url('assets/tc10.webp')"></span><span class="tscrim"></span>
         <span class="tno">10</span>
         <span class="tmain">
           <span class="tcat">Contact · 联系</span>
           <span class="ttitle">联系方式</span>
         </span>
-        <span class="tdesc">邮箱 · 微信 · 电话，期待与你的下一次合作。</span>
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
     </div>
@@ -1528,6 +1534,17 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
   document.getElementById('vclose').addEventListener('click',closeV);
   vm.addEventListener('click',function(e){if(e.target===vm)closeV();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeV();});
+})();
+/* ---- 目录卡片：点击后保留绿光描边 ---- */
+(function(){
+  var rows=document.querySelectorAll('#toc .trow');
+  if(!rows.length)return;
+  rows.forEach(function(r){
+    r.addEventListener('click',function(){
+      rows.forEach(function(o){o.classList.remove('is-on');});
+      r.classList.add('is-on');
+    });
+  });
 })();
 </script>
 </body>
