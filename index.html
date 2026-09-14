@@ -103,53 +103,43 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .stat .num{font-family:var(--serif);font-size:clamp(38px,4vw,52px);line-height:1;color:var(--gold2);font-weight:700}
 #toc .stat .num span{font-size:.45em;color:var(--muted);margin-left:4px;font-weight:400}
 #toc .stat .lab{margin-top:9px;color:var(--muted);font-size:12px;letter-spacing:.12em}
-/* 目录：整行大图卡片（文字带底色 / 悬停·点击边框发绿光） */
-#toc .tlist{display:flex;flex-direction:column;gap:clamp(8px,.75vw,12px)}
-#toc .trow{position:relative;display:grid;align-items:center;isolation:isolate;overflow:hidden;
-  grid-template-columns:48px minmax(170px,1fr) clamp(150px,19vw,262px) auto;
-  grid-template-areas:"no main art go";
-  gap:clamp(12px,1.6vw,28px);min-height:clamp(92px,9.2vw,112px);
-  padding:clamp(9px,1vw,13px) clamp(14px,1.5vw,24px);
-  border:1px solid rgba(255,255,255,.09);border-radius:14px;background:#050907;
+/* 目录：九宫格卡片（3×3，无配图；悬停·点击边框发绿光） */
+#toc .tlist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.25vw,20px)}
+#toc .trow{position:relative;display:grid;align-items:start;
+  grid-template-columns:1fr auto;grid-template-areas:"no go" "main main";
+  align-content:space-between;isolation:isolate;overflow:hidden;
+  gap:clamp(16px,1.8vw,30px) 12px;min-height:clamp(138px,13.8vw,176px);
+  padding:clamp(16px,1.45vw,22px);
+  border:1px solid rgba(255,255,255,.09);border-radius:16px;
+  background:linear-gradient(158deg,rgba(255,255,255,.038),rgba(255,255,255,0) 56%),#050907;
   transition:border-color .45s,box-shadow .45s}
-/* 配图：独立列、按高放大，永不与右侧按钮重叠 */
-#toc .tbg{grid-area:art;align-self:center;width:100%;height:clamp(66px,7.2vw,96px);
-  background-repeat:no-repeat;background-position:center;background-size:contain;
-  transform-origin:center;transform:scale(1);pointer-events:none;
-  filter:saturate(.95) brightness(.84);
-  transition:transform 1s cubic-bezier(.2,.7,.2,1),filter .7s}
-/* 不再需要遮盖层（配图背景已归一为卡片底色） */
-#toc .tscrim{display:none}
 #toc .tno{grid-area:no;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.28);
   background:rgba(4,8,6,.55);display:grid;place-items:center;font-family:var(--serif);font-style:italic;
   font-size:12.5px;color:#c9cdd1;transition:.45s}
-#toc .tmain{grid-area:main;display:flex;flex-direction:column;gap:5px;min-width:0}
-#toc .tcat{font-size:10px;letter-spacing:.26em;color:#8b9096;transition:.45s}
-#toc .ttitle{font-family:var(--serif);font-size:clamp(21px,2.45vw,33px);line-height:1.08;font-weight:800;
+#toc .tmain{grid-area:main;display:flex;flex-direction:column;gap:8px;min-width:0}
+#toc .tcat{font-size:10px;letter-spacing:.24em;color:#8b9096;transition:.45s}
+#toc .ttitle{font-family:var(--serif);font-size:clamp(20px,2.05vw,29px);line-height:1.12;font-weight:800;
   color:var(--green);text-shadow:0 2px 22px rgba(0,0,0,.92),0 0 34px rgba(0,0,0,.7)}
-#toc .tgo{grid-area:go;display:flex;align-items:center;gap:11px}
-#toc .tpill{padding:7px 16px;border:1px solid rgba(255,255,255,.26);border-radius:999px;font-size:11px;
-  letter-spacing:.14em;color:#ececec;white-space:nowrap;background:rgba(5,9,7,.82);transition:.45s}
+#toc .tgo{grid-area:go;display:flex;align-items:center;gap:10px}
+#toc .tpill{display:none}
 #toc .tcirc{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;
   place-items:center;font-size:14px;color:#ececec;background:rgba(5,9,7,.66);transition:.45s;flex:0 0 auto}
 #toc .trow:hover,#toc .trow:focus-visible,#toc .trow.is-on{border-color:var(--green);outline:none;
   box-shadow:0 0 0 1px rgba(var(--green-rgb),.45),0 0 30px rgba(var(--green-rgb),.28),inset 0 0 46px rgba(var(--green-rgb),.06)}
-#toc .trow:hover .tbg,#toc .trow:focus-visible .tbg,#toc .trow.is-on .tbg{transform:scale(1.07);
-  filter:saturate(1.08) brightness(1.06)}
 #toc .trow:hover .tno,#toc .trow:focus-visible .tno,#toc .trow.is-on .tno{background:var(--green);
   border-color:var(--green);color:#06120c;box-shadow:0 0 26px rgba(var(--green-rgb),.5)}
 #toc .trow:hover .tcat,#toc .trow:focus-visible .tcat,#toc .trow.is-on .tcat{color:var(--green)}
-#toc .trow:hover .tpill,#toc .trow:focus-visible .tpill,#toc .trow.is-on .tpill{border-color:var(--green);
-  color:var(--green);background:rgba(3,9,6,.88);box-shadow:0 0 20px rgba(var(--green-rgb),.22)}
 #toc .trow:hover .tcirc,#toc .trow:focus-visible .tcirc,#toc .trow.is-on .tcirc{background:var(--green);
   border-color:var(--green);color:#06120c;box-shadow:0 0 26px rgba(var(--green-rgb),.45);transform:translate(2px,-2px)}
 @media(max-width:980px){
-  #toc .trow{grid-template-columns:38px minmax(0,1fr) auto;
-    grid-template-areas:"no main go" ". art art";gap:4px 12px;padding:13px 13px;min-height:0}
-  #toc .tbg{height:84px;margin-top:4px}
+  #toc .tlist{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #toc .trow{gap:14px 12px;min-height:clamp(120px,19vw,152px);padding:15px}
   #toc .tno{width:38px;height:38px;font-size:11.5px}
   #toc .tcirc{width:38px;height:38px}
-  #toc .tpill{display:none}
+}
+@media(max-width:560px){
+  #toc .tlist{grid-template-columns:1fr}
+  #toc .trow{min-height:0}
 }
 @media(max-width:900px){#toc .head{flex-direction:column;align-items:flex-start}}
 
@@ -601,7 +591,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     </div>
     <div class="tlist reveal">
       <a class="trow" href="#domestic">
-        <span class="tbg" style="background-image:url('assets/tc01.webp')"></span><span class="tscrim"></span>
         <span class="tno">01</span>
         <span class="tmain">
           <span class="tcat">社媒运营 · 0-1 搭建</span>
@@ -610,7 +599,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#overseas">
-        <span class="tbg" style="background-image:url('assets/tc02.webp')"></span><span class="tscrim"></span>
         <span class="tno">02</span>
         <span class="tmain">
           <span class="tcat">海外运营 · 全球触达</span>
@@ -619,7 +607,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#works">
-        <span class="tbg" style="background-image:url('assets/tc03.webp')"></span><span class="tscrim"></span>
         <span class="tno">03</span>
         <span class="tmain">
           <span class="tcat">内容制作 · 拍摄剪辑</span>
@@ -628,7 +615,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#web">
-        <span class="tbg" style="background-image:url('assets/tc04.webp')"></span><span class="tscrim"></span>
         <span class="tno">04</span>
         <span class="tmain">
           <span class="tcat">官网 · 公众号</span>
@@ -637,7 +623,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#xhsB">
-        <span class="tbg" style="background-image:url('assets/tc05.webp')"></span><span class="tscrim"></span>
         <span class="tno">05</span>
         <span class="tmain">
           <span class="tcat">数据分析 · 可视化</span>
@@ -646,7 +631,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#wxSelf">
-        <span class="tbg" style="background-image:url('assets/tc06.webp')"></span><span class="tscrim"></span>
         <span class="tno">06</span>
         <span class="tmain">
           <span class="tcat">内容合作 · 博主营销</span>
@@ -655,7 +639,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#visual">
-        <span class="tbg" style="background-image:url('assets/tc07.webp')"></span><span class="tscrim"></span>
         <span class="tno">07</span>
         <span class="tmain">
           <span class="tcat">平面设计 · 视觉输出</span>
@@ -664,7 +647,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#expo">
-        <span class="tbg" style="background-image:url('assets/tc08.webp')"></span><span class="tscrim"></span>
         <span class="tno">08</span>
         <span class="tmain">
           <span class="tcat">展会执行 · 全流程</span>
@@ -673,7 +655,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
       </a>
       <a class="trow" href="#fans">
-        <span class="tbg" style="background-image:url('assets/tc09.webp')"></span><span class="tscrim"></span>
         <span class="tno">09</span>
         <span class="tmain">
           <span class="tcat">活动策划 · SNS 传播</span>
