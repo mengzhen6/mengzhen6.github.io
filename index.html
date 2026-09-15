@@ -18,6 +18,7 @@
   --green-rgb:61,255,143;
   --serif:"Songti SC","SimSun","STSong",Georgia,"Times New Roman",serif;
   --sans:"PingFang SC","Microsoft YaHei","Segoe UI",-apple-system,sans-serif;
+  --display:"Didot","Bodoni MT","Playfair Display","Baskerville","Hoefler Text",Georgia,"Times New Roman",serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -105,7 +106,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .stat .num{font-family:var(--serif);font-size:clamp(38px,4vw,52px);line-height:1;color:var(--gold2);font-weight:700}
 #toc .stat .num span{font-size:.45em;color:var(--muted);margin-left:4px;font-weight:400}
 #toc .stat .lab{margin-top:9px;color:var(--muted);font-size:12px;letter-spacing:.12em}
-/* 目录：立体书架（书脊有厚度 + 英文；悬停/点击"抽出"并描绿光） */
+/* 目录：立体书架（横·竖·斜混排；书脊中文 + 英文并排；悬停"抽出"描绿光） */
 #toc .tlist{position:relative;display:flex;align-items:flex-end;justify-content:center;
   padding:clamp(24px,2.6vw,42px) clamp(10px,1.6vw,24px) clamp(44px,4.6vw,64px);
   perspective:2300px;perspective-origin:50% 34%}
@@ -114,13 +115,16 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   bottom:calc(clamp(44px,4.6vw,64px) - 9px);height:2px;border-radius:2px;pointer-events:none;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.22) 9%,rgba(255,255,255,.42) 50%,rgba(255,255,255,.22) 91%,transparent);
   box-shadow:0 3px 7px rgba(0,0,0,.85),0 0 22px rgba(255,255,255,.06)}
-/* 一本书 */
+/* 书与书轻微交叠，制造前后关系 */
+#toc .tlist > *+*{margin-left:clamp(2px,.8vw,18px)}
+/* ---------- 站立的一本书 ---------- */
 #toc .trow{position:relative;flex:0 0 auto;--k:1;--w:1;--r:0deg;--ry:-6deg;
+  --rt:1;--rr:calc(var(--r) * var(--rt));
   width:calc(clamp(56px,6.1vw,88px) * var(--w));
   height:calc(clamp(248px,30.5vw,438px) * var(--k));
   display:flex;flex-direction:column;align-items:center;
   padding:clamp(15px,1.5vw,24px) 0 clamp(11px,1.05vw,16px);
-  border-radius:5px 5px 3px 3px;color:#14170e;overflow:hidden;
+  border-radius:5px 5px 3px 3px;color:#14170e;overflow:hidden;text-decoration:none;
   background-color:var(--c,#ded8a2);
   background-image:
     linear-gradient(90deg,rgba(0,0,0,.52) 0,rgba(0,0,0,.14) 3%,rgba(255,255,255,.10) 6.5%,
@@ -128,14 +132,12 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
       rgba(0,0,0,.17) 76%,rgba(0,0,0,.42) 92%,rgba(0,0,0,.58) 100%),
     linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,0) 26%,rgba(0,0,0,.15) 100%);
   transform-origin:bottom center;
-  transform:rotate(var(--r)) rotateY(var(--ry));
+  transform:rotate(var(--rr)) rotateY(var(--ry));
   box-shadow:0 22px 32px -14px rgba(0,0,0,.92),0 9px 20px rgba(0,0,0,.55),
     -18px 5px 20px -8px rgba(0,0,0,.72),-1px 0 0 rgba(255,255,255,.12) inset;
   transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
-/* 书与书之间轻微交叠，制造前后关系 */
-#toc .trow+.trow{margin-left:clamp(-10px,-.78vw,-4px)}
-#toc .trow:active{transform:rotate(var(--r)) rotateY(var(--ry)) translateY(-7px)}
-/* 书顶的纸页（给出厚度） */
+#toc .trow:active{transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-7px)}
+/* 书顶纸页（给出厚度） */
 #toc .trow::after{content:"";position:absolute;left:-1px;right:-1px;top:0;
   height:clamp(7px,.72vw,11px);pointer-events:none;border-radius:5px 5px 0 0;
   background:
@@ -147,66 +149,137 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .trow::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 1px,rgba(255,255,255,0) 1px 4px);
   opacity:.5}
-#toc .tno{width:clamp(24px,2.3vw,31px);height:clamp(24px,2.3vw,31px);border-radius:50%;
+#toc .tno{width:clamp(23px,2.2vw,30px);height:clamp(23px,2.2vw,30px);border-radius:50%;
   border:1.2px solid rgba(20,23,14,.4);background:rgba(255,255,255,.34);
   display:grid;place-items:center;flex:0 0 auto;
-  font-family:var(--serif);font-style:italic;font-size:clamp(9.5px,.8vw,11px);font-weight:600;
+  font-family:var(--display);font-size:clamp(9.5px,.78vw,11px);font-weight:600;letter-spacing:.02em;
   color:rgba(20,23,14,.78);transition:.45s}
-#toc .ttitle{writing-mode:vertical-rl;white-space:nowrap;margin-top:clamp(9px,1vw,15px);
+/* 中文 + 英文并排（英文就在中文旁边，各自竖排一列，中间一条细线） */
+#toc .tmid{display:flex;align-items:flex-start;gap:clamp(4px,.44vw,7px);
+  margin-top:clamp(10px,1vw,15px);min-height:0}
+#toc .ttitle{writing-mode:vertical-rl;white-space:nowrap;
   font-family:var(--serif);font-size:clamp(17px,1.6vw,22px);line-height:1.06;
   font-weight:800;letter-spacing:.08em;color:#11140a}
-#toc .ten{writing-mode:vertical-rl;white-space:nowrap;margin-top:clamp(6px,.55vw,9px);
-  font-family:var(--sans);font-size:clamp(8px,.7vw,10px);letter-spacing:.16em;
-  font-weight:600;color:rgba(20,23,14,.44);transition:.45s}
+#toc .ten{writing-mode:vertical-rl;white-space:nowrap;
+  border-left:1px solid rgba(20,23,14,.28);padding-left:clamp(5px,.5vw,8px);
+  margin-right:clamp(4px,.55vw,9px);
+  font-family:var(--display);font-size:clamp(10px,.9vw,13px);letter-spacing:.24em;
+  text-transform:uppercase;font-weight:600;color:rgba(20,23,14,.66);
+  transition:.45s}
 #toc .tcat{writing-mode:vertical-rl;white-space:nowrap;margin-top:auto;
   font-size:clamp(8px,.64vw,9px);letter-spacing:.14em;color:rgba(20,23,14,.5)}
-/* 悬停 / 点击：把书"抽出来"+ 荧光绿描边 */
+/* 悬停 / 点击：把书"抽出来" + 荧光绿描边 */
 #toc .trow:hover,#toc .trow:focus-visible,#toc .trow.is-on{
-  transform:rotate(var(--r)) rotateY(var(--ry)) translateY(-19px);outline:none;z-index:6;
+  transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-19px);outline:none;z-index:6;
   box-shadow:0 36px 50px -18px rgba(0,0,0,.92),-20px 6px 22px -8px rgba(0,0,0,.7),
     0 0 0 2px rgba(var(--green-rgb),.92),0 0 42px rgba(var(--green-rgb),.5);
 }
 #toc .trow:hover .tno,#toc .trow:focus-visible .tno,#toc .trow.is-on .tno{
   background:var(--green);border-color:var(--green);color:#06120c;box-shadow:0 0 18px rgba(var(--green-rgb),.55)}
-#toc .trow:hover .tcat,#toc .trow:hover .ten,
-#toc .trow:focus-visible .tcat,#toc .trow:focus-visible .ten,
-#toc .trow.is-on .tcat,#toc .trow.is-on .ten{color:rgba(20,23,14,.88)}
+#toc .trow:hover .ten,#toc .trow:focus-visible .ten,#toc .trow.is-on .ten{
+  color:rgba(20,23,14,.92);border-left-color:rgba(20,23,14,.62)}
+#toc .trow:hover .tcat,#toc .trow:focus-visible .tcat,#toc .trow.is-on .tcat{color:rgba(20,23,14,.88)}
+/* ---------- 横躺的一本书（书脊朝外，书口在右） ---------- */
+#toc .trow.is-h{width:clamp(176px,19.5vw,262px);height:clamp(50px,5.4vw,76px);
+  flex-direction:row;align-items:center;justify-content:flex-start;
+  padding:0 clamp(12px,1.15vw,18px);gap:clamp(8px,.8vw,12px);
+  border-radius:3px 6px 6px 3px}
+#toc .trow.is-h::after{left:auto;right:0;top:0;bottom:0;width:clamp(6px,.6vw,9px);height:auto;
+  border-radius:0 6px 6px 0;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,rgba(0,0,0,0) 1px 2.6px),
+    linear-gradient(90deg,#cfc8b1,#eee8d7 45%,#fdfbf1);
+  box-shadow:inset 3px 0 5px rgba(0,0,0,.24),inset -1px 0 0 rgba(255,255,255,.9)}
+#toc .trow.is-h::before{background:repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0 1px,rgba(255,255,255,0) 1px 4px)}
+#toc .trow.is-h .tmid{margin-top:0;align-items:center;gap:clamp(6px,.6vw,10px)}
+#toc .trow.is-h .ttitle{writing-mode:horizontal-tb;font-size:clamp(14px,1.32vw,19px);letter-spacing:.1em}
+#toc .trow.is-h .ten{writing-mode:horizontal-tb;padding-left:clamp(5px,.5vw,8px);
+  font-size:clamp(8px,.72vw,10px);letter-spacing:.2em}
+#toc .trow.is-h .tcat{writing-mode:horizontal-tb;margin:0 0 0 auto;
+  border-left:1px solid rgba(20,23,14,.18);padding-left:clamp(7px,.7vw,11px);
+  font-size:clamp(7.5px,.62vw,9px)}
+#toc .trow.is-h:active{transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-5px)}
+#toc .trow.is-h:hover,#toc .trow.is-h:focus-visible,#toc .trow.is-h.is-on{
+  transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-10px)}
+/* ---------- 装饰：细书（斜）/ 躺平的小书（横） ---------- */
+#toc .tsliver{position:relative;flex:0 0 auto;display:block;border-radius:2px;
+  width:clamp(13px,1.25vw,19px);
+  height:calc(clamp(248px,30.5vw,438px) * var(--k,.72));
+  background-color:var(--c,#d9d2b4);
+  background-image:
+    linear-gradient(90deg,rgba(0,0,0,.5) 0,rgba(0,0,0,.16) 4%,rgba(255,255,255,.4) 18%,
+      rgba(255,255,255,.1) 40%,rgba(0,0,0,.06) 58%,rgba(0,0,0,.44) 92%,rgba(0,0,0,.56) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.16));
+  transform-origin:bottom center;
+  transform:rotate(var(--r,0deg)) rotateY(var(--ry,-9deg));
+  box-shadow:0 16px 24px -10px rgba(0,0,0,.88),-12px 4px 16px -7px rgba(0,0,0,.7)}
+#toc .tsliver::after{content:"";position:absolute;left:-1px;right:-1px;top:0;
+  height:clamp(5px,.5vw,8px);border-radius:2px 2px 0 0;
+  background:linear-gradient(180deg,#fdfbf1,#e8e2d0 60%,#c9c2ab)}
+#toc .tsliver.is-lay{width:clamp(76px,8.4vw,116px);height:clamp(15px,1.45vw,21px);
+  border-radius:2px 4px 4px 2px;
+  background-image:
+    linear-gradient(180deg,rgba(0,0,0,.5) 0,rgba(0,0,0,.16) 12%,rgba(255,255,255,.42) 34%,
+      rgba(255,255,255,.1) 62%,rgba(0,0,0,.44) 92%,rgba(0,0,0,.56) 100%),
+    linear-gradient(90deg,rgba(0,0,0,.2),rgba(255,255,255,.14))}
+#toc .tsliver.is-lay::after{left:auto;right:0;top:0;bottom:0;width:5px;height:auto;
+  border-radius:0 4px 4px 0;background:linear-gradient(90deg,#c9c2ab,#fdfbf1)}
+#toc .tlist > .tsliver{margin-left:clamp(-22px,-1.8vw,-11px)}
+#toc .tlist > .tsliver:last-child{margin-left:clamp(3px,.5vw,10px)}
+/* 一摞躺着的书（最下面那本是正文书） */
+#toc .tstack{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  gap:clamp(2px,.24vw,4px)}
+#toc .tstack .tsliver.is-lay{width:calc(clamp(140px,16vw,220px) * var(--lw,1));
+  height:clamp(15px,1.45vw,22px)}
 /* 逐本：高度系数 / 宽度系数 / 倾角 / 书脊色 */
-#toc .trow:nth-child(1){--k:.86;--c:#dfd9a3;--r:-2.4deg;--ry:-9.5deg}
-#toc .trow:nth-child(2){--k:.82;--c:#cfe0cd;--r:0deg;--w:1.04;--ry:-9deg}
-#toc .trow:nth-child(3){--k:1;--c:#c7abd6;--r:1.8deg;--ry:-10.5deg}
-#toc .trow:nth-child(4){--k:.84;--c:#e4e2d6;--r:0deg;--w:1.12;--ry:-10deg}
-#toc .trow:nth-child(5){--k:.92;--c:#a9c9dd;--r:-1.6deg;--ry:-11deg}
-#toc .trow:nth-child(6){--k:.98;--c:#b5d9a5;--r:0deg;--w:1.07;--ry:-10.5deg}
-#toc .trow:nth-child(7){--k:.80;--c:#e4bccb;--r:2deg;--ry:-9.5deg}
-#toc .trow:nth-child(8){--k:.94;--c:#e9e1bd;--r:0deg;--w:.95;--ry:-10deg}
-#toc .trow:nth-child(9){--k:.88;--c:#a8d6cd;--r:-1.4deg;--w:1.06;--ry:-11.5deg}
+#toc .trow.b1{--k:.88;--c:#dfd9a3;--r:-3.2deg;--ry:-9.5deg}
+#toc .trow.b2{--k:.83;--c:#cfe0cd;--r:1.8deg;--w:.86;--ry:-9deg}
+#toc .trow.b3{--k:1;--c:#c7abd6;--r:-1.2deg;--ry:-10.5deg}
+#toc .trow.b4{--k:.84;--c:#e4e2d6;--r:.8deg;--w:1.1;--ry:-10deg}
+#toc .trow.b5{--c:#a9c9dd;--r:-.8deg;--ry:-7deg}
+#toc .trow.b6{--k:.98;--c:#b5d9a5;--r:-1.4deg;--w:1.08;--ry:-10.5deg}
+#toc .trow.b7{--k:.84;--c:#e4bccb;--r:-6deg;--w:.92;--ry:-9.5deg}
+#toc .trow.b8{--k:.94;--c:#e9e1bd;--r:1.4deg;--w:.95;--ry:-10deg}
+#toc .trow.b9{--k:.88;--c:#a8d6cd;--r:-1.6deg;--w:1.06;--ry:-11.5deg}
 @media(max-width:1240px){
   #toc .tlist{padding-left:6px;padding-right:6px}
   #toc .ttitle{font-size:clamp(16px,1.9vw,21px)}
-  #toc .trow+.trow{margin-left:-5px}
+  #toc .trow.is-h{width:clamp(150px,18vw,230px)}
+  #toc .tsliver.is-lay{width:clamp(64px,7.8vw,102px)}
+  #toc .tstack .tsliver.is-lay{width:calc(clamp(112px,13vw,176px) * var(--lw,1))}
 }
 @media(max-width:980px){
-  #toc .trow{width:calc(clamp(48px,6.7vw,72px) * var(--w));
+  #toc .tlist > *+*{margin-left:clamp(3px,1vw,12px)}
+  #toc .tlist > .tsliver{margin-left:-8px}
+  #toc .trow{--rt:.5;width:calc(clamp(48px,6.7vw,72px) * var(--w));
     height:calc(clamp(238px,33.5vw,368px) * var(--k))}
   #toc .ttitle{font-size:clamp(15px,2.1vw,20px);letter-spacing:.06em}
-  #toc .ten{font-size:clamp(7px,.95vw,8px);letter-spacing:.14em}
+  #toc .ten{font-size:clamp(9px,1.15vw,11px);letter-spacing:.2em;padding-left:5px}
   #toc .tcat{font-size:clamp(7.5px,.95vw,9px);letter-spacing:.1em}
   #toc .tno{width:22px;height:22px;font-size:9px}
+  #toc .trow.is-h{width:clamp(126px,17vw,188px);height:clamp(40px,4.6vw,56px)}
+  #toc .trow.is-h .ttitle{font-size:clamp(12px,1.6vw,15px)}
+  #toc .tsliver{width:11px}
+  #toc .tsliver.is-lay{width:clamp(56px,7.2vw,90px);height:14px}
+  #toc .tstack .tsliver.is-lay{width:calc(clamp(96px,11.5vw,150px) * var(--lw,1))}
 }
 @media(max-width:620px){
   #toc .tlist{justify-content:flex-start;overflow-x:auto;
     padding-left:14px;padding-right:14px;scrollbar-width:none;-ms-overflow-style:none}
   #toc .tlist::-webkit-scrollbar{display:none}
   #toc .tlist::after{display:none}
-  #toc .trow+.trow{margin-left:0}
-  #toc .trow{width:46px;height:calc(clamp(228px,68vw,346px) * var(--k));padding:11px 0}
-  #toc .ttitle{font-size:14px;letter-spacing:.05em;margin-top:9px}
-  #toc .ten{font-size:7px;letter-spacing:.1em;margin-top:6px}
+  #toc .tlist > *+*{margin-left:6px}
+  #toc .tlist > .tsliver{margin-left:-6px}
+  #toc .trow{--rt:0;width:46px;height:calc(clamp(228px,68vw,346px) * var(--k));padding:11px 0}
+  #toc .ttitle{font-size:14px;letter-spacing:.05em}
+  #toc .tmid{margin-top:9px;gap:4px}
+  #toc .ten{font-size:8px;letter-spacing:.14em;padding-left:4px}
   #toc .tcat{font-size:7px;letter-spacing:.08em}
   #toc .tno{width:20px;height:20px;font-size:8px}
+  #toc .trow.is-h{width:auto;height:auto;min-height:0;padding:9px 11px;gap:7px}
+  #toc .trow.is-h .tcat{display:none}
+  #toc .tsliver{width:10px}
+  #toc .tsliver.is-lay{width:60px;height:13px}
 }
-
 /* ---------- 章节分隔页（大数字 + 迷你书架 + 底部标签条） ---------- */
 .secdiv .content{display:flex;flex-direction:column;justify-content:center;
   gap:clamp(32px,5vw,80px);min-height:min(76vh,720px)}
@@ -223,7 +296,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   color:var(--gold2);letter-spacing:.12em}
 .secdiv .sdcap .cn{font-family:var(--serif);font-size:clamp(19px,1.9vw,27px);font-weight:800;
   color:var(--green);letter-spacing:.04em}
-.secdiv .sdcap .en{font-size:clamp(9px,.8vw,11px);letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+.secdiv .sdcap .en{font-family:var(--display);font-size:clamp(9px,.8vw,11px);
+  letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
 /* 迷你书架 */
 .secdiv .sdmini{display:flex;align-items:flex-end;gap:clamp(6px,.72vw,13px);
   height:clamp(150px,17.5vw,266px)}
@@ -239,12 +313,51 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .secdiv .mbook::after{content:"";position:absolute;left:0;right:0;top:0;height:clamp(4px,.42vw,7px);
   border-radius:2px 2px 0 0;
   background:linear-gradient(180deg,#fdfbf1,#e8e2d0 60%,#c9c2ab)}
+/* ---- 当前章节那本书：摊开（深绿封面硬壳 + 浅色展开的书页 + 中缝） ---- */
+.secdiv .mopen{position:relative;flex:0 0 auto;display:block;
+  width:calc(clamp(15px,1.55vw,26px) * 5.9);
+  height:calc(var(--k,.9) * 80%);
+  margin:0 clamp(2px,.4vw,8px);
+  perspective:900px;perspective-origin:50% 76%;
+  filter:drop-shadow(0 14px 18px rgba(0,0,0,.85))}
+/* 封面：硬壳深绿，比书页宽出一圈，露出的这一圈就是“壳” */
+.secdiv .mopen .cv{position:absolute;left:0;bottom:0;width:100%;height:100%;display:block;
+  border-radius:3px 3px 2px 2px;
+  background:linear-gradient(180deg,#2fa06a,#17724a 56%,#0a3925);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 0 28px rgba(var(--green-rgb),.22)}
+/* 展开的左右两页（浅绿白，靠中缝暗、外侧亮，外缘压出弧面） */
+.secdiv .mopen .pg{position:absolute;bottom:7%;display:block;width:44%;height:90%;
+  background-color:#f2faf5;backface-visibility:hidden;
+  box-shadow:0 6px 16px -8px rgba(0,0,0,.8)}
+.secdiv .mopen .pg.l{left:3%;transform-origin:100% 50%;transform:rotateY(-20deg);
+  border-radius:2px 0 0 2px;
+  clip-path:polygon(0 6.6%,100% 0,100% 100%,0 100%);
+  background-image:linear-gradient(90deg,#b7d2c1 0,rgba(6,32,20,.2) 6%,#f8fdfa 46%,#dcefe4 86%,rgba(6,32,20,.52) 100%)}
+.secdiv .mopen .pg.r{right:3%;transform-origin:0% 50%;transform:rotateY(20deg);
+  border-radius:0 2px 2px 0;
+  clip-path:polygon(0 0,100% 6.6%,100% 100%,0 100%);
+  background-image:linear-gradient(90deg,rgba(6,32,20,.52) 0,#dcefe4 14%,#f8fdfa 54%,
+    rgba(6,32,20,.2) 94%,#b7d2c1 100%)}
+/* 页面上沿的纸边 */
+.secdiv .mopen .pg::before{content:"";position:absolute;left:0;right:0;top:0;
+  height:clamp(3px,.32vw,6px);
+  background:linear-gradient(180deg,#ffffff,#e4f2ea 70%,#c4ddcd)}
+.secdiv .mopen .pg.l::before{border-radius:2px 0 0 2px}
+.secdiv .mopen .pg.r::before{border-radius:0 2px 2px 0}
+/* 页面上淡淡的“满页文字”（示意，不抢眼） */
+.secdiv .mopen .pg::after{content:"";position:absolute;left:15%;right:13%;top:13%;bottom:9%;
+  background:repeating-linear-gradient(180deg,rgba(12,58,38,.44) 0 1px,rgba(0,0,0,0) 1px 13px);
+  -webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,0),#000 17%,#000 87%,rgba(0,0,0,0));
+  mask-image:linear-gradient(90deg,rgba(0,0,0,0),#000 17%,#000 87%,rgba(0,0,0,0));
+  opacity:.3}
+/* 中缝（书脊折痕处的一道暗影） */
+.secdiv .mopen i.mc{position:absolute;left:50%;top:2.5%;bottom:6%;width:2px;margin-left:-1px;z-index:2;
+  background:linear-gradient(180deg,rgba(0,0,0,.42),rgba(0,0,0,.78) 42%,rgba(0,0,0,.3))}
+/* 落在层板上的绿光 */
+.secdiv .mopen::after{content:"";position:absolute;left:-14%;right:-14%;bottom:-4px;height:9px;
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(var(--green-rgb),.22),rgba(0,0,0,0) 74%)}
 .secdiv .mbook:hover{opacity:.92;filter:saturate(1.06) brightness(1.1)}
-.secdiv .mbook.is-cur{opacity:1;filter:none;background-color:var(--green);
-  background-image:linear-gradient(90deg,rgba(0,0,0,.34),rgba(255,255,255,.62) 18%,rgba(0,0,0,.02) 56%,rgba(0,0,0,.4));
-  box-shadow:0 0 0 1.5px rgba(var(--green-rgb),.85),0 0 30px rgba(var(--green-rgb),.5),
-    0 12px 20px -8px rgba(0,0,0,.9);
-  transform:translateY(-9px)}
 /* 底部标签条 */
 .secdiv .sdbar{display:flex;align-items:center;gap:clamp(12px,2vw,40px);
   border-top:1px solid rgba(255,255,255,.14);padding-top:clamp(13px,1.5vw,20px);
@@ -711,61 +824,58 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <div class="lab">全流程作品集编排<br/>一页一主题</div>
       </div>
     </div>
-    <div class="tlist reveal">
-      <a class="trow" href="#dv-domestic" title="社媒运营 · 0-1 搭建">
+        <div class="tlist reveal">
+      <i class="tsliver" aria-hidden="true" style="--c:#e3c98f;--k:.72;--r:-8deg;--ry:-9deg"></i>
+      <a class="trow b1" href="#dv-domestic" title="社媒运营 · 0-1 搭建">
         <span class="tno">01</span>
-        <span class="ttitle">国内社媒</span>
-        <span class="ten">SOCIAL</span>
+        <span class="tmid"><span class="ttitle">国内社媒</span><span class="ten">SOCIAL</span></span>
         <span class="tcat">社媒运营 · 0-1 搭建</span>
       </a>
-      <a class="trow" href="#dv-overseas" title="海外运营 · 全球触达">
+      <a class="trow b2" href="#dv-overseas" title="海外运营 · 全球触达">
         <span class="tno">02</span>
-        <span class="ttitle">海外账号</span>
-        <span class="ten">OVERSEAS</span>
+        <span class="tmid"><span class="ttitle">海外账号</span><span class="ten">OVERSEAS</span></span>
         <span class="tcat">海外运营 · 全球触达</span>
       </a>
-      <a class="trow" href="#dv-works" title="内容制作 · 拍摄剪辑">
+      <a class="trow b3" href="#dv-works" title="内容制作 · 拍摄剪辑">
         <span class="tno">03</span>
-        <span class="ttitle">视频作品</span>
-        <span class="ten">VIDEO</span>
+        <span class="tmid"><span class="ttitle">视频作品</span><span class="ten">VIDEO</span></span>
         <span class="tcat">内容制作 · 拍摄剪辑</span>
       </a>
-      <a class="trow" href="#dv-web" title="官网 · 公众号">
+      <a class="trow b4" href="#dv-web" title="官网 · 公众号">
         <span class="tno">04</span>
-        <span class="ttitle">网站与公众号</span>
-        <span class="ten">WEBSITE</span>
+        <span class="tmid"><span class="ttitle">网站与公众号</span><span class="ten">WEBSITE</span></span>
         <span class="tcat">官网 · 公众号</span>
       </a>
-      <a class="trow" href="#dv-xhsB" title="数据分析 · 可视化">
+      <span class="tstack">
+      <i class="tsliver is-lay" aria-hidden="true" style="--c:#c3cfdd;--lw:.86;--r:-.6deg;--ry:-7deg;margin-right:16px"></i>
+      <i class="tsliver is-lay" aria-hidden="true" style="--c:#dbd4a6;--lw:.97;--r:.5deg;--ry:-7deg;margin-left:20px"></i>
+      <a class="trow b5 is-h" href="#dv-xhsB" title="数据分析 · 可视化">
         <span class="tno">05</span>
-        <span class="ttitle">运营数据看板</span>
-        <span class="ten">DATA</span>
+        <span class="tmid"><span class="ttitle">运营数据看板</span><span class="ten">DATA</span></span>
         <span class="tcat">数据分析 · 可视化</span>
       </a>
-      <a class="trow" href="#dv-wxSelf" title="内容合作 · 博主营销">
+      </span>
+      <a class="trow b6" href="#dv-wxSelf" title="内容合作 · 博主营销">
         <span class="tno">06</span>
-        <span class="ttitle">KOL / KOC 合作</span>
-        <span class="ten">KOL / KOC</span>
+        <span class="tmid"><span class="ttitle">KOL / KOC 合作</span><span class="ten">CREATOR</span></span>
         <span class="tcat">内容合作 · 博主营销</span>
       </a>
-      <a class="trow" href="#dv-visual" title="平面设计 · 视觉输出">
+      <a class="trow b7" href="#dv-visual" title="平面设计 · 视觉输出">
         <span class="tno">07</span>
-        <span class="ttitle">平面作品</span>
-        <span class="ten">GRAPHIC</span>
+        <span class="tmid"><span class="ttitle">平面作品</span><span class="ten">GRAPHIC</span></span>
         <span class="tcat">平面设计 · 视觉输出</span>
       </a>
-      <a class="trow" href="#dv-expo" title="展会执行 · 全流程">
+      <a class="trow b8" href="#dv-expo" title="展会执行 · 全流程">
         <span class="tno">08</span>
-        <span class="ttitle">展会活动</span>
-        <span class="ten">EXPO</span>
+        <span class="tmid"><span class="ttitle">展会活动</span><span class="ten">EXPO</span></span>
         <span class="tcat">展会执行 · 全流程</span>
       </a>
-      <a class="trow" href="#dv-fans" title="活动策划 · SNS 传播">
+      <a class="trow b9" href="#dv-fans" title="活动策划 · SNS 传播">
         <span class="tno">09</span>
-        <span class="ttitle">营销与活动</span>
-        <span class="ten">CAMPAIGN</span>
+        <span class="tmid"><span class="ttitle">营销与活动</span><span class="ten">CAMPAIGN</span></span>
         <span class="tcat">活动策划 · SNS 传播</span>
       </a>
+      <i class="tsliver" aria-hidden="true" style="--c:#c9b7d4;--k:.66;--r:7.5deg;--ry:-9deg"></i>
     </div>
   </div>
 </section>
@@ -1805,7 +1915,7 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
     });
   });
 })();
-/* ---- 章节分隔页：迷你书架 ---- */
+/* ---- 章节分隔页：迷你书架（当前章节那本"打开"） ---- */
 (function(){
   var CH=[
     {c:'#dfd9a3',k:.86,w:1,r:-2.4},{c:'#cfe0cd',k:.82,w:1.04,r:0},{c:'#c7abd6',k:1,w:1,r:1.8},
@@ -1815,8 +1925,17 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
   document.querySelectorAll('.sdmini').forEach(function(box){
     var cur=parseInt(box.getAttribute('data-cur'),10)||0;
     CH.forEach(function(b,i){
-      var s=document.createElement('i');
-      s.className='mbook'+(i===cur?' is-cur':'');
+      var s;
+      if(i===cur){
+        s=document.createElement('i');
+        s.className='mopen';
+        s.style.setProperty('--k',Math.min(1.04,b.k*1.06).toFixed(3));
+        s.innerHTML='<b class="cv"></b><b class="pg l"></b><b class="pg r"></b><i class="mc"></i>';
+        box.appendChild(s);
+        return;
+      }
+      s=document.createElement('i');
+      s.className='mbook';
       s.style.setProperty('--c',b.c);
       s.style.setProperty('--k',b.k);
       s.style.setProperty('--w',b.w);
