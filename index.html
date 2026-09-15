@@ -44,8 +44,6 @@ img{display:block;max-width:100%}
   background:transparent;cursor:pointer;transition:.35s;padding:0}
 #nav button.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px var(--gold);transform:scale(1.45)}
 #nav button:hover{border-color:var(--gold2)}
-#nav button.is-div{width:14px;height:2px;border-radius:1px;margin:3px 0;background:rgba(255,255,255,.28)}
-#nav button.is-div.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px var(--gold);transform:scale(1.3)}
 #cursor{position:fixed;width:16px;height:16px;border:1px solid var(--gold);border-radius:50%;
   pointer-events:none;z-index:400;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s;mix-blend-mode:difference}
 #cursor.grow{width:64px;height:64px;background:rgba(201,169,110,.12)}
@@ -107,14 +105,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .stat .num span{font-size:.45em;color:var(--muted);margin-left:4px;font-weight:400}
 #toc .stat .lab{margin-top:9px;color:var(--muted);font-size:12px;letter-spacing:.12em}
 /* 目录：立体书架（横·竖·斜混排；书脊中文 + 英文并排；悬停"抽出"描绿光） */
-/* ⚠️ 本段每一条「#toc .t*」规则下面都紧跟着一份「.shl .t*」镜像副本（共 82 条）：
-   分隔页的迷你书架是把 #toc .tlist 原样克隆进 .sdmini 再整体 scale 缩小的，
-   克隆体靠 .shl 这套规则取样式。改书架样式时两处必须一起改，否则迷你书架不跟随。
-   镜像脚本：_patch_shelf7.py（生成规则镜像）；检查脚本：_check_shelf7.js */
+/* 注：早前每条规则下方都挂过一份「shl」镜像副本，专供「章节分隔页」的迷你书架克隆体取样式；
+   章节分隔页已整体移除，镜像规则一并清掉（书架容器上的 shl class 也已去掉）。 */
 #toc .tlist{position:relative;display:flex;align-items:flex-end;justify-content:center;
-  padding:clamp(24px,2.6vw,42px) clamp(10px,1.6vw,24px) clamp(44px,4.6vw,64px);
-  perspective:2300px;perspective-origin:50% 34%}
-.shl{position:relative;display:flex;align-items:flex-end;justify-content:center;
   padding:clamp(24px,2.6vw,42px) clamp(10px,1.6vw,24px) clamp(44px,4.6vw,64px);
   perspective:2300px;perspective-origin:50% 34%}
 /* 书架层板 */
@@ -122,13 +115,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   bottom:calc(clamp(44px,4.6vw,64px) - 9px);height:2px;border-radius:2px;pointer-events:none;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.22) 9%,rgba(255,255,255,.42) 50%,rgba(255,255,255,.22) 91%,transparent);
   box-shadow:0 3px 7px rgba(0,0,0,.85),0 0 22px rgba(255,255,255,.06)}
-.shl::after{content:"";position:absolute;left:clamp(2px,.4vw,8px);right:clamp(2px,.4vw,8px);
-  bottom:calc(clamp(44px,4.6vw,64px) - 9px);height:2px;border-radius:2px;pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22) 9%,rgba(255,255,255,.42) 50%,rgba(255,255,255,.22) 91%,transparent);
-  box-shadow:0 3px 7px rgba(0,0,0,.85),0 0 22px rgba(255,255,255,.06)}
 /* 书与书轻微交叠，制造前后关系 */
 #toc .tlist > *+*{margin-left:clamp(2px,.8vw,18px)}
-.shl > *+*{margin-left:clamp(2px,.8vw,18px)}
 /* ---------- 站立的一本书 ---------- */
 #toc .trow{position:relative;flex:0 0 auto;--k:1;--w:1;--r:0deg;--ry:-6deg;
   --rt:1;--rr:calc(var(--r) * var(--rt));
@@ -147,34 +135,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   box-shadow:0 20px 30px -14px rgba(0,0,0,.9),0 8px 18px rgba(0,0,0,.45),
     -14px 4px 18px -8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.26);
   transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
-.shl .trow{position:relative;flex:0 0 auto;--k:1;--w:1;--r:0deg;--ry:-6deg;
-  --rt:1;--rr:calc(var(--r) * var(--rt));
-  width:calc(clamp(56px,6.1vw,88px) * var(--w));
-  /* 英文在上、中文在下的上下堆叠让竖直空间翻倍：高度自适应（min-height 仍跟着 --k 高低错落），永不裁字 */
-  min-height:calc(clamp(300px,38vw,545px) * var(--k));height:auto;
-  display:flex;flex-direction:column;align-items:center;
-  padding:clamp(15px,1.5vw,24px) 0 clamp(11px,1.05vw,16px);
-  border-radius:3px 4px 4px 3px;color:#14170e;overflow:hidden;text-decoration:none;
-  background-color:var(--c,#ded8a2);
-  background-image:
-    linear-gradient(90deg,rgba(0,0,0,.14) 0,rgba(0,0,0,.02) 4%,rgba(255,255,255,.07) 16%,
-      rgba(255,255,255,0) 40%,rgba(0,0,0,.03) 72%,rgba(0,0,0,.12) 100%);
-  transform-origin:bottom center;
-  transform:rotate(var(--rr)) rotateY(var(--ry));
-  box-shadow:0 20px 30px -14px rgba(0,0,0,.9),0 8px 18px rgba(0,0,0,.45),
-    -14px 4px 18px -8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.26);
-  transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
 #toc .trow:active{transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-7px)}
-.shl .trow:active{transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-7px)}
 /* 书顶纸页（给出厚度） */
 #toc .trow::after{content:"";position:absolute;left:0;right:0;top:0;
-  height:clamp(3px,.32vw,4px);pointer-events:none;border-radius:3px 4px 0 0;
-  background:
-    repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 1px,rgba(0,0,0,0) 1px 2px),
-    linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.10) 62%,rgba(0,0,0,.05));
-  box-shadow:inset 0 -1px 2px rgba(0,0,0,.08);
-  opacity:.7}
-.shl .trow::after{content:"";position:absolute;left:0;right:0;top:0;
   height:clamp(3px,.32vw,4px);pointer-events:none;border-radius:3px 4px 0 0;
   background:
     repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 1px,rgba(0,0,0,0) 1px 2px),
@@ -185,15 +148,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .trow::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,rgba(255,255,255,0) 1px 7px);
   opacity:.18}
-.shl .trow::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,rgba(255,255,255,0) 1px 7px);
-  opacity:.18}
 #toc .tno{width:clamp(24px,2.35vw,32px);height:clamp(24px,2.35vw,32px);border-radius:50%;
-  border:1.1px solid rgba(20,23,14,.38);background:rgba(255,255,255,.22);
-  display:grid;place-items:center;flex:0 0 auto;
-  font-family:var(--display);font-size:clamp(9.5px,.78vw,11px);font-weight:600;letter-spacing:.02em;
-  color:rgba(20,23,14,.78);transition:.45s}
-.shl .tno{width:clamp(24px,2.35vw,32px);height:clamp(24px,2.35vw,32px);border-radius:50%;
   border:1.1px solid rgba(20,23,14,.38);background:rgba(255,255,255,.22);
   display:grid;place-items:center;flex:0 0 auto;
   font-family:var(--display);font-size:clamp(9.5px,.78vw,11px);font-weight:600;letter-spacing:.02em;
@@ -201,27 +156,14 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 中文 + 英文并排（英文就在中文旁边，各自竖排一列，中间一条细线） */
 #toc .tmid{display:flex;flex-direction:column;align-items:center;gap:clamp(5px,.5vw,9px);
   margin-top:clamp(9px,.9vw,13px);min-height:0}
-.shl .tmid{display:flex;flex-direction:column;align-items:center;gap:clamp(5px,.5vw,9px);
-  margin-top:clamp(9px,.9vw,13px);min-height:0}
 #toc .ttitle{writing-mode:vertical-rl;white-space:nowrap;
-  font-family:var(--serif);font-size:clamp(20px,1.9vw,26.5px);line-height:1.06;
-  font-weight:800;letter-spacing:.09em;color:#11140a}
-.shl .ttitle{writing-mode:vertical-rl;white-space:nowrap;
   font-family:var(--serif);font-size:clamp(20px,1.9vw,26.5px);line-height:1.06;
   font-weight:800;letter-spacing:.09em;color:#11140a}
 #toc .ten{writing-mode:vertical-rl;white-space:nowrap;line-height:1.05;
   font-family:var(--display);font-size:clamp(13.5px,1.32vw,18.5px);letter-spacing:.16em;
   text-transform:uppercase;font-weight:800;color:rgba(20,23,14,.86);
   transition:.45s}
-.shl .ten{writing-mode:vertical-rl;white-space:nowrap;line-height:1.05;
-  font-family:var(--display);font-size:clamp(13.5px,1.32vw,18.5px);letter-spacing:.16em;
-  text-transform:uppercase;font-weight:800;color:rgba(20,23,14,.86);
-  transition:.45s}
 #toc .tcat{writing-mode:vertical-rl;white-space:nowrap;margin-top:auto;
-  /* 上下堆叠后空间吃紧时 margin-top:auto 会塌成 0，用 padding 保底一段不塌缩的间隙 */
-  padding-top:clamp(6px,.6vw,10px);
-  font-size:clamp(8.5px,.7vw,9.5px);letter-spacing:.14em;color:rgba(20,23,14,.58)}
-.shl .tcat{writing-mode:vertical-rl;white-space:nowrap;margin-top:auto;
   /* 上下堆叠后空间吃紧时 margin-top:auto 会塌成 0，用 padding 保底一段不塌缩的间隙 */
   padding-top:clamp(6px,.6vw,10px);
   font-size:clamp(8.5px,.7vw,9.5px);letter-spacing:.14em;color:rgba(20,23,14,.58)}
@@ -231,27 +173,13 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   box-shadow:0 36px 50px -18px rgba(0,0,0,.92),-20px 6px 22px -8px rgba(0,0,0,.7),
     0 0 0 2px rgba(var(--green-rgb),.92),0 0 42px rgba(var(--green-rgb),.5);
 }
-.shl .trow:hover,.shl .trow:focus-visible,.shl .trow.is-on{
-  transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-19px);outline:none;z-index:6;
-  box-shadow:0 36px 50px -18px rgba(0,0,0,.92),-20px 6px 22px -8px rgba(0,0,0,.7),
-    0 0 0 2px rgba(var(--green-rgb),.92),0 0 42px rgba(var(--green-rgb),.5);
-}
 #toc .trow:hover .tno,#toc .trow:focus-visible .tno,#toc .trow.is-on .tno{
-  background:var(--green);border-color:var(--green);color:#06120c;box-shadow:0 0 18px rgba(var(--green-rgb),.55)}
-.shl .trow:hover .tno,.shl .trow:focus-visible .tno,.shl .trow.is-on .tno{
   background:var(--green);border-color:var(--green);color:#06120c;box-shadow:0 0 18px rgba(var(--green-rgb),.55)}
 #toc .trow:hover .ten,#toc .trow:focus-visible .ten,#toc .trow.is-on .ten{
   color:rgba(20,23,14,.94)}
-.shl .trow:hover .ten,.shl .trow:focus-visible .ten,.shl .trow.is-on .ten{
-  color:rgba(20,23,14,.94)}
 #toc .trow:hover .tcat,#toc .trow:focus-visible .tcat,#toc .trow.is-on .tcat{color:rgba(20,23,14,.88)}
-.shl .trow:hover .tcat,.shl .trow:focus-visible .tcat,.shl .trow.is-on .tcat{color:rgba(20,23,14,.88)}
 /* ---------- 横躺的一本书（书脊朝外，书口在右） ---------- */
 #toc .trow.is-h{width:clamp(176px,19.5vw,262px);height:clamp(50px,5.4vw,76px);
-  flex-direction:row;align-items:center;justify-content:flex-start;
-  padding:0 clamp(12px,1.15vw,18px);gap:clamp(8px,.8vw,12px);
-  border-radius:3px 4px 4px 3px}
-.shl .trow.is-h{width:clamp(176px,19.5vw,262px);height:clamp(50px,5.4vw,76px);
   flex-direction:row;align-items:center;justify-content:flex-start;
   padding:0 clamp(12px,1.15vw,18px);gap:clamp(8px,.8vw,12px);
   border-radius:3px 4px 4px 3px}
@@ -260,32 +188,16 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   background:repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 1px,rgba(0,0,0,0) 1px 2px),
     linear-gradient(90deg,rgba(0,0,0,.10),rgba(255,255,255,.30) 45%,rgba(255,255,255,.52));
   box-shadow:inset 2px 0 3px rgba(0,0,0,.14)}
-.shl .trow.is-h::after{left:auto;right:0;top:0;bottom:0;width:clamp(4px,.4vw,6px);height:auto;
-  border-radius:0 4px 4px 0;
-  background:repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 1px,rgba(0,0,0,0) 1px 2px),
-    linear-gradient(90deg,rgba(0,0,0,.10),rgba(255,255,255,.30) 45%,rgba(255,255,255,.52));
-  box-shadow:inset 2px 0 3px rgba(0,0,0,.14)}
 #toc .trow.is-h::before{background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,rgba(255,255,255,0) 1px 6px)}
-.shl .trow.is-h::before{background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,rgba(255,255,255,0) 1px 6px)}
 #toc .trow.is-h .tmid{margin-top:0;align-items:center;gap:clamp(6px,.6vw,10px)}
-.shl .trow.is-h .tmid{margin-top:0;align-items:center;gap:clamp(6px,.6vw,10px)}
 #toc .trow.is-h .ttitle{writing-mode:horizontal-tb;font-size:clamp(14px,1.32vw,19px);letter-spacing:.1em}
-.shl .trow.is-h .ttitle{writing-mode:horizontal-tb;font-size:clamp(14px,1.32vw,19px);letter-spacing:.1em}
 #toc .trow.is-h .ten{writing-mode:horizontal-tb;padding-left:clamp(5px,.5vw,8px);
-  font-size:clamp(8px,.72vw,10px);letter-spacing:.2em}
-.shl .trow.is-h .ten{writing-mode:horizontal-tb;padding-left:clamp(5px,.5vw,8px);
   font-size:clamp(8px,.72vw,10px);letter-spacing:.2em}
 #toc .trow.is-h .tcat{writing-mode:horizontal-tb;margin:0 0 0 auto;
   border-left:1px solid rgba(20,23,14,.18);padding-left:clamp(7px,.7vw,11px);
   font-size:clamp(7.5px,.62vw,9px)}
-.shl .trow.is-h .tcat{writing-mode:horizontal-tb;margin:0 0 0 auto;
-  border-left:1px solid rgba(20,23,14,.18);padding-left:clamp(7px,.7vw,11px);
-  font-size:clamp(7.5px,.62vw,9px)}
 #toc .trow.is-h:active{transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-5px)}
-.shl .trow.is-h:active{transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-5px)}
 #toc .trow.is-h:hover,#toc .trow.is-h:focus-visible,#toc .trow.is-h.is-on{
-  transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-10px)}
-.shl .trow.is-h:hover,.shl .trow.is-h:focus-visible,.shl .trow.is-h.is-on{
   transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-10px)}
 /* ---------- 装饰：细书（斜）/ 躺平的小书（横） ---------- */
 #toc .tsliver{position:relative;flex:0 0 auto;display:block;border-radius:2px;
@@ -298,20 +210,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   transform-origin:bottom center;
   transform:rotate(var(--r,0deg)) rotateY(var(--ry,-9deg));
   box-shadow:0 16px 24px -10px rgba(0,0,0,.88),-12px 4px 16px -7px rgba(0,0,0,.7)}
-.shl .tsliver{position:relative;flex:0 0 auto;display:block;border-radius:2px;
-  width:clamp(13px,1.25vw,19px);
-  height:calc(clamp(248px,30.5vw,438px) * var(--k,.72));
-  background-color:var(--c,#d9d2b4);
-  background-image:
-    linear-gradient(90deg,rgba(0,0,0,.15) 0,rgba(0,0,0,.02) 5%,rgba(255,255,255,.09) 20%,
-      rgba(255,255,255,0) 45%,rgba(0,0,0,.03) 70%,rgba(0,0,0,.13) 100%);
-  transform-origin:bottom center;
-  transform:rotate(var(--r,0deg)) rotateY(var(--ry,-9deg));
-  box-shadow:0 16px 24px -10px rgba(0,0,0,.88),-12px 4px 16px -7px rgba(0,0,0,.7)}
 #toc .tsliver::after{content:"";position:absolute;left:0;right:0;top:0;
-  height:clamp(3px,.34vw,5px);border-radius:2px 2px 0 0;opacity:.8;
-  background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,.14) 60%,rgba(0,0,0,.10))}
-.shl .tsliver::after{content:"";position:absolute;left:0;right:0;top:0;
   height:clamp(3px,.34vw,5px);border-radius:2px 2px 0 0;opacity:.8;
   background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,.14) 60%,rgba(0,0,0,.10))}
 #toc .tsliver.is-lay{width:clamp(76px,8.4vw,116px);height:clamp(15px,1.45vw,21px);
@@ -319,252 +218,64 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   background-image:
     linear-gradient(180deg,rgba(0,0,0,.15) 0,rgba(0,0,0,.02) 14%,rgba(255,255,255,.09) 36%,
       rgba(255,255,255,0) 64%,rgba(0,0,0,.13) 100%)}
-.shl .tsliver.is-lay{width:clamp(76px,8.4vw,116px);height:clamp(15px,1.45vw,21px);
-  border-radius:2px 4px 4px 2px;
-  background-image:
-    linear-gradient(180deg,rgba(0,0,0,.15) 0,rgba(0,0,0,.02) 14%,rgba(255,255,255,.09) 36%,
-      rgba(255,255,255,0) 64%,rgba(0,0,0,.13) 100%)}
 #toc .tsliver.is-lay::after{left:auto;right:0;top:0;bottom:0;width:4px;height:auto;opacity:.8;
   border-radius:0 3px 3px 0;background:linear-gradient(90deg,rgba(0,0,0,.10),rgba(255,255,255,.5))}
-.shl .tsliver.is-lay::after{left:auto;right:0;top:0;bottom:0;width:4px;height:auto;opacity:.8;
-  border-radius:0 3px 3px 0;background:linear-gradient(90deg,rgba(0,0,0,.10),rgba(255,255,255,.5))}
 #toc .tlist > .tsliver{margin-left:clamp(-22px,-1.8vw,-11px)}
-.shl > .tsliver{margin-left:clamp(-22px,-1.8vw,-11px)}
 #toc .tlist > .tsliver:last-child{margin-left:clamp(3px,.5vw,10px)}
-.shl > .tsliver:last-child{margin-left:clamp(3px,.5vw,10px)}
 /* 一摞躺着的书（最下面那本是正文书） */
 #toc .tstack{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
   gap:clamp(2px,.24vw,4px)}
-.shl .tstack{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
-  gap:clamp(2px,.24vw,4px)}
 #toc .tstack .tsliver.is-lay{width:calc(clamp(100px,11.4vw,156px) * var(--lw,1));
-  height:clamp(15px,1.45vw,22px)}
-.shl .tstack .tsliver.is-lay{width:calc(clamp(100px,11.4vw,156px) * var(--lw,1));
   height:clamp(15px,1.45vw,22px)}
 /* 逐本：高度系数 / 宽度系数 / 倾角 / 书脊色 */
 #toc .trow.b1{--k:.88;--c:#e6d883;--r:-3.2deg;--ry:-9.5deg}
-.shl .trow.b1{--k:.88;--c:#e6d883;--r:-3.2deg;--ry:-9.5deg}
 #toc .trow.b2{--k:.83;--c:#c6e0cc;--r:1.8deg;--w:.86;--ry:-9deg}
-.shl .trow.b2{--k:.83;--c:#c6e0cc;--r:1.8deg;--w:.86;--ry:-9deg}
 #toc .trow.b3{--k:1;--c:#caa4de;--r:-1.2deg;--ry:-10.5deg}
-.shl .trow.b3{--k:1;--c:#caa4de;--r:-1.2deg;--ry:-10.5deg}
 #toc .trow.b4{--k:.84;--c:#e7e3cf;--r:.8deg;--w:1.1;--ry:-10deg}
-.shl .trow.b4{--k:.84;--c:#e7e3cf;--r:.8deg;--w:1.1;--ry:-10deg}
 #toc .trow.b5{--k:.9;--c:#9ac7e4;--r:-3.6deg;--w:1.02;--ry:-10deg}
-.shl .trow.b5{--k:.9;--c:#9ac7e4;--r:-3.6deg;--w:1.02;--ry:-10deg}
 #toc .trow.b6{--k:.98;--c:#a4d98b;--r:2.2deg;--w:1.08;--ry:-10.5deg}
-.shl .trow.b6{--k:.98;--c:#a4d98b;--r:2.2deg;--w:1.08;--ry:-10.5deg}
 #toc .trow.b7{--k:.84;--c:#e9aec4;--r:1.1deg;--w:.92;--ry:-9.5deg}
-.shl .trow.b7{--k:.84;--c:#e9aec4;--r:1.1deg;--w:.92;--ry:-9.5deg}
 #toc .trow.b8{--k:.94;--c:#eee0a4;--r:-1.6deg;--w:.95;--ry:-10deg}
-.shl .trow.b8{--k:.94;--c:#eee0a4;--r:-1.6deg;--w:.95;--ry:-10deg}
 #toc .trow.b9{--k:.88;--c:#93dbcd;--r:1.9deg;--w:1.06;--ry:-11.5deg}
-.shl .trow.b9{--k:.88;--c:#93dbcd;--r:1.9deg;--w:1.06;--ry:-11.5deg}
 @media(max-width:1240px){
   #toc .tlist{padding-left:6px;padding-right:6px}
-  .shl{padding-left:6px;padding-right:6px}
   #toc .ttitle{font-size:clamp(17px,1.9vw,23px)}
-  .shl .ttitle{font-size:clamp(17px,1.9vw,23px)}
   #toc .trow.is-h{width:clamp(150px,18vw,230px)}
-  .shl .trow.is-h{width:clamp(150px,18vw,230px)}
   #toc .tsliver.is-lay{width:clamp(64px,7.8vw,102px)}
-  .shl .tsliver.is-lay{width:clamp(64px,7.8vw,102px)}
   #toc .tstack .tsliver.is-lay{width:calc(clamp(82px,9.6vw,126px) * var(--lw,1))}
-  .shl .tstack .tsliver.is-lay{width:calc(clamp(82px,9.6vw,126px) * var(--lw,1))}
 }
 @media(max-width:980px){
   #toc .tlist > *+*{margin-left:clamp(3px,1vw,12px)}
-  .shl > *+*{margin-left:clamp(3px,1vw,12px)}
   #toc .tlist > .tsliver{margin-left:-8px}
-  .shl > .tsliver{margin-left:-8px}
-  .shl{--rt:.5}                 /* 打开的绿书也吃这个总开关，才能和邻居同一个倾角 */
   #toc .trow{--rt:.5;width:calc(clamp(48px,6.7vw,72px) * var(--w));
     min-height:calc(clamp(262px,36vw,432px) * var(--k));height:auto}
-  .shl .trow{--rt:.5;width:calc(clamp(48px,6.7vw,72px) * var(--w));
-    min-height:calc(clamp(262px,36vw,432px) * var(--k));height:auto}
   #toc .ttitle{font-size:clamp(16px,2.05vw,21px);letter-spacing:.07em}
-  .shl .ttitle{font-size:clamp(16px,2.05vw,21px);letter-spacing:.07em}
   #toc .ten{font-size:clamp(10.5px,1.5vw,14px);letter-spacing:.14em}
-  .shl .ten{font-size:clamp(10.5px,1.5vw,14px);letter-spacing:.14em}
   #toc .tcat{font-size:clamp(7.5px,.95vw,9px);letter-spacing:.1em}
-  .shl .tcat{font-size:clamp(7.5px,.95vw,9px);letter-spacing:.1em}
   #toc .tno{width:22px;height:22px;font-size:9px}
-  .shl .tno{width:22px;height:22px;font-size:9px}
   #toc .trow.is-h{width:clamp(126px,17vw,188px);height:clamp(40px,4.6vw,56px)}
-  .shl .trow.is-h{width:clamp(126px,17vw,188px);height:clamp(40px,4.6vw,56px)}
   #toc .trow.is-h .ttitle{font-size:clamp(12px,1.6vw,15px)}
-  .shl .trow.is-h .ttitle{font-size:clamp(12px,1.6vw,15px)}
   #toc .tsliver{width:11px}
-  .shl .tsliver{width:11px}
   #toc .tsliver.is-lay{width:clamp(56px,7.2vw,90px);height:14px}
-  .shl .tsliver.is-lay{width:clamp(56px,7.2vw,90px);height:14px}
   #toc .tstack .tsliver.is-lay{width:calc(clamp(74px,8.8vw,112px) * var(--lw,1))}
-  .shl .tstack .tsliver.is-lay{width:calc(clamp(74px,8.8vw,112px) * var(--lw,1))}
 }
 @media(max-width:620px){
   #toc .tlist{justify-content:flex-start;overflow-x:auto;
     padding-left:14px;padding-right:14px;scrollbar-width:none;-ms-overflow-style:none}
   #toc .tlist::-webkit-scrollbar{display:none}
   #toc .tlist::after{display:none}
-  .shl::after{display:none}
   #toc .tlist > *+*{margin-left:6px}
-  .shl > *+*{margin-left:6px}
   #toc .tlist > .tsliver{margin-left:-6px}
-  .shl > .tsliver{margin-left:-6px}
-  .shl{--rt:0}
   #toc .trow{--rt:0;width:46px;min-height:calc(clamp(248px,62vw,392px) * var(--k));height:auto;padding:11px 0}
-  .shl .trow{--rt:0;width:46px;min-height:calc(clamp(248px,62vw,392px) * var(--k));height:auto;padding:11px 0}
   #toc .ttitle{font-size:15px;letter-spacing:.06em}
-  .shl .ttitle{font-size:15px;letter-spacing:.06em}
   #toc .tmid{margin-top:9px;gap:4px}
-  .shl .tmid{margin-top:9px;gap:4px}
   #toc .ten{font-size:10px;letter-spacing:.1em}
-  .shl .ten{font-size:10px;letter-spacing:.1em}
   #toc .tcat{font-size:7px;letter-spacing:.08em}
-  .shl .tcat{font-size:7px;letter-spacing:.08em}
   #toc .tno{width:20px;height:20px;font-size:8px}
-  .shl .tno{width:20px;height:20px;font-size:8px}
   #toc .trow.is-h{width:auto;height:auto;min-height:0;padding:9px 11px;gap:7px}
-  .shl .trow.is-h{width:auto;height:auto;min-height:0;padding:9px 11px;gap:7px}
   #toc .trow.is-h .tcat{display:none}
-  .shl .trow.is-h .tcat{display:none}
   #toc .tsliver{width:10px}
-  .shl .tsliver{width:10px}
   #toc .tsliver.is-lay{width:60px;height:13px}
-  .shl .tsliver.is-lay{width:60px;height:13px}
-}
-/* ---------- 章节分隔页（大数字 + 迷你书架 + 底部标签条） ---------- */
-.secdiv .content{display:flex;flex-direction:column;justify-content:center;
-  gap:clamp(32px,5vw,80px);min-height:min(76vh,720px)}
-.secdiv .sd{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);
-  align-items:center;gap:clamp(18px,3.2vw,60px)}
-.secdiv .sdnum{font-family:var(--serif);font-weight:700;line-height:.8;
-  align-self:stretch;display:flex;align-items:center;justify-content:center;
-  font-size:clamp(124px,18.5vw,300px);letter-spacing:-.04em;color:rgba(255,255,255,.11);
-  user-select:none;padding-right:clamp(16px,2.6vw,48px);
-  border-right:1px solid rgba(255,255,255,.12)}
-.secdiv .sdr{display:flex;flex-direction:column;gap:clamp(14px,1.6vw,24px);min-width:0}
-.secdiv .sdcap{display:flex;align-items:baseline;gap:clamp(10px,1.1vw,18px);flex-wrap:wrap}
-.secdiv .sdcap .idx{font-family:var(--serif);font-style:italic;font-size:clamp(11px,.95vw,13px);
-  color:var(--gold2);letter-spacing:.12em}
-.secdiv .sdcap .cn{font-family:var(--serif);font-size:clamp(19px,1.9vw,27px);font-weight:800;
-  color:var(--green);letter-spacing:.04em}
-.secdiv .sdcap .en{font-family:var(--display);font-size:clamp(9px,.8vw,11px);
-  letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
-/* 迷你书架：把目录那一排书「等比缩小」（JS 克隆 #toc 的书架 + scale），当前章那本换成打开的书 */
-.secdiv .sdmini{position:relative;width:100%;height:clamp(150px,17.5vw,266px);
-  margin-top:clamp(4px,.45vw,9px)}
-.secdiv .sdmini .msc{position:absolute;left:0;bottom:0;width:max-content;
-  transform-origin:bottom left;transform:scale(var(--s,.5))}
-.secdiv .sdmini .tlist{width:max-content}
-.secdiv .sdmini .trow,.secdiv .sdmini .tsliver,.secdiv .sdmini .tstack{pointer-events:none}
-/* 除当前章外，迷你书架上的书一律「没有颜色」（统一浅灰白），让绿色的那本跳出来 */
-.secdiv .sdmini .tlist .trow,
-.secdiv .sdmini .tlist .tstack .tsliver,
-.secdiv .sdmini .tlist > .tsliver{--c:#d9d6cc}
-/* 当前章那一本：整本绿色 + 摊开的「打开的书」（中缝处凹下去的两页），比旁边的书都大 */
-.secdiv .mopen{position:relative;flex:0 0 auto;z-index:3;
-  --ro:calc(var(--r,0deg) * var(--rt,1));   /* 与旁边那排书同源的倾角（跟着 --rt 总开关走） */
-  display:flex;flex-direction:column;align-items:center;gap:clamp(4px,.4vw,7px);
-  width:calc(clamp(56px,6.1vw,88px) * var(--w,1) * 3.1);
-  height:calc(clamp(300px,38vw,545px) * var(--k,1) * .93);
-  margin:0 clamp(8px,.9vw,18px);
-  padding:clamp(16px,1.5vw,24px) 0 clamp(12px,1.1vw,17px);
-  color:#062a19;
-  transform-origin:bottom center;transform:rotate(var(--ro)) rotateY(var(--ry,-9deg));
-  filter:drop-shadow(0 18px 15px rgba(0,0,0,.9)) drop-shadow(0 0 26px rgba(var(--green-rgb),.28));
-  transition:filter .4s}
-/* 打开的两页：中缝处凹下去（clip-path 切出摊开书的轮廓），整本仍然是绿的 */
-.secdiv .mopen .mcov{position:absolute;left:0;right:0;top:0;bottom:0;z-index:-1;
-  clip-path:polygon(0 1.6%,46% 8.4%,54% 8.4%,100% 1.6%,100% 100%,0 100%);
-  background-color:#2f9d68;
-  background-image:
-    linear-gradient(90deg,rgba(0,0,0,.20) 0,rgba(0,0,0,.05) 6%,rgba(255,255,255,.10) 12%,
-      rgba(255,255,255,0) 34%,rgba(0,0,0,.30) 47.6%,rgba(0,0,0,.30) 52.4%,
-      rgba(255,255,255,.13) 60%,rgba(255,255,255,0) 84%,rgba(0,0,0,.06) 93%,rgba(0,0,0,.20) 100%),
-    linear-gradient(180deg,rgba(255,255,255,.20),rgba(0,0,0,.14))}
-/* 左右书口：两页外侧翻起的纸页（同色系浅绿，整本仍是绿的） */
-.secdiv .mopen .mcov::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6%;
-  background:
-    repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,rgba(0,0,0,0) 1px 2.2px),
-    linear-gradient(90deg,#79cc9f,#b7ebcf 50%,#e7fbf1);
-  box-shadow:inset -2px 0 4px rgba(0,0,0,.24)}
-.secdiv .mopen .mcov::after{content:"";position:absolute;right:0;top:0;bottom:0;width:6%;
-  background:
-    repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,rgba(0,0,0,0) 1px 2.2px),
-    linear-gradient(270deg,#79cc9f,#b7ebcf 50%,#e7fbf1);
-  box-shadow:inset 2px 0 4px rgba(0,0,0,.24)}
-/* 中缝折痕：两页之间那道深线 */
-.secdiv .mopen .tfold{position:absolute;left:50%;top:8.5%;bottom:0;width:clamp(4px,.5vw,7px);
-  transform:translateX(-50%);display:block;
-  background:linear-gradient(90deg,rgba(0,0,0,.04),rgba(0,0,0,.34) 42%,rgba(0,0,0,.48) 50%,
-    rgba(0,0,0,.34) 58%,rgba(0,0,0,.04))}
-/* 底部书口：给出厚度 */
-.secdiv .mopen .tspine{position:absolute;left:5%;right:5%;bottom:0;height:clamp(4px,.44vw,6px);
-  display:block;border-radius:0 0 3px 3px;
-  background:
-    repeating-linear-gradient(90deg,rgba(0,0,0,.10) 0 1px,rgba(0,0,0,0) 1px 2px),
-    linear-gradient(0deg,#8ed6ae,#dcf7e9)}
-/* 字分在两页上：中文在左页、英文在右页，中缝从中间穿过；序号缩小并挪到左下角 */
-.secdiv .mopen .tmid{width:100%;flex-direction:row;justify-content:space-between;align-items:flex-start;gap:0;
-  margin-top:clamp(6px,.7vw,11px);padding:0 10%}
-.secdiv .mopen .tno{position:absolute;left:8%;bottom:clamp(9px,.85vw,13px);
-  width:clamp(18px,1.7vw,24px);height:clamp(18px,1.7vw,24px);font-size:clamp(7.5px,.62vw,9px);
-  border-color:rgba(6,40,24,.5);background:rgba(255,255,255,.9);color:#0b2a1a}
-.secdiv .mopen .ttitle{color:#062417}
-.secdiv .mopen .ten{border-left:0;padding-left:0;margin-right:0;color:rgba(6,36,23,.72)}
-.secdiv .mopen .tcat{color:rgba(6,36,23,.62)}
-.secdiv .mopen:hover{filter:drop-shadow(0 18px 20px rgba(0,0,0,.88)) drop-shadow(0 0 26px rgba(var(--green-rgb),.36))}
-/* ---------- 当前章那本书的入场动效 ----------
-   滚到某一屏时，这一屏的那本绿书「倒下 + 摊开」：起手式是一本竖着、合着的绿书（窄、平顶、无书口），
-   然后一边倾到本来的角度、一边展开成摊开的两页；中缝裂开、书口纸页淡入。其他书一律不动。
-   JS 成功上膛（.is-armed）才启用；不支持 IntersectionObserver 或用户「减少动效」时直接停在打开态。 */
-.secdiv.is-armed .mopen{transform-origin:left bottom;
-  /* 起手式：一本又窄又合着的书，还先朝反方向靠着（--r × -2.6），像是靠在旁边那本身上 */
-  transform:rotate(calc(var(--ro) * -2.6)) rotateY(var(--ry,-9deg)) scaleX(.34)}
-.secdiv.is-armed .mopen .mcov{transition:clip-path 1.05s cubic-bezier(.2,.8,.28,1)}
-/* 合着的时候顶边是平的，没有中缝那道凹口 */
-.secdiv.is-armed .mopen:not(.is-open) .mcov{
-  clip-path:polygon(0 1.6%,46% 1.6%,54% 1.6%,100% 1.6%,100% 100%,0 100%)}
-.secdiv.is-armed .mopen .mcov::before,.secdiv.is-armed .mopen .mcov::after,
-.secdiv.is-armed .mopen .tspine{transition:opacity .7s ease .14s}
-.secdiv.is-armed .mopen:not(.is-open) .mcov::before,
-.secdiv.is-armed .mopen:not(.is-open) .mcov::after{opacity:0}
-.secdiv.is-armed .mopen:not(.is-open) .tspine{opacity:.22}
-.secdiv.is-armed .mopen .tfold{transition:opacity .8s ease .22s,transform .8s ease .22s}
-.secdiv.is-armed .mopen:not(.is-open) .tfold{opacity:0;transform:translateX(-50%) scaleX(.2)}
-.secdiv.is-armed .mopen.is-open{animation:mopenFall 1.2s cubic-bezier(.18,.78,.26,1.02) both}
-@keyframes mopenFall{
-  0%  {transform:rotate(calc(var(--ro) * -2.6)) rotateY(var(--ry,-9deg)) scaleX(.34)}
-  14% {transform:rotate(calc(var(--ro) * -.7)) rotateY(var(--ry,-9deg)) scaleX(.56)}
-  48% {transform:rotate(calc(var(--ro) * 1.45)) rotateY(var(--ry,-9deg)) scaleX(1.05)}
-  72% {transform:rotate(calc(var(--ro) * .8)) rotateY(var(--ry,-9deg)) scaleX(.99)}
-  100%{transform:rotate(var(--ro)) rotateY(var(--ry,-9deg)) scaleX(1)}
-}
-@media(prefers-reduced-motion:reduce){
-  .secdiv.is-armed .mopen{transform:rotate(var(--ro)) rotateY(var(--ry,-9deg))}
-  .secdiv.is-armed .mopen .mcov{transition:none}
-  .secdiv.is-armed .mopen.is-open{animation:none}
-}
-/* 底部标签条 */
-.secdiv .sdbar{display:flex;align-items:center;gap:clamp(12px,2vw,40px);
-  border-top:1px solid rgba(255,255,255,.14);padding-top:clamp(13px,1.5vw,20px);
-  font-size:clamp(9.5px,.82vw,11.5px);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
-.secdiv .sdbar span{flex:1 1 0;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.secdiv .sdbar span:first-child{color:var(--green);letter-spacing:.16em}
-@media(max-width:980px){
-  .secdiv .sd{grid-template-columns:1fr;gap:clamp(16px,4vw,32px)}
-  .secdiv .sdnum{justify-content:flex-start;padding:0 0 clamp(8px,1.6vw,14px);border-right:0;
-    border-bottom:1px solid rgba(255,255,255,.12);font-size:clamp(80px,16vw,140px)}
-  .secdiv .sdbar{flex-wrap:wrap;gap:9px 20px}
-  .secdiv .sdbar span{flex:0 0 auto}
-}
-@media(max-width:620px){
-  .secdiv .sdmini{height:clamp(112px,30vw,168px)}
-  .secdiv .mopen{width:calc(44px * 3.1);height:calc(clamp(248px,62vw,392px) * var(--k,1) * .9);
-    margin:0 5px;padding:10px 0 8px}
-  .secdiv .sdbar{font-size:10px;letter-spacing:.15em}
-  .secdiv .sdcap .en{letter-spacing:.2em}
 }
 @media(max-width:900px){#toc .head{flex-direction:column;align-items:flex-start}}
 
@@ -703,7 +414,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .link{position:relative;display:flex;align-items:center;gap:20px;padding:20px 26px;border:1px solid var(--line);
   border-radius:14px;background:linear-gradient(160deg,#14161c,#0f1014);transition:.35s;overflow:hidden}
 .link::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transform-origin:top;transition:.4s}
-.link:hover{transform:translateX(10px);border-color:rgba(201,169,110,.5);box-shadow:0 0 30px rgba(201,169,110,.12)}
+.link:hover{transform:translateY(-5px);border-color:rgba(201,169,110,.5);box-shadow:0 0 30px rgba(201,169,110,.12)}
 .link:hover::before{transform:scaleY(1)}
 .link .no{font-family:var(--serif);font-size:26px;color:var(--gold);opacity:.9;min-width:44px}
 .link .txt{flex:1}
@@ -715,6 +426,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .vlink{width:100%;text-align:left;background:transparent;color:inherit;font-family:inherit;cursor:pointer;appearance:none}
 .vlink .arrow.play{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);font-size:12px;padding-left:2px}
 .vlink:hover .arrow.play{transform:none;background:var(--gold);color:#000;box-shadow:0 0 18px rgba(201,169,110,.55)}
+/* 视频作品：两列排布（窄屏回落单列） */
+#vlist{grid-template-columns:repeat(2,1fr);gap:14px;max-width:1140px}
+@media(max-width:860px){#vlist{grid-template-columns:1fr;max-width:900px}}
 /* video lightbox */
 .vmodal{position:fixed;inset:0;background:rgba(6,7,10,.96);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
 .vmodal.on{opacity:1;pointer-events:auto}
@@ -915,31 +629,34 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #web .wc:hover img{transform:scale(1.05)}
 #web .glab .ghint{font-style:normal;font-family:var(--sans);font-size:11.5px;letter-spacing:.08em;color:var(--muted)}
 /* 公众号推文卡片（点击在新窗口打开原文） */
-#web .mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-#web .mc{position:relative;display:grid;grid-template-columns:46px 1fr 30px;gap:4px 14px;align-items:center;
-  padding:15px 17px;background:linear-gradient(155deg,#15171d,#0e0f13);border:1px solid var(--line);
+#web .mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+#web .mc{position:relative;display:grid;grid-template-columns:40px 1fr 28px;gap:4px 11px;align-items:center;
+  padding:13px 14px;background:linear-gradient(155deg,#15171d,#0e0f13);border:1px solid var(--line);
   border-radius:14px;overflow:hidden;cursor:pointer;
   transition:transform .4s,border-color .4s,box-shadow .4s}
 #web .mc::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;border-radius:2px;
   background:var(--green);opacity:0;transition:.4s}
-#web .mc .mcno{grid-column:1;grid-row:1/3;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.16);
-  display:grid;place-items:center;font-family:var(--serif);font-size:13px;letter-spacing:.04em;color:var(--muted);transition:.4s}
-#web .mc .mct{grid-column:2;grid-row:1;font-size:14.5px;font-weight:600;line-height:1.45;color:#eae7e1;
+#web .mc .mcno{grid-column:1;grid-row:1/3;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.16);
+  display:grid;place-items:center;font-family:var(--serif);font-size:12px;letter-spacing:.04em;color:var(--muted);transition:.4s}
+#web .mc .mct{grid-column:2;grid-row:1;font-size:13.5px;font-weight:600;line-height:1.45;color:#eae7e1;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;transition:.4s}
 #web .mc .mcm{grid-column:2;grid-row:2;display:flex;align-items:center;gap:9px;font-size:11.5px;color:var(--muted);letter-spacing:.04em}
 #web .mc .mcacc{color:var(--green);border:1px solid rgba(var(--green-rgb),.38);border-radius:999px;padding:1px 9px}
-#web .mc .mcgo{grid-column:3;grid-row:1/3;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.2);
+#web .mc .mcgo{grid-column:3;grid-row:1/3;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.2);
   display:grid;place-items:center;font-size:12px;color:#cfc9bf;justify-self:end;transition:.4s}
 #web .mc:hover{transform:translateY(-4px);border-color:rgba(var(--green-rgb),.55);box-shadow:0 20px 42px rgba(0,0,0,.5)}
 #web .mc:hover::before{opacity:1}
 #web .mc:hover .mcno{background:var(--green);border-color:var(--green);color:#08120c}
 #web .mc:hover .mct{color:var(--green)}
 #web .mc:hover .mcgo{background:var(--green);border-color:var(--green);color:#08120c}
+/* 三列时卡片宽度掉到 ~290px，中文标题会被 line-clamp 截掉尾巴，容器不够宽就提前落两列 */
+@media(max-width:1150px){#web .mgrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:980px){
   #web .gset.g3{grid-template-columns:1fr}
   #web .gset.g3 .wc img{height:auto}
-  #web .mgrid{grid-template-columns:1fr}
 }
+/* 两列到这时每张只剩 ~260px，落单列 */
+@media(max-width:760px){#web .mgrid{grid-template-columns:1fr}}
 @media(max-width:560px){
   #web .mc{grid-template-columns:38px 1fr 26px;gap:3px 11px;padding:13px 14px}
   #web .mc .mcno{width:38px;height:38px;font-size:12px}
@@ -951,7 +668,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 <div id="progress"></div>
 <div id="topbar">
   <span class="brand">MENG ZHEN · 蒙贞</span>
-  <span class="sceneidx">SCENE <b id="si">01</b> / 22</span>
+  <span class="sceneidx">SCENE <b id="si">01</b> / 13</span>
 </div>
 <div id="nav"></div>
 <div id="cursor"></div>
@@ -1010,52 +727,52 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <p class="reveal">下方每一个板块都对应本作品集的一页：国内社媒、海外账号、视频作品、网站与公众号、运营数据看板、KOL / KOC 合作、平面作品、展会活动、营销与活动。</p>
       </div>
       <div class="stat reveal">
-        <div class="num">22 <span>页</span></div>
+        <div class="num">13 <span>页</span></div>
         <div class="lab">全流程作品集编排<br/>一页一主题</div>
       </div>
     </div>
-        <div class="tlist shl reveal">
-      <a class="trow b1" href="#dv-domestic" title="社媒运营 · 0-1 搭建">
+        <div class="tlist reveal">
+      <a class="trow b1" href="#domestic" title="社媒运营 · 0-1 搭建">
         <span class="tno">01</span>
         <span class="tmid"><span class="ten">SOCIAL</span><span class="ttitle">国内社媒</span></span>
         <span class="tcat">社媒运营 · 0-1 搭建</span>
       </a>
-      <a class="trow b2" href="#dv-overseas" title="海外运营 · 全球触达">
+      <a class="trow b2" href="#overseas" title="海外运营 · 全球触达">
         <span class="tno">02</span>
         <span class="tmid"><span class="ten">OVERSEAS</span><span class="ttitle">海外账号</span></span>
         <span class="tcat">海外运营 · 全球触达</span>
       </a>
-      <a class="trow b3" href="#dv-works" title="内容制作 · 拍摄剪辑">
+      <a class="trow b3" href="#works" title="内容制作 · 拍摄剪辑">
         <span class="tno">03</span>
         <span class="tmid"><span class="ten">VIDEO</span><span class="ttitle">视频作品</span></span>
         <span class="tcat">内容制作 · 拍摄剪辑</span>
       </a>
-      <a class="trow b4" href="#dv-web" title="官网 · 公众号">
+      <a class="trow b4" href="#web" title="官网 · 公众号">
         <span class="tno">04</span>
         <span class="tmid"><span class="ten">WEBSITE</span><span class="ttitle">网站与公众号</span></span>
         <span class="tcat">官网 · 公众号</span>
       </a>
-      <a class="trow b5" href="#dv-xhsB" title="数据分析 · 可视化">
+      <a class="trow b5" href="#xhsB" title="数据分析 · 可视化">
         <span class="tno">05</span>
         <span class="tmid"><span class="ten">DATA</span><span class="ttitle">运营数据看板</span></span>
         <span class="tcat">数据分析 · 可视化</span>
       </a>
-      <a class="trow b6" href="#dv-wxSelf" title="内容合作 · 博主营销">
+      <a class="trow b6" href="#wxSelf" title="内容合作 · 博主营销">
         <span class="tno">06</span>
         <span class="tmid"><span class="ten">CREATOR</span><span class="ttitle">KOL / KOC 合作</span></span>
         <span class="tcat">内容合作 · 博主营销</span>
       </a>
-      <a class="trow b7" href="#dv-visual" title="平面设计 · 视觉输出">
+      <a class="trow b7" href="#visual" title="平面设计 · 视觉输出">
         <span class="tno">07</span>
         <span class="tmid"><span class="ten">GRAPHIC</span><span class="ttitle">平面作品</span></span>
         <span class="tcat">平面设计 · 视觉输出</span>
       </a>
-      <a class="trow b8" href="#dv-expo" title="展会执行 · 全流程">
+      <a class="trow b8" href="#expo" title="展会执行 · 全流程">
         <span class="tno">08</span>
         <span class="tmid"><span class="ten">EXPO</span><span class="ttitle">展会活动</span></span>
         <span class="tcat">展会执行 · 全流程</span>
       </a>
-      <a class="trow b9" href="#dv-fans" title="活动策划 · SNS 传播">
+      <a class="trow b9" href="#fans" title="活动策划 · SNS 传播">
         <span class="tno">09</span>
         <span class="tmid"><span class="ten">CAMPAIGN</span><span class="ttitle">营销与活动</span></span>
         <span class="tcat">活动策划 · SNS 传播</span>
@@ -1065,26 +782,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 </section>
 
 <!-- 04 国内社媒 0-1 搭建 showcase -->
-<!-- 章节封面 01 国内社媒 -->
-<section class="scene secdiv" id="dv-domestic">
-  <div class="content">
-    <div class="sd">
-      <div class="sdnum reveal">01</div>
-      <div class="sdr">
-        <div class="sdcap reveal">
-          <span class="idx">Chapter 01</span>
-          <span class="cn">国内社媒</span>
-          <span class="en">Domestic Social</span>
-        </div>
-        <div class="sdmini reveal" data-cur="0" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="sdbar reveal">
-      <span>Domestic Social</span><span>Douyin</span><span>Xiaohongshu</span><span>WeChat OA</span>
-    </div>
-  </div>
-</section>
-
 <section class="scene" id="domestic">
   <div class="content split">
     <div class="left">
@@ -1107,26 +804,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 
 
 <!-- 06 国外社媒：左 1/6 文案 + 右侧折叠滑动轮播 -->
-<!-- 章节封面 02 海外账号 -->
-<section class="scene secdiv" id="dv-overseas">
-  <div class="content">
-    <div class="sd">
-      <div class="sdnum reveal">02</div>
-      <div class="sdr">
-        <div class="sdcap reveal">
-          <span class="idx">Chapter 02</span>
-          <span class="cn">海外账号</span>
-          <span class="en">Overseas Accounts</span>
-        </div>
-        <div class="sdmini reveal" data-cur="1" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="sdbar reveal">
-      <span>Overseas</span><span>Instagram</span><span>Facebook</span><span>Video Ops</span>
-    </div>
-  </div>
-</section>
-
 <section class="scene" id="overseas">
   <div class="content split">
     <div class="left">
@@ -1151,26 +828,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 
 
 <!-- 09 视频作品 -->
-<!-- 章节封面 03 视频作品 -->
-<section class="scene secdiv" id="dv-works">
-  <div class="content">
-    <div class="sd">
-      <div class="sdnum reveal">03</div>
-      <div class="sdr">
-        <div class="sdcap reveal">
-          <span class="idx">Chapter 03</span>
-          <span class="cn">视频作品</span>
-          <span class="en">Video Works</span>
-        </div>
-        <div class="sdmini reveal" data-cur="2" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="sdbar reveal">
-      <span>Video Works</span><span>Script</span><span>Shooting</span><span>Editing</span>
-    </div>
-  </div>
-</section>
-
 <section class="scene" id="works">
   <div class="content">
     <div class="kicker reveal">视频作品 · 精选</div>
@@ -1192,26 +849,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 </section>
 
 <!-- 07 网站与公众号运营 -->
-<!-- 章节封面 04 网站与公众号 -->
-<section class="scene secdiv" id="dv-web">
-  <div class="content">
-    <div class="sd">
-      <div class="sdnum reveal">04</div>
-      <div class="sdr">
-        <div class="sdcap reveal">
-          <span class="idx">Chapter 04</span>
-          <span class="cn">网站与公众号</span>
-          <span class="en">Website &amp; WeChat OA</span>
-        </div>
-        <div class="sdmini reveal" data-cur="3" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="sdbar reveal">
-      <span>Website</span><span>Columns</span><span>Feature Page</span><span>OA Article</span>
-    </div>
-  </div>
-</section>
-
 <section class="scene" id="web">
   <div class="content">
     <div class="kicker reveal">网站 · 公众号</div>
@@ -1308,26 +945,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 </section>
 
 <!-- 12 小红书数据 B -->
-<!-- 章节封面 05 运营数据看板 -->
-<section class="scene secdiv" id="dv-xhsB">
-  <div class="content">
-    <div class="sd">
-      <div class="sdnum reveal">05</div>
-      <div class="sdr">
-        <div class="sdcap reveal">
-          <span class="idx">Chapter 05</span>
-          <span class="cn">运营数据看板</span>
-          <span class="en">Data Dashboard</span>
-        </div>
-        <div class="sdmini reveal" data-cur="4" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="sdbar reveal">
-      <span>Data Board</span><span>Views</span><span>Engagement</span><span>Annual</span>
-    </div>
-  </div>
-</section>
-
 <section class="scene" id="xhsB">
   <div class="content">
     <div class="kicker reveal">小红书数据 · B</div>
@@ -1364,26 +981,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 
 
 <!-- 15 KOL / KOC 线上内容合作 -->
-<!-- 章节封面 06 KOL / KOC 合作 -->
-<section class="scene secdiv" id="dv-wxSelf">
-  <div class="content">
-    <div class="sd">
-      <div class="sdnum reveal">06</div>
-      <div class="sdr">
-        <div class="sdcap reveal">
-          <span class="idx">Chapter 06</span>
-          <span class="cn">KOL / KOC 合作</span>
-          <span class="en">Creator Collaboration</span>
-        </div>
-        <div class="sdmini reveal" data-cur="5" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="sdbar reveal">
-      <span>KOL / KOC</span><span>Creator Pick</span><span>Briefing</span><span>Review</span>
-    </div>
-  </div>
-</section>
-
 <section class="scene" id="wxSelf">
   <div class="content">
     <div class="kicker reveal">内容合作 · 博主营销</div>
@@ -1414,26 +1011,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 
 
 <!-- 17 平面 surface-flow 自动轮播 -->
-<!-- 章节封面 07 平面作品 -->
-<section class="scene secdiv" id="dv-visual">
-  <div class="content">
-    <div class="sd">
-      <div class="sdnum reveal">07</div>
-      <div class="sdr">
-        <div class="sdcap reveal">
-          <span class="idx">Chapter 07</span>
-          <span class="cn">平面作品</span>
-          <span class="en">Graphic Design</span>
-        </div>
-        <div class="sdmini reveal" data-cur="6" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="sdbar reveal">
-      <span>Graphic</span><span>Product Shot</span><span>Poster</span><span>Detail Page</span>
-    </div>
-  </div>
-</section>
-
 <section class="scene" id="visual">
   <div class="content">
     <div class="kicker reveal">平面图文 · 视觉设计</div>
@@ -1451,26 +1028,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 </section>
 
 <!-- 18 展会活动：前期 / 中期 / 后期 -->
-<!-- 章节封面 08 展会活动 -->
-<section class="scene secdiv" id="dv-expo">
-  <div class="content">
-    <div class="sd">
-      <div class="sdnum reveal">08</div>
-      <div class="sdr">
-        <div class="sdcap reveal">
-          <span class="idx">Chapter 08</span>
-          <span class="cn">展会活动</span>
-          <span class="en">Exhibition</span>
-        </div>
-        <div class="sdmini reveal" data-cur="7" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="sdbar reveal">
-      <span>Exhibition</span><span>Prep</span><span>On-site</span><span>Review</span>
-    </div>
-  </div>
-</section>
-
 <section class="scene" id="expo">
   <div class="content">
     <div class="kicker reveal">展会活动 · 全流程执行</div>
@@ -1518,26 +1075,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 
 
 <!-- 22 粉丝福利 大幅聚焦轮播 -->
-<!-- 章节封面 09 营销与活动 -->
-<section class="scene secdiv" id="dv-fans">
-  <div class="content">
-    <div class="sd">
-      <div class="sdnum reveal">09</div>
-      <div class="sdr">
-        <div class="sdcap reveal">
-          <span class="idx">Chapter 09</span>
-          <span class="cn">营销与活动</span>
-          <span class="en">Campaign &amp; Events</span>
-        </div>
-        <div class="sdmini reveal" data-cur="8" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="sdbar reveal">
-      <span>Campaign</span><span>SNS</span><span>Giveaway</span><span>Livestream</span>
-    </div>
-  </div>
-</section>
-
 <section class="scene" id="fans">
   <div class="content">
     <div class="kicker reveal">营销活动 · 内容与直播</div>
@@ -1620,7 +1157,7 @@ document.querySelectorAll('.strip').forEach(el=>io2.observe(el));
 /* ---- progress + scene index ---- */
 const scenes=[...document.querySelectorAll('.scene')];
 const nav=document.getElementById('nav');
-scenes.forEach((s,i)=>{if(i===0)return;const b=document.createElement('button');b.title='#'+s.id;if(s.classList.contains('secdiv'))b.classList.add('is-div');b.addEventListener('click',()=>s.scrollIntoView({behavior:'smooth'}));nav.appendChild(b);});
+scenes.forEach((s,i)=>{if(i===0)return;const b=document.createElement('button');b.title='#'+s.id;b.addEventListener('click',()=>s.scrollIntoView({behavior:'smooth'}));nav.appendChild(b);});
 const navBtns=[...nav.children];
 function onScroll(){
   const st=scrollY;
@@ -2098,76 +1635,6 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
       r.classList.add('is-on');
     });
   });
-})();
-/* ---- 章节分隔页：迷你书架 = 目录那一排书等比缩小（当前章那本换成「打开的书」） ---- */
-(function(){
-  var src=document.querySelector('#toc .tlist');
-  if(!src) return;
-  var minis=[].slice.call(document.querySelectorAll('.sdmini'));
-  function txt(el,sel){var n=el.querySelector(sel);return n?n.textContent:'';}
-  function fit(box,wrap,clone){
-    var avail=box.clientWidth||(box.parentNode&&box.parentNode.clientWidth)||900;
-    var nat=clone.scrollWidth||1;
-    var s=Math.min(.54, avail/nat);
-    wrap.style.setProperty('--s',s.toFixed(4));
-    box.style.height=Math.round((clone.scrollHeight||330)*s+8)+'px';
-  }
-  function build(box){
-    var cur=parseInt(box.getAttribute('data-cur'),10)||0;
-    box.innerHTML='';
-    var wrap=document.createElement('div'); wrap.className='msc';
-    var clone=src.cloneNode(true);                 /* 目录那一排，原样克隆 */
-    clone.classList.remove('reveal');
-    [].slice.call(clone.querySelectorAll('a')).forEach(function(a){
-      a.removeAttribute('href'); a.setAttribute('tabindex','-1');
-    });
-    wrap.appendChild(clone);
-    box.appendChild(wrap);
-    /* ⚠️ 必须先把克隆体挂进文档，再读 getComputedStyle：
-       游离节点上没有样式规则命中，--k/--w/--r/--ry 会全部读成空串（这个 bug 曾经让它一直用默认值）。 */
-    var books=[].slice.call(clone.querySelectorAll('.trow'));   /* 0-8 对应 01-09 */
-    var origin=books[cur];
-    if(origin){
-      var cs=getComputedStyle(origin);
-      var open=document.createElement('i');
-      open.className='mopen';
-      ['--k','--w','--r','--ry'].forEach(function(v){
-        var val=cs.getPropertyValue(v).trim();
-        if(val) open.style.setProperty(v,val);
-      });
-      open.innerHTML='<i class="mcov"></i><i class="tfold"></i><i class="tspine"></i><span class="tno">'+txt(origin,'.tno')+'</span>'+
-        '<span class="tmid"><span class="ttitle">'+txt(origin,'.ttitle')+'</span>'+
-        '<span class="ten">'+txt(origin,'.ten')+'</span></span>'+
-        '<span class="tcat">'+txt(origin,'.tcat')+'</span>';
-      origin.parentNode.replaceChild(open, origin);   /* 那个位置的一本，换成打开的书 */
-    }
-    fit(box,wrap,clone);
-  }
-  function rescale(){
-    minis.forEach(function(b){
-      var w=b.querySelector('.msc'), c=w&&w.querySelector('.tlist');
-      if(w&&c) fit(b,w,c);
-    });
-  }
-  minis.forEach(build);
-  /* 入场动效：滚到某一屏时，这一屏的那本绿书才「倒下 + 摊开」，其他的书不动。
-     进入视口 30% 触发；离开到 6% 以下复位，回滚上来能再演一次（此时已基本出屏，看不到复位）。 */
-  (function(){
-    if(!('IntersectionObserver' in window)) return;
-    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    [].slice.call(document.querySelectorAll('.secdiv')).forEach(function(sec){
-      var op=sec.querySelector('.mopen'); if(!op) return;
-      sec.classList.add('is-armed');
-      var io=new IntersectionObserver(function(es){
-        es.forEach(function(e){
-          if(e.intersectionRatio>=.3) op.classList.add('is-open');
-          else if(e.intersectionRatio<.06) op.classList.remove('is-open');
-        });
-      },{threshold:[0,.06,.3,.6,1]});
-      io.observe(sec);
-    });
-  })();
-  var rt; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(rescale,180);});
 })();
 </script>
 </body>
