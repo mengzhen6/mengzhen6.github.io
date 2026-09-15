@@ -122,9 +122,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   --rt:1;--rr:calc(var(--r) * var(--rt));
   width:calc(clamp(56px,6.1vw,88px) * var(--w));
   /* 英文在上、中文在下的上下堆叠让竖直空间翻倍：高度自适应（min-height 仍跟着 --k 高低错落），永不裁字 */
-  min-height:calc(clamp(300px,38vw,545px) * var(--k));height:auto;
+  min-height:calc(clamp(300px,38vw,585px) * var(--k));height:auto;
   display:flex;flex-direction:column;align-items:center;
-  padding:clamp(15px,1.5vw,24px) 0 clamp(11px,1.05vw,16px);
+  padding:clamp(12px,1.2vw,19px) 0 clamp(9px,.9vw,13px);
   border-radius:3px 4px 4px 3px;color:#14170e;overflow:hidden;text-decoration:none;
   background-color:var(--c,#ded8a2);
   background-image:
@@ -154,19 +154,22 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   font-family:var(--display);font-size:clamp(9.5px,.78vw,11px);font-weight:600;letter-spacing:.02em;
   color:rgba(20,23,14,.78);transition:.45s}
 /* 中文 + 英文并排（英文就在中文旁边，各自竖排一列，中间一条细线） */
-#toc .tmid{display:flex;flex-direction:column;align-items:center;gap:clamp(5px,.5vw,9px);
-  margin-top:clamp(9px,.9vw,13px);min-height:0}
+#toc .tmid{display:flex;flex-direction:column;align-items:center;gap:clamp(4px,.46vw,7px);
+  margin-top:clamp(7px,.72vw,10px);min-height:0}
 #toc .ttitle{writing-mode:vertical-rl;white-space:nowrap;
-  font-family:var(--serif);font-size:clamp(20px,1.9vw,26.5px);line-height:1.06;
-  font-weight:800;letter-spacing:.09em;color:#11140a}
-#toc .ten{writing-mode:vertical-rl;white-space:nowrap;line-height:1.05;
-  font-family:var(--display);font-size:clamp(13.5px,1.32vw,18.5px);letter-spacing:.16em;
-  text-transform:uppercase;font-weight:800;color:rgba(20,23,14,.86);
+  font-family:var(--serif);font-size:clamp(24px,2.2vw,31px);line-height:1.04;
+  font-weight:900;letter-spacing:.06em;color:#0d1008;
+  /* 宋体/Georgia 都没有 900 字重，靠亚像素描边把笔画垫厚，做出「粗宋」的份量 */
+  -webkit-text-stroke:.4px currentColor}
+#toc .ten{writing-mode:vertical-rl;white-space:nowrap;line-height:1.03;
+  font-family:var(--display);font-size:clamp(16px,1.58vw,22px);letter-spacing:.13em;
+  text-transform:uppercase;font-weight:900;color:rgba(20,23,14,.92);
+  -webkit-text-stroke:.35px currentColor;
   transition:.45s}
 #toc .tcat{writing-mode:vertical-rl;white-space:nowrap;margin-top:auto;
   /* 上下堆叠后空间吃紧时 margin-top:auto 会塌成 0，用 padding 保底一段不塌缩的间隙 */
-  padding-top:clamp(6px,.6vw,10px);
-  font-size:clamp(8.5px,.7vw,9.5px);letter-spacing:.14em;color:rgba(20,23,14,.58)}
+  padding-top:clamp(5px,.5vw,8px);
+  font-size:clamp(8.5px,.7vw,9.5px);letter-spacing:.12em;font-weight:600;color:rgba(20,23,14,.64)}
 /* 悬停 / 点击：把书"抽出来" + 荧光绿描边 */
 #toc .trow:hover,#toc .trow:focus-visible,#toc .trow.is-on{
   transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-19px);outline:none;z-index:6;
@@ -239,7 +242,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .trow.b9{--k:.88;--c:#93dbcd;--r:1.9deg;--w:1.06;--ry:-11.5deg}
 @media(max-width:1240px){
   #toc .tlist{padding-left:6px;padding-right:6px}
-  #toc .ttitle{font-size:clamp(17px,1.9vw,23px)}
+  #toc .ttitle{font-size:clamp(19px,2.14vw,27px)}
+  #toc .ten{font-size:clamp(14.5px,1.52vw,19px)}
   #toc .trow.is-h{width:clamp(150px,18vw,230px)}
   #toc .tsliver.is-lay{width:clamp(64px,7.8vw,102px)}
   #toc .tstack .tsliver.is-lay{width:calc(clamp(82px,9.6vw,126px) * var(--lw,1))}
@@ -248,9 +252,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   #toc .tlist > *+*{margin-left:clamp(3px,1vw,12px)}
   #toc .tlist > .tsliver{margin-left:-8px}
   #toc .trow{--rt:.5;width:calc(clamp(48px,6.7vw,72px) * var(--w));
-    min-height:calc(clamp(262px,36vw,432px) * var(--k));height:auto}
-  #toc .ttitle{font-size:clamp(16px,2.05vw,21px);letter-spacing:.07em}
-  #toc .ten{font-size:clamp(10.5px,1.5vw,14px);letter-spacing:.14em}
+    min-height:calc(clamp(250px,34vw,450px) * var(--k));height:auto}
+  #toc .ttitle{font-size:clamp(18px,2.32vw,25px);letter-spacing:.05em}
+  #toc .ten{font-size:clamp(13px,1.74vw,17px);letter-spacing:.11em}
   #toc .tcat{font-size:clamp(7.5px,.95vw,9px);letter-spacing:.1em}
   #toc .tno{width:22px;height:22px;font-size:9px}
   #toc .trow.is-h{width:clamp(126px,17vw,188px);height:clamp(40px,4.6vw,56px)}
@@ -266,10 +270,10 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   #toc .tlist::after{display:none}
   #toc .tlist > *+*{margin-left:6px}
   #toc .tlist > .tsliver{margin-left:-6px}
-  #toc .trow{--rt:0;width:46px;min-height:calc(clamp(248px,62vw,392px) * var(--k));height:auto;padding:11px 0}
-  #toc .ttitle{font-size:15px;letter-spacing:.06em}
+  #toc .trow{--rt:0;width:46px;min-height:calc(clamp(240px,60vw,405px) * var(--k));height:auto;padding:10px 0}
+  #toc .ttitle{font-size:18px;letter-spacing:.04em}
   #toc .tmid{margin-top:9px;gap:4px}
-  #toc .ten{font-size:10px;letter-spacing:.1em}
+  #toc .ten{font-size:12.5px;letter-spacing:.08em}
   #toc .tcat{font-size:7px;letter-spacing:.08em}
   #toc .tno{width:20px;height:20px;font-size:8px}
   #toc .trow.is-h{width:auto;height:auto;min-height:0;padding:9px 11px;gap:7px}
