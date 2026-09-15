@@ -103,43 +103,80 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .stat .num{font-family:var(--serif);font-size:clamp(38px,4vw,52px);line-height:1;color:var(--gold2);font-weight:700}
 #toc .stat .num span{font-size:.45em;color:var(--muted);margin-left:4px;font-weight:400}
 #toc .stat .lab{margin-top:9px;color:var(--muted);font-size:12px;letter-spacing:.12em}
-/* 目录：九宫格卡片（3×3，无配图；悬停·点击边框发绿光） */
-#toc .tlist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.25vw,20px)}
-#toc .trow{position:relative;display:grid;align-items:start;
-  grid-template-columns:1fr auto;grid-template-areas:"no go" "main main";
-  align-content:space-between;isolation:isolate;overflow:hidden;
-  gap:clamp(16px,1.8vw,30px) 12px;min-height:clamp(138px,13.8vw,176px);
-  padding:clamp(16px,1.45vw,22px);
-  border:1px solid rgba(255,255,255,.09);border-radius:16px;
-  background:linear-gradient(158deg,rgba(255,255,255,.038),rgba(255,255,255,0) 56%),#050907;
-  transition:border-color .45s,box-shadow .45s}
-#toc .tno{grid-area:no;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.28);
-  background:rgba(4,8,6,.55);display:grid;place-items:center;font-family:var(--serif);font-style:italic;
-  font-size:12.5px;color:#c9cdd1;transition:.45s}
-#toc .tmain{grid-area:main;display:flex;flex-direction:column;gap:8px;min-width:0}
-#toc .tcat{font-size:10px;letter-spacing:.24em;color:#8b9096;transition:.45s}
-#toc .ttitle{font-family:var(--serif);font-size:clamp(20px,2.05vw,29px);line-height:1.12;font-weight:800;
-  color:var(--green);text-shadow:0 2px 22px rgba(0,0,0,.92),0 0 34px rgba(0,0,0,.7)}
-#toc .tgo{grid-area:go;display:flex;align-items:center;gap:10px}
-#toc .tpill{display:none}
-#toc .tcirc{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;
-  place-items:center;font-size:14px;color:#ececec;background:rgba(5,9,7,.66);transition:.45s;flex:0 0 auto}
-#toc .trow:hover,#toc .trow:focus-visible,#toc .trow.is-on{border-color:var(--green);outline:none;
-  box-shadow:0 0 0 1px rgba(var(--green-rgb),.45),0 0 30px rgba(var(--green-rgb),.28),inset 0 0 46px rgba(var(--green-rgb),.06)}
-#toc .trow:hover .tno,#toc .trow:focus-visible .tno,#toc .trow.is-on .tno{background:var(--green);
-  border-color:var(--green);color:#06120c;box-shadow:0 0 26px rgba(var(--green-rgb),.5)}
-#toc .trow:hover .tcat,#toc .trow:focus-visible .tcat,#toc .trow.is-on .tcat{color:var(--green)}
-#toc .trow:hover .tcirc,#toc .trow:focus-visible .tcirc,#toc .trow.is-on .tcirc{background:var(--green);
-  border-color:var(--green);color:#06120c;box-shadow:0 0 26px rgba(var(--green-rgb),.45);transform:translate(2px,-2px)}
-@media(max-width:980px){
-  #toc .tlist{grid-template-columns:repeat(2,minmax(0,1fr))}
-  #toc .trow{gap:14px 12px;min-height:clamp(120px,19vw,152px);padding:15px}
-  #toc .tno{width:38px;height:38px;font-size:11.5px}
-  #toc .tcirc{width:38px;height:38px}
+/* 目录：书架（竖立书脊，点击跳转；悬停/点击"抽出"并描绿光） */
+#toc .tlist{position:relative;display:flex;align-items:flex-end;justify-content:center;
+  gap:clamp(6px,.74vw,11px);padding:clamp(20px,2.3vw,34px) clamp(10px,1.6vw,24px) clamp(34px,3.6vw,50px)}
+/* 书架层板 */
+#toc .tlist::after{content:"";position:absolute;left:clamp(4px,.8vw,12px);right:clamp(4px,.8vw,12px);
+  bottom:calc(clamp(34px,3.6vw,50px) - 6px);height:1px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.20) 9%,rgba(255,255,255,.36) 50%,rgba(255,255,255,.20) 91%,transparent);
+  box-shadow:0 1px 3px rgba(0,0,0,.75),0 0 18px rgba(255,255,255,.05)}
+/* 一本书 */
+#toc .trow{position:relative;flex:0 0 auto;--k:1;--w:1;--r:0deg;
+  width:calc(clamp(56px,6.1vw,88px) * var(--w));
+  height:calc(clamp(240px,29.5vw,424px) * var(--k));
+  display:flex;flex-direction:column;align-items:center;
+  padding:clamp(12px,1.15vw,18px) 0;
+  border-radius:4px 4px 3px 3px;background:var(--c,#ded8a2);color:#14170e;overflow:hidden;
+  transform-origin:bottom center;transform:rotate(var(--r));
+  box-shadow:0 14px 30px rgba(0,0,0,.62),
+    inset 8px 0 14px rgba(255,255,255,.36),inset -9px 0 16px rgba(0,0,0,.17),
+    inset 0 -4px 9px rgba(0,0,0,.22);
+  transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
+#toc .trow:active{transform:rotate(var(--r)) translateY(-6px)}
+/* 书脊纸纹 */
+#toc .trow::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 1px,rgba(255,255,255,0) 1px 4px);
+  opacity:.55}
+#toc .tno{width:clamp(24px,2.3vw,31px);height:clamp(24px,2.3vw,31px);border-radius:50%;
+  border:1.2px solid rgba(20,23,14,.4);background:rgba(255,255,255,.34);
+  display:grid;place-items:center;flex:0 0 auto;
+  font-family:var(--serif);font-style:italic;font-size:clamp(9.5px,.8vw,11px);font-weight:600;
+  color:rgba(20,23,14,.78);transition:.45s}
+#toc .ttitle{writing-mode:vertical-rl;white-space:nowrap;margin-top:clamp(10px,1.1vw,17px);
+  font-family:var(--serif);font-size:clamp(18px,1.82vw,26px);line-height:1.06;
+  font-weight:800;letter-spacing:.08em;color:#11140a}
+#toc .tcat{writing-mode:vertical-rl;white-space:nowrap;margin-top:auto;font-size:clamp(8.5px,.72vw,10px);
+  letter-spacing:.18em;color:rgba(20,23,14,.55)}
+/* 悬停 / 点击：把书"抽出来"+ 荧光绿描边 */
+#toc .trow:hover,#toc .trow:focus-visible,#toc .trow.is-on{
+  transform:rotate(var(--r)) translateY(-15px);outline:none;
+  box-shadow:0 26px 44px rgba(0,0,0,.62),0 0 0 2px rgba(var(--green-rgb),.9),0 0 34px rgba(var(--green-rgb),.5),
+    inset 8px 0 14px rgba(255,255,255,.36),inset -9px 0 16px rgba(0,0,0,.17)}
+#toc .trow:hover .tno,#toc .trow:focus-visible .tno,#toc .trow.is-on .tno{
+  background:var(--green);border-color:var(--green);color:#06120c;box-shadow:0 0 18px rgba(var(--green-rgb),.55)}
+#toc .trow:hover .tcat,#toc .trow:focus-visible .tcat,#toc .trow.is-on .tcat{color:rgba(20,23,14,.86)}
+/* 逐本：高度系数 / 宽度系数 / 倾角 / 书脊色 */
+#toc .trow:nth-child(1){--k:.86;--c:#dfd9a3;--r:-2.2deg}
+#toc .trow:nth-child(2){--k:.82;--c:#cfe0cd;--r:0deg;--w:1.04}
+#toc .trow:nth-child(3){--k:1;--c:#c7abd6;--r:1.8deg}
+#toc .trow:nth-child(4){--k:.84;--c:#e4e2d6;--r:0deg;--w:1.12}
+#toc .trow:nth-child(5){--k:.92;--c:#a9c9dd;--r:-1.6deg}
+#toc .trow:nth-child(6){--k:.98;--c:#b5d9a5;--r:0deg;--w:1.07}
+#toc .trow:nth-child(7){--k:.80;--c:#e4bccb;--r:2deg}
+#toc .trow:nth-child(8){--k:.94;--c:#e9e1bd;--r:0deg;--w:.95}
+#toc .trow:nth-child(9){--k:.88;--c:#a8d6cd;--r:-1.4deg;--w:1.06}
+@media(max-width:1240px){
+  #toc .tlist{gap:8px}
+  #toc .ttitle{font-size:clamp(17px,2.1vw,23px)}
 }
-@media(max-width:560px){
-  #toc .tlist{grid-template-columns:1fr}
-  #toc .trow{min-height:0}
+@media(max-width:980px){
+  #toc .trow{width:calc(clamp(48px,6.7vw,72px) * var(--w));
+    height:calc(clamp(232px,32.5vw,358px) * var(--k))}
+  #toc .ttitle{font-size:clamp(15px,2.1vw,20px);letter-spacing:.06em}
+  #toc .tcat{font-size:clamp(8px,.95vw,9.5px);letter-spacing:.14em}
+  #toc .tno{width:22px;height:22px;font-size:9px}
+}
+@media(max-width:620px){
+  #toc .tlist{justify-content:flex-start;overflow-x:auto;gap:7px;
+    padding-left:14px;padding-right:14px;scrollbar-width:none;-ms-overflow-style:none}
+  #toc .tlist::-webkit-scrollbar{display:none}
+  #toc .tlist::after{display:none}
+  #toc .tlist{gap:6px}
+  #toc .trow{width:46px;height:calc(clamp(212px,64vw,326px) * var(--k));padding:11px 0}
+  #toc .ttitle{font-size:14px;letter-spacing:.05em;margin-top:9px}
+  #toc .tcat{font-size:7.5px;letter-spacing:.12em}
+  #toc .tno{width:20px;height:20px;font-size:8px}
 }
 @media(max-width:900px){#toc .head{flex-direction:column;align-items:flex-start}}
 
@@ -590,77 +627,50 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
       </div>
     </div>
     <div class="tlist reveal">
-      <a class="trow" href="#domestic">
+      <a class="trow" href="#domestic" title="社媒运营 · 0-1 搭建">
         <span class="tno">01</span>
-        <span class="tmain">
-          <span class="tcat">社媒运营 · 0-1 搭建</span>
-          <span class="ttitle">国内社媒</span>
-        </span>
-        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+        <span class="ttitle">国内社媒</span>
+        <span class="tcat">社媒运营 · 0-1 搭建</span>
       </a>
-      <a class="trow" href="#overseas">
+      <a class="trow" href="#overseas" title="海外运营 · 全球触达">
         <span class="tno">02</span>
-        <span class="tmain">
-          <span class="tcat">海外运营 · 全球触达</span>
-          <span class="ttitle">海外账号</span>
-        </span>
-        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+        <span class="ttitle">海外账号</span>
+        <span class="tcat">海外运营 · 全球触达</span>
       </a>
-      <a class="trow" href="#works">
+      <a class="trow" href="#works" title="内容制作 · 拍摄剪辑">
         <span class="tno">03</span>
-        <span class="tmain">
-          <span class="tcat">内容制作 · 拍摄剪辑</span>
-          <span class="ttitle">视频作品</span>
-        </span>
-        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+        <span class="ttitle">视频作品</span>
+        <span class="tcat">内容制作 · 拍摄剪辑</span>
       </a>
-      <a class="trow" href="#web">
+      <a class="trow" href="#web" title="官网 · 公众号">
         <span class="tno">04</span>
-        <span class="tmain">
-          <span class="tcat">官网 · 公众号</span>
-          <span class="ttitle">网站与公众号</span>
-        </span>
-        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+        <span class="ttitle">网站与公众号</span>
+        <span class="tcat">官网 · 公众号</span>
       </a>
-      <a class="trow" href="#xhsB">
+      <a class="trow" href="#xhsB" title="数据分析 · 可视化">
         <span class="tno">05</span>
-        <span class="tmain">
-          <span class="tcat">数据分析 · 可视化</span>
-          <span class="ttitle">运营数据看板</span>
-        </span>
-        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+        <span class="ttitle">运营数据看板</span>
+        <span class="tcat">数据分析 · 可视化</span>
       </a>
-      <a class="trow" href="#wxSelf">
+      <a class="trow" href="#wxSelf" title="内容合作 · 博主营销">
         <span class="tno">06</span>
-        <span class="tmain">
-          <span class="tcat">内容合作 · 博主营销</span>
-          <span class="ttitle">KOL / KOC 合作</span>
-        </span>
-        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+        <span class="ttitle">KOL / KOC 合作</span>
+        <span class="tcat">内容合作 · 博主营销</span>
       </a>
-      <a class="trow" href="#visual">
+      <a class="trow" href="#visual" title="平面设计 · 视觉输出">
         <span class="tno">07</span>
-        <span class="tmain">
-          <span class="tcat">平面设计 · 视觉输出</span>
-          <span class="ttitle">平面作品</span>
-        </span>
-        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+        <span class="ttitle">平面作品</span>
+        <span class="tcat">平面设计 · 视觉输出</span>
       </a>
-      <a class="trow" href="#expo">
+      <a class="trow" href="#expo" title="展会执行 · 全流程">
         <span class="tno">08</span>
-        <span class="tmain">
-          <span class="tcat">展会执行 · 全流程</span>
-          <span class="ttitle">展会活动</span>
-        </span>
-        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+        <span class="ttitle">展会活动</span>
+        <span class="tcat">展会执行 · 全流程</span>
       </a>
-      <a class="trow" href="#fans">
+      <a class="trow" href="#fans" title="活动策划 · SNS 传播">
         <span class="tno">09</span>
-        <span class="tmain">
-          <span class="tcat">活动策划 · SNS 传播</span>
-          <span class="ttitle">营销与活动</span>
-        </span>
-        <span class="tgo"><span class="tpill">进入</span><span class="tcirc">↘</span></span>
+        <span class="ttitle">营销与活动</span>
+        <span class="tcat">活动策划 · SNS 传播</span>
       </a>
     </div>
   </div>
