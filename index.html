@@ -107,6 +107,10 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .stat .num span{font-size:.45em;color:var(--muted);margin-left:4px;font-weight:400}
 #toc .stat .lab{margin-top:9px;color:var(--muted);font-size:12px;letter-spacing:.12em}
 /* 目录：立体书架（横·竖·斜混排；书脊中文 + 英文并排；悬停"抽出"描绿光） */
+/* ⚠️ 本段每一条「#toc .t*」规则下面都紧跟着一份「.shl .t*」镜像副本（共 82 条）：
+   分隔页的迷你书架是把 #toc .tlist 原样克隆进 .sdmini 再整体 scale 缩小的，
+   克隆体靠 .shl 这套规则取样式。改书架样式时两处必须一起改，否则迷你书架不跟随。
+   镜像脚本：_patch_shelf7.py（生成规则镜像）；检查脚本：_check_shelf7.js */
 #toc .tlist{position:relative;display:flex;align-items:flex-end;justify-content:center;
   padding:clamp(24px,2.6vw,42px) clamp(10px,1.6vw,24px) clamp(44px,4.6vw,64px);
   perspective:2300px;perspective-origin:50% 34%}
