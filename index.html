@@ -133,7 +133,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .trow{position:relative;flex:0 0 auto;--k:1;--w:1;--r:0deg;--ry:-6deg;
   --rt:1;--rr:calc(var(--r) * var(--rt));
   width:calc(clamp(56px,6.1vw,88px) * var(--w));
-  height:calc(clamp(248px,30.5vw,438px) * var(--k));
+  /* 英文在上、中文在下的上下堆叠让竖直空间翻倍：高度自适应（min-height 仍跟着 --k 高低错落），永不裁字 */
+  min-height:calc(clamp(300px,38vw,545px) * var(--k));height:auto;
   display:flex;flex-direction:column;align-items:center;
   padding:clamp(15px,1.5vw,24px) 0 clamp(11px,1.05vw,16px);
   border-radius:3px 4px 4px 3px;color:#14170e;overflow:hidden;text-decoration:none;
@@ -149,7 +150,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .shl .trow{position:relative;flex:0 0 auto;--k:1;--w:1;--r:0deg;--ry:-6deg;
   --rt:1;--rr:calc(var(--r) * var(--rt));
   width:calc(clamp(56px,6.1vw,88px) * var(--w));
-  height:calc(clamp(248px,30.5vw,438px) * var(--k));
+  /* 英文在上、中文在下的上下堆叠让竖直空间翻倍：高度自适应（min-height 仍跟着 --k 高低错落），永不裁字 */
+  min-height:calc(clamp(300px,38vw,545px) * var(--k));height:auto;
   display:flex;flex-direction:column;align-items:center;
   padding:clamp(15px,1.5vw,24px) 0 clamp(11px,1.05vw,16px);
   border-radius:3px 4px 4px 3px;color:#14170e;overflow:hidden;text-decoration:none;
@@ -197,31 +199,31 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   font-family:var(--display);font-size:clamp(9.5px,.78vw,11px);font-weight:600;letter-spacing:.02em;
   color:rgba(20,23,14,.78);transition:.45s}
 /* 中文 + 英文并排（英文就在中文旁边，各自竖排一列，中间一条细线） */
-#toc .tmid{display:flex;align-items:flex-start;gap:clamp(4px,.44vw,7px);
-  margin-top:clamp(10px,1vw,15px);min-height:0}
-.shl .tmid{display:flex;align-items:flex-start;gap:clamp(4px,.44vw,7px);
-  margin-top:clamp(10px,1vw,15px);min-height:0}
+#toc .tmid{display:flex;flex-direction:column;align-items:center;gap:clamp(5px,.5vw,9px);
+  margin-top:clamp(9px,.9vw,13px);min-height:0}
+.shl .tmid{display:flex;flex-direction:column;align-items:center;gap:clamp(5px,.5vw,9px);
+  margin-top:clamp(9px,.9vw,13px);min-height:0}
 #toc .ttitle{writing-mode:vertical-rl;white-space:nowrap;
-  font-family:var(--serif);font-size:clamp(18px,1.72vw,24px);line-height:1.06;
-  font-weight:800;letter-spacing:.08em;color:#11140a}
+  font-family:var(--serif);font-size:clamp(20px,1.9vw,26.5px);line-height:1.06;
+  font-weight:800;letter-spacing:.09em;color:#11140a}
 .shl .ttitle{writing-mode:vertical-rl;white-space:nowrap;
-  font-family:var(--serif);font-size:clamp(18px,1.72vw,24px);line-height:1.06;
-  font-weight:800;letter-spacing:.08em;color:#11140a}
+  font-family:var(--serif);font-size:clamp(20px,1.9vw,26.5px);line-height:1.06;
+  font-weight:800;letter-spacing:.09em;color:#11140a}
 #toc .ten{writing-mode:vertical-rl;white-space:nowrap;line-height:1.05;
-  border-left:1px solid rgba(20,23,14,.30);padding-left:clamp(5px,.5vw,8px);
-  margin-right:clamp(4px,.55vw,9px);
-  font-family:var(--display);font-size:clamp(10px,.94vw,13.5px);letter-spacing:.22em;
-  text-transform:uppercase;font-weight:700;color:rgba(20,23,14,.74);
+  font-family:var(--display);font-size:clamp(13.5px,1.32vw,18.5px);letter-spacing:.16em;
+  text-transform:uppercase;font-weight:800;color:rgba(20,23,14,.86);
   transition:.45s}
 .shl .ten{writing-mode:vertical-rl;white-space:nowrap;line-height:1.05;
-  border-left:1px solid rgba(20,23,14,.30);padding-left:clamp(5px,.5vw,8px);
-  margin-right:clamp(4px,.55vw,9px);
-  font-family:var(--display);font-size:clamp(10px,.94vw,13.5px);letter-spacing:.22em;
-  text-transform:uppercase;font-weight:700;color:rgba(20,23,14,.74);
+  font-family:var(--display);font-size:clamp(13.5px,1.32vw,18.5px);letter-spacing:.16em;
+  text-transform:uppercase;font-weight:800;color:rgba(20,23,14,.86);
   transition:.45s}
 #toc .tcat{writing-mode:vertical-rl;white-space:nowrap;margin-top:auto;
+  /* 上下堆叠后空间吃紧时 margin-top:auto 会塌成 0，用 padding 保底一段不塌缩的间隙 */
+  padding-top:clamp(6px,.6vw,10px);
   font-size:clamp(8.5px,.7vw,9.5px);letter-spacing:.14em;color:rgba(20,23,14,.58)}
 .shl .tcat{writing-mode:vertical-rl;white-space:nowrap;margin-top:auto;
+  /* 上下堆叠后空间吃紧时 margin-top:auto 会塌成 0，用 padding 保底一段不塌缩的间隙 */
+  padding-top:clamp(6px,.6vw,10px);
   font-size:clamp(8.5px,.7vw,9.5px);letter-spacing:.14em;color:rgba(20,23,14,.58)}
 /* 悬停 / 点击：把书"抽出来" + 荧光绿描边 */
 #toc .trow:hover,#toc .trow:focus-visible,#toc .trow.is-on{
@@ -239,9 +241,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .shl .trow:hover .tno,.shl .trow:focus-visible .tno,.shl .trow.is-on .tno{
   background:var(--green);border-color:var(--green);color:#06120c;box-shadow:0 0 18px rgba(var(--green-rgb),.55)}
 #toc .trow:hover .ten,#toc .trow:focus-visible .ten,#toc .trow.is-on .ten{
-  color:rgba(20,23,14,.92);border-left-color:rgba(20,23,14,.62)}
+  color:rgba(20,23,14,.94)}
 .shl .trow:hover .ten,.shl .trow:focus-visible .ten,.shl .trow.is-on .ten{
-  color:rgba(20,23,14,.92);border-left-color:rgba(20,23,14,.62)}
+  color:rgba(20,23,14,.94)}
 #toc .trow:hover .tcat,#toc .trow:focus-visible .tcat,#toc .trow.is-on .tcat{color:rgba(20,23,14,.88)}
 .shl .trow:hover .tcat,.shl .trow:focus-visible .tcat,.shl .trow.is-on .tcat{color:rgba(20,23,14,.88)}
 /* ---------- 横躺的一本书（书脊朝外，书口在右） ---------- */
@@ -361,8 +363,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 @media(max-width:1240px){
   #toc .tlist{padding-left:6px;padding-right:6px}
   .shl{padding-left:6px;padding-right:6px}
-  #toc .ttitle{font-size:clamp(16px,1.9vw,21px)}
-  .shl .ttitle{font-size:clamp(16px,1.9vw,21px)}
+  #toc .ttitle{font-size:clamp(17px,1.9vw,23px)}
+  .shl .ttitle{font-size:clamp(17px,1.9vw,23px)}
   #toc .trow.is-h{width:clamp(150px,18vw,230px)}
   .shl .trow.is-h{width:clamp(150px,18vw,230px)}
   #toc .tsliver.is-lay{width:clamp(64px,7.8vw,102px)}
@@ -377,13 +379,13 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   .shl > .tsliver{margin-left:-8px}
   .shl{--rt:.5}                 /* 打开的绿书也吃这个总开关，才能和邻居同一个倾角 */
   #toc .trow{--rt:.5;width:calc(clamp(48px,6.7vw,72px) * var(--w));
-    height:calc(clamp(238px,33.5vw,368px) * var(--k))}
+    min-height:calc(clamp(262px,36vw,432px) * var(--k));height:auto}
   .shl .trow{--rt:.5;width:calc(clamp(48px,6.7vw,72px) * var(--w));
-    height:calc(clamp(238px,33.5vw,368px) * var(--k))}
-  #toc .ttitle{font-size:clamp(15px,2.1vw,20px);letter-spacing:.06em}
-  .shl .ttitle{font-size:clamp(15px,2.1vw,20px);letter-spacing:.06em}
-  #toc .ten{font-size:clamp(9px,1.15vw,11px);letter-spacing:.2em;padding-left:5px}
-  .shl .ten{font-size:clamp(9px,1.15vw,11px);letter-spacing:.2em;padding-left:5px}
+    min-height:calc(clamp(262px,36vw,432px) * var(--k));height:auto}
+  #toc .ttitle{font-size:clamp(16px,2.05vw,21px);letter-spacing:.07em}
+  .shl .ttitle{font-size:clamp(16px,2.05vw,21px);letter-spacing:.07em}
+  #toc .ten{font-size:clamp(10.5px,1.5vw,14px);letter-spacing:.14em}
+  .shl .ten{font-size:clamp(10.5px,1.5vw,14px);letter-spacing:.14em}
   #toc .tcat{font-size:clamp(7.5px,.95vw,9px);letter-spacing:.1em}
   .shl .tcat{font-size:clamp(7.5px,.95vw,9px);letter-spacing:.1em}
   #toc .tno{width:22px;height:22px;font-size:9px}
@@ -410,14 +412,14 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   #toc .tlist > .tsliver{margin-left:-6px}
   .shl > .tsliver{margin-left:-6px}
   .shl{--rt:0}
-  #toc .trow{--rt:0;width:46px;height:calc(clamp(228px,68vw,346px) * var(--k));padding:11px 0}
-  .shl .trow{--rt:0;width:46px;height:calc(clamp(228px,68vw,346px) * var(--k));padding:11px 0}
-  #toc .ttitle{font-size:14px;letter-spacing:.05em}
-  .shl .ttitle{font-size:14px;letter-spacing:.05em}
+  #toc .trow{--rt:0;width:46px;min-height:calc(clamp(248px,62vw,392px) * var(--k));height:auto;padding:11px 0}
+  .shl .trow{--rt:0;width:46px;min-height:calc(clamp(248px,62vw,392px) * var(--k));height:auto;padding:11px 0}
+  #toc .ttitle{font-size:15px;letter-spacing:.06em}
+  .shl .ttitle{font-size:15px;letter-spacing:.06em}
   #toc .tmid{margin-top:9px;gap:4px}
   .shl .tmid{margin-top:9px;gap:4px}
-  #toc .ten{font-size:8px;letter-spacing:.14em;padding-left:4px}
-  .shl .ten{font-size:8px;letter-spacing:.14em;padding-left:4px}
+  #toc .ten{font-size:10px;letter-spacing:.1em}
+  .shl .ten{font-size:10px;letter-spacing:.1em}
   #toc .tcat{font-size:7px;letter-spacing:.08em}
   .shl .tcat{font-size:7px;letter-spacing:.08em}
   #toc .tno{width:20px;height:20px;font-size:8px}
@@ -465,7 +467,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   --ro:calc(var(--r,0deg) * var(--rt,1));   /* 与旁边那排书同源的倾角（跟着 --rt 总开关走） */
   display:flex;flex-direction:column;align-items:center;gap:clamp(4px,.4vw,7px);
   width:calc(clamp(56px,6.1vw,88px) * var(--w,1) * 3.1);
-  height:calc(clamp(248px,30.5vw,438px) * var(--k,1) * .93);
+  height:calc(clamp(300px,38vw,545px) * var(--k,1) * .93);
   margin:0 clamp(8px,.9vw,18px);
   padding:clamp(16px,1.5vw,24px) 0 clamp(12px,1.1vw,17px);
   color:#062a19;
@@ -504,7 +506,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     repeating-linear-gradient(90deg,rgba(0,0,0,.10) 0 1px,rgba(0,0,0,0) 1px 2px),
     linear-gradient(0deg,#8ed6ae,#dcf7e9)}
 /* 字分在两页上：中文在左页、英文在右页，中缝从中间穿过；序号缩小并挪到左下角 */
-.secdiv .mopen .tmid{width:100%;justify-content:space-between;align-items:flex-start;gap:0;
+.secdiv .mopen .tmid{width:100%;flex-direction:row;justify-content:space-between;align-items:flex-start;gap:0;
   margin-top:clamp(6px,.7vw,11px);padding:0 10%}
 .secdiv .mopen .tno{position:absolute;left:8%;bottom:clamp(9px,.85vw,13px);
   width:clamp(18px,1.7vw,24px);height:clamp(18px,1.7vw,24px);font-size:clamp(7.5px,.62vw,9px);
@@ -559,7 +561,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 }
 @media(max-width:620px){
   .secdiv .sdmini{height:clamp(112px,30vw,168px)}
-  .secdiv .mopen{width:calc(44px * 3.1);height:calc(clamp(228px,68vw,346px) * var(--k,1) * .9);
+  .secdiv .mopen{width:calc(44px * 3.1);height:calc(clamp(248px,62vw,392px) * var(--k,1) * .9);
     margin:0 5px;padding:10px 0 8px}
   .secdiv .sdbar{font-size:10px;letter-spacing:.15em}
   .secdiv .sdcap .en{letter-spacing:.2em}
@@ -1015,47 +1017,47 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <div class="tlist shl reveal">
       <a class="trow b1" href="#dv-domestic" title="社媒运营 · 0-1 搭建">
         <span class="tno">01</span>
-        <span class="tmid"><span class="ttitle">国内社媒</span><span class="ten">SOCIAL</span></span>
+        <span class="tmid"><span class="ten">SOCIAL</span><span class="ttitle">国内社媒</span></span>
         <span class="tcat">社媒运营 · 0-1 搭建</span>
       </a>
       <a class="trow b2" href="#dv-overseas" title="海外运营 · 全球触达">
         <span class="tno">02</span>
-        <span class="tmid"><span class="ttitle">海外账号</span><span class="ten">OVERSEAS</span></span>
+        <span class="tmid"><span class="ten">OVERSEAS</span><span class="ttitle">海外账号</span></span>
         <span class="tcat">海外运营 · 全球触达</span>
       </a>
       <a class="trow b3" href="#dv-works" title="内容制作 · 拍摄剪辑">
         <span class="tno">03</span>
-        <span class="tmid"><span class="ttitle">视频作品</span><span class="ten">VIDEO</span></span>
+        <span class="tmid"><span class="ten">VIDEO</span><span class="ttitle">视频作品</span></span>
         <span class="tcat">内容制作 · 拍摄剪辑</span>
       </a>
       <a class="trow b4" href="#dv-web" title="官网 · 公众号">
         <span class="tno">04</span>
-        <span class="tmid"><span class="ttitle">网站与公众号</span><span class="ten">WEBSITE</span></span>
+        <span class="tmid"><span class="ten">WEBSITE</span><span class="ttitle">网站与公众号</span></span>
         <span class="tcat">官网 · 公众号</span>
       </a>
       <a class="trow b5" href="#dv-xhsB" title="数据分析 · 可视化">
         <span class="tno">05</span>
-        <span class="tmid"><span class="ttitle">运营数据看板</span><span class="ten">DATA</span></span>
+        <span class="tmid"><span class="ten">DATA</span><span class="ttitle">运营数据看板</span></span>
         <span class="tcat">数据分析 · 可视化</span>
       </a>
       <a class="trow b6" href="#dv-wxSelf" title="内容合作 · 博主营销">
         <span class="tno">06</span>
-        <span class="tmid"><span class="ttitle">KOL / KOC 合作</span><span class="ten">CREATOR</span></span>
+        <span class="tmid"><span class="ten">CREATOR</span><span class="ttitle">KOL / KOC 合作</span></span>
         <span class="tcat">内容合作 · 博主营销</span>
       </a>
       <a class="trow b7" href="#dv-visual" title="平面设计 · 视觉输出">
         <span class="tno">07</span>
-        <span class="tmid"><span class="ttitle">平面作品</span><span class="ten">GRAPHIC</span></span>
+        <span class="tmid"><span class="ten">GRAPHIC</span><span class="ttitle">平面作品</span></span>
         <span class="tcat">平面设计 · 视觉输出</span>
       </a>
       <a class="trow b8" href="#dv-expo" title="展会执行 · 全流程">
         <span class="tno">08</span>
-        <span class="tmid"><span class="ttitle">展会活动</span><span class="ten">EXPO</span></span>
+        <span class="tmid"><span class="ten">EXPO</span><span class="ttitle">展会活动</span></span>
         <span class="tcat">展会执行 · 全流程</span>
       </a>
       <a class="trow b9" href="#dv-fans" title="活动策划 · SNS 传播">
         <span class="tno">09</span>
-        <span class="tmid"><span class="ttitle">营销与活动</span><span class="ten">CAMPAIGN</span></span>
+        <span class="tmid"><span class="ten">CAMPAIGN</span><span class="ttitle">营销与活动</span></span>
         <span class="tcat">活动策划 · SNS 传播</span>
       </a>
     </div>
