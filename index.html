@@ -350,14 +350,14 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .shl .trow.b4{--k:.84;--c:#e7e3cf;--r:.8deg;--w:1.1;--ry:-10deg}
 #toc .trow.b5{--k:.9;--c:#9ac7e4;--r:-3.6deg;--w:1.02;--ry:-10deg}
 .shl .trow.b5{--k:.9;--c:#9ac7e4;--r:-3.6deg;--w:1.02;--ry:-10deg}
-#toc .trow.b6{--k:.98;--c:#a4d98b;--r:0deg;--w:1.08;--ry:-10.5deg}
-.shl .trow.b6{--k:.98;--c:#a4d98b;--r:0deg;--w:1.08;--ry:-10.5deg}
-#toc .trow.b7{--k:.84;--c:#e9aec4;--r:0deg;--w:.92;--ry:-9.5deg}
-.shl .trow.b7{--k:.84;--c:#e9aec4;--r:0deg;--w:.92;--ry:-9.5deg}
-#toc .trow.b8{--k:.94;--c:#eee0a4;--r:0deg;--w:.95;--ry:-10deg}
-.shl .trow.b8{--k:.94;--c:#eee0a4;--r:0deg;--w:.95;--ry:-10deg}
-#toc .trow.b9{--k:.88;--c:#93dbcd;--r:0deg;--w:1.06;--ry:-11.5deg}
-.shl .trow.b9{--k:.88;--c:#93dbcd;--r:0deg;--w:1.06;--ry:-11.5deg}
+#toc .trow.b6{--k:.98;--c:#a4d98b;--r:2.2deg;--w:1.08;--ry:-10.5deg}
+.shl .trow.b6{--k:.98;--c:#a4d98b;--r:2.2deg;--w:1.08;--ry:-10.5deg}
+#toc .trow.b7{--k:.84;--c:#e9aec4;--r:1.1deg;--w:.92;--ry:-9.5deg}
+.shl .trow.b7{--k:.84;--c:#e9aec4;--r:1.1deg;--w:.92;--ry:-9.5deg}
+#toc .trow.b8{--k:.94;--c:#eee0a4;--r:-1.6deg;--w:.95;--ry:-10deg}
+.shl .trow.b8{--k:.94;--c:#eee0a4;--r:-1.6deg;--w:.95;--ry:-10deg}
+#toc .trow.b9{--k:.88;--c:#93dbcd;--r:1.9deg;--w:1.06;--ry:-11.5deg}
+.shl .trow.b9{--k:.88;--c:#93dbcd;--r:1.9deg;--w:1.06;--ry:-11.5deg}
 @media(max-width:1240px){
   #toc .tlist{padding-left:6px;padding-right:6px}
   .shl{padding-left:6px;padding-right:6px}
@@ -375,6 +375,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   .shl > *+*{margin-left:clamp(3px,1vw,12px)}
   #toc .tlist > .tsliver{margin-left:-8px}
   .shl > .tsliver{margin-left:-8px}
+  .shl{--rt:.5}                 /* 打开的绿书也吃这个总开关，才能和邻居同一个倾角 */
   #toc .trow{--rt:.5;width:calc(clamp(48px,6.7vw,72px) * var(--w));
     height:calc(clamp(238px,33.5vw,368px) * var(--k))}
   .shl .trow{--rt:.5;width:calc(clamp(48px,6.7vw,72px) * var(--w));
@@ -408,6 +409,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   .shl > *+*{margin-left:6px}
   #toc .tlist > .tsliver{margin-left:-6px}
   .shl > .tsliver{margin-left:-6px}
+  .shl{--rt:0}
   #toc .trow{--rt:0;width:46px;height:calc(clamp(228px,68vw,346px) * var(--k));padding:11px 0}
   .shl .trow{--rt:0;width:46px;height:calc(clamp(228px,68vw,346px) * var(--k));padding:11px 0}
   #toc .ttitle{font-size:14px;letter-spacing:.05em}
@@ -460,13 +462,14 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .secdiv .sdmini .tlist > .tsliver{--c:#d9d6cc}
 /* 当前章那一本：整本绿色 + 摊开的「打开的书」（中缝处凹下去的两页），比旁边的书都大 */
 .secdiv .mopen{position:relative;flex:0 0 auto;z-index:3;
+  --ro:calc(var(--r,0deg) * var(--rt,1));   /* 与旁边那排书同源的倾角（跟着 --rt 总开关走） */
   display:flex;flex-direction:column;align-items:center;gap:clamp(4px,.4vw,7px);
   width:calc(clamp(56px,6.1vw,88px) * var(--w,1) * 3.1);
   height:calc(clamp(248px,30.5vw,438px) * var(--k,1) * .93);
   margin:0 clamp(8px,.9vw,18px);
   padding:clamp(16px,1.5vw,24px) 0 clamp(12px,1.1vw,17px);
   color:#062a19;
-  transform-origin:bottom center;transform:rotate(var(--r,0deg)) rotateY(var(--ry,-9deg));
+  transform-origin:bottom center;transform:rotate(var(--ro)) rotateY(var(--ry,-9deg));
   filter:drop-shadow(0 18px 15px rgba(0,0,0,.9)) drop-shadow(0 0 26px rgba(var(--green-rgb),.28));
   transition:filter .4s}
 /* 打开的两页：中缝处凹下去（clip-path 切出摊开书的轮廓），整本仍然是绿的 */
@@ -510,6 +513,37 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .secdiv .mopen .ten{border-left:0;padding-left:0;margin-right:0;color:rgba(6,36,23,.72)}
 .secdiv .mopen .tcat{color:rgba(6,36,23,.62)}
 .secdiv .mopen:hover{filter:drop-shadow(0 18px 20px rgba(0,0,0,.88)) drop-shadow(0 0 26px rgba(var(--green-rgb),.36))}
+/* ---------- 当前章那本书的入场动效 ----------
+   滚到某一屏时，这一屏的那本绿书「倒下 + 摊开」：起手式是一本竖着、合着的绿书（窄、平顶、无书口），
+   然后一边倾到本来的角度、一边展开成摊开的两页；中缝裂开、书口纸页淡入。其他书一律不动。
+   JS 成功上膛（.is-armed）才启用；不支持 IntersectionObserver 或用户「减少动效」时直接停在打开态。 */
+.secdiv.is-armed .mopen{transform-origin:left bottom;
+  /* 起手式：一本又窄又合着的书，还先朝反方向靠着（--r × -2.6），像是靠在旁边那本身上 */
+  transform:rotate(calc(var(--ro) * -2.6)) rotateY(var(--ry,-9deg)) scaleX(.34)}
+.secdiv.is-armed .mopen .mcov{transition:clip-path 1.05s cubic-bezier(.2,.8,.28,1)}
+/* 合着的时候顶边是平的，没有中缝那道凹口 */
+.secdiv.is-armed .mopen:not(.is-open) .mcov{
+  clip-path:polygon(0 1.6%,46% 1.6%,54% 1.6%,100% 1.6%,100% 100%,0 100%)}
+.secdiv.is-armed .mopen .mcov::before,.secdiv.is-armed .mopen .mcov::after,
+.secdiv.is-armed .mopen .tspine{transition:opacity .7s ease .14s}
+.secdiv.is-armed .mopen:not(.is-open) .mcov::before,
+.secdiv.is-armed .mopen:not(.is-open) .mcov::after{opacity:0}
+.secdiv.is-armed .mopen:not(.is-open) .tspine{opacity:.22}
+.secdiv.is-armed .mopen .tfold{transition:opacity .8s ease .22s,transform .8s ease .22s}
+.secdiv.is-armed .mopen:not(.is-open) .tfold{opacity:0;transform:translateX(-50%) scaleX(.2)}
+.secdiv.is-armed .mopen.is-open{animation:mopenFall 1.2s cubic-bezier(.18,.78,.26,1.02) both}
+@keyframes mopenFall{
+  0%  {transform:rotate(calc(var(--ro) * -2.6)) rotateY(var(--ry,-9deg)) scaleX(.34)}
+  14% {transform:rotate(calc(var(--ro) * -.7)) rotateY(var(--ry,-9deg)) scaleX(.56)}
+  48% {transform:rotate(calc(var(--ro) * 1.45)) rotateY(var(--ry,-9deg)) scaleX(1.05)}
+  72% {transform:rotate(calc(var(--ro) * .8)) rotateY(var(--ry,-9deg)) scaleX(.99)}
+  100%{transform:rotate(var(--ro)) rotateY(var(--ry,-9deg)) scaleX(1)}
+}
+@media(prefers-reduced-motion:reduce){
+  .secdiv.is-armed .mopen{transform:rotate(var(--ro)) rotateY(var(--ry,-9deg))}
+  .secdiv.is-armed .mopen .mcov{transition:none}
+  .secdiv.is-armed .mopen.is-open{animation:none}
+}
 /* 底部标签条 */
 .secdiv .sdbar{display:flex;align-items:center;gap:clamp(12px,2vw,40px);
   border-top:1px solid rgba(255,255,255,.14);padding-top:clamp(13px,1.5vw,20px);
@@ -999,10 +1033,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="tmid"><span class="ttitle">网站与公众号</span><span class="ten">WEBSITE</span></span>
         <span class="tcat">官网 · 公众号</span>
       </a>
-      <span class="tstack">
-      <i class="tsliver is-lay" aria-hidden="true" style="--c:#c3cfdd;--lw:.86;--r:-.6deg;--ry:-7deg;margin-right:14px"></i>
-      <i class="tsliver is-lay" aria-hidden="true" style="--c:#dbd4a6;--lw:.97;--r:.5deg;--ry:-7deg;margin-left:18px"></i>
-      </span>
       <a class="trow b5" href="#dv-xhsB" title="数据分析 · 可视化">
         <span class="tno">05</span>
         <span class="tmid"><span class="ttitle">运营数据看板</span><span class="ten">DATA</span></span>
@@ -2089,6 +2119,10 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
     [].slice.call(clone.querySelectorAll('a')).forEach(function(a){
       a.removeAttribute('href'); a.setAttribute('tabindex','-1');
     });
+    wrap.appendChild(clone);
+    box.appendChild(wrap);
+    /* ⚠️ 必须先把克隆体挂进文档，再读 getComputedStyle：
+       游离节点上没有样式规则命中，--k/--w/--r/--ry 会全部读成空串（这个 bug 曾经让它一直用默认值）。 */
     var books=[].slice.call(clone.querySelectorAll('.trow'));   /* 0-8 对应 01-09 */
     var origin=books[cur];
     if(origin){
@@ -2103,11 +2137,8 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
         '<span class="tmid"><span class="ttitle">'+txt(origin,'.ttitle')+'</span>'+
         '<span class="ten">'+txt(origin,'.ten')+'</span></span>'+
         '<span class="tcat">'+txt(origin,'.tcat')+'</span>';
-      var slot=origin.closest('.tstack')||origin;   /* 05 那本在书堆里，整堆换成打开的书 */
-      slot.parentNode.replaceChild(open, slot);
+      origin.parentNode.replaceChild(open, origin);   /* 那个位置的一本，换成打开的书 */
     }
-    wrap.appendChild(clone);
-    box.appendChild(wrap);
     fit(box,wrap,clone);
   }
   function rescale(){
@@ -2117,6 +2148,23 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
     });
   }
   minis.forEach(build);
+  /* 入场动效：滚到某一屏时，这一屏的那本绿书才「倒下 + 摊开」，其他的书不动。
+     进入视口 30% 触发；离开到 6% 以下复位，回滚上来能再演一次（此时已基本出屏，看不到复位）。 */
+  (function(){
+    if(!('IntersectionObserver' in window)) return;
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    [].slice.call(document.querySelectorAll('.secdiv')).forEach(function(sec){
+      var op=sec.querySelector('.mopen'); if(!op) return;
+      sec.classList.add('is-armed');
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if(e.intersectionRatio>=.3) op.classList.add('is-open');
+          else if(e.intersectionRatio<.06) op.classList.remove('is-open');
+        });
+      },{threshold:[0,.06,.3,.6,1]});
+      io.observe(sec);
+    });
+  })();
   var rt; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(rescale,180);});
 })();
 </script>
