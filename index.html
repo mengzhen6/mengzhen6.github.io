@@ -298,66 +298,82 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   color:var(--green);letter-spacing:.04em}
 .secdiv .sdcap .en{font-family:var(--display);font-size:clamp(9px,.8vw,11px);
   letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
-/* 迷你书架 */
-.secdiv .sdmini{display:flex;align-items:flex-end;gap:clamp(6px,.72vw,13px);
-  height:clamp(150px,17.5vw,266px)}
-.secdiv .mbook{position:relative;flex:0 0 auto;display:block;border-radius:2px;
-  width:calc(clamp(15px,1.55vw,26px) * var(--w,1));
+/* 迷你书架：与目录那 9 本书脊一一对应（编号圆牌 + 竖排中文 + 旁边一列竖排英文） */
+.secdiv .sdmini{display:flex;align-items:flex-end;gap:clamp(6px,.85vw,14px);
+  height:clamp(150px,17.5vw,266px);margin-top:clamp(4px,.45vw,9px)}
+.secdiv .mbook{position:relative;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+  gap:clamp(4px,.4vw,7px);
+  border-radius:2px;color:#14170e;overflow:hidden;
+  width:calc(clamp(24px,2.3vw,36px) * var(--w,1));
   height:calc(var(--k,1) * 100%);
+  padding:clamp(6px,.62vw,10px) 0 clamp(5px,.5vw,8px);
   background-color:var(--c);
-  background-image:linear-gradient(90deg,rgba(0,0,0,.46),rgba(255,255,255,.34) 18%,rgba(255,255,255,.1) 56%,rgba(0,0,0,.46));
-  opacity:.72;filter:saturate(1.02) brightness(1.06);
+  background-image:linear-gradient(90deg,rgba(0,0,0,.46),rgba(255,255,255,.12) 8%,
+    rgba(255,255,255,.36) 20%,rgba(255,255,255,.08) 44%,rgba(0,0,0,.18) 76%,rgba(0,0,0,.5) 100%);
+  opacity:.8;filter:saturate(1.02) brightness(1.05);
   box-shadow:0 6px 12px -6px rgba(0,0,0,.85);
   transform-origin:bottom center;transform:rotate(var(--r,0deg));
   transition:opacity .4s,filter .4s,transform .4s,box-shadow .4s}
-.secdiv .mbook::after{content:"";position:absolute;left:0;right:0;top:0;height:clamp(4px,.42vw,7px);
+.secdiv .mbook::after{content:"";position:absolute;left:0;right:0;top:0;height:clamp(3px,.32vw,5px);
   border-radius:2px 2px 0 0;
   background:linear-gradient(180deg,#fdfbf1,#e8e2d0 60%,#c9c2ab)}
-/* ---- 当前章节那本书：摊开（深绿封面硬壳 + 浅色展开的书页 + 中缝） ---- */
-.secdiv .mopen{position:relative;flex:0 0 auto;display:block;
-  width:calc(clamp(15px,1.55vw,26px) * 5.9);
-  height:calc(var(--k,.9) * 80%);
-  margin:0 clamp(2px,.4vw,8px);
-  perspective:900px;perspective-origin:50% 76%;
-  filter:drop-shadow(0 14px 18px rgba(0,0,0,.85))}
-/* 封面：硬壳深绿，比书页宽出一圈，露出的这一圈就是“壳” */
-.secdiv .mopen .cv{position:absolute;left:0;bottom:0;width:100%;height:100%;display:block;
-  border-radius:3px 3px 2px 2px;
-  background:linear-gradient(180deg,#2fa06a,#17724a 56%,#0a3925);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 0 28px rgba(var(--green-rgb),.22)}
-/* 展开的左右两页（浅绿白，靠中缝暗、外侧亮，外缘压出弧面） */
-.secdiv .mopen .pg{position:absolute;bottom:7%;display:block;width:44%;height:90%;
-  background-color:#f2faf5;backface-visibility:hidden;
-  box-shadow:0 6px 16px -8px rgba(0,0,0,.8)}
-.secdiv .mopen .pg.l{left:3%;transform-origin:100% 50%;transform:rotateY(-20deg);
-  border-radius:2px 0 0 2px;
-  clip-path:polygon(0 6.6%,100% 0,100% 100%,0 100%);
-  background-image:linear-gradient(90deg,#b7d2c1 0,rgba(6,32,20,.2) 6%,#f8fdfa 46%,#dcefe4 86%,rgba(6,32,20,.52) 100%)}
-.secdiv .mopen .pg.r{right:3%;transform-origin:0% 50%;transform:rotateY(20deg);
-  border-radius:0 2px 2px 0;
-  clip-path:polygon(0 0,100% 6.6%,100% 100%,0 100%);
-  background-image:linear-gradient(90deg,rgba(6,32,20,.52) 0,#dcefe4 14%,#f8fdfa 54%,
-    rgba(6,32,20,.2) 94%,#b7d2c1 100%)}
-/* 页面上沿的纸边 */
-.secdiv .mopen .pg::before{content:"";position:absolute;left:0;right:0;top:0;
-  height:clamp(3px,.32vw,6px);
-  background:linear-gradient(180deg,#ffffff,#e4f2ea 70%,#c4ddcd)}
-.secdiv .mopen .pg.l::before{border-radius:2px 0 0 2px}
-.secdiv .mopen .pg.r::before{border-radius:0 2px 2px 0}
-/* 页面上淡淡的“满页文字”（示意，不抢眼） */
-.secdiv .mopen .pg::after{content:"";position:absolute;left:15%;right:13%;top:13%;bottom:9%;
-  background:repeating-linear-gradient(180deg,rgba(12,58,38,.44) 0 1px,rgba(0,0,0,0) 1px 13px);
-  -webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,0),#000 17%,#000 87%,rgba(0,0,0,0));
-  mask-image:linear-gradient(90deg,rgba(0,0,0,0),#000 17%,#000 87%,rgba(0,0,0,0));
-  opacity:.3}
-/* 中缝（书脊折痕处的一道暗影） */
-.secdiv .mopen i.mc{position:absolute;left:50%;top:2.5%;bottom:6%;width:2px;margin-left:-1px;z-index:2;
-  background:linear-gradient(180deg,rgba(0,0,0,.42),rgba(0,0,0,.78) 42%,rgba(0,0,0,.3))}
-/* 落在层板上的绿光 */
-.secdiv .mopen::after{content:"";position:absolute;left:-14%;right:-14%;bottom:-4px;height:9px;
-  border-radius:50%;pointer-events:none;
-  background:radial-gradient(ellipse at center,rgba(var(--green-rgb),.22),rgba(0,0,0,0) 74%)}
-.secdiv .mbook:hover{opacity:.92;filter:saturate(1.06) brightness(1.1)}
+/* 编号圆牌 */
+.secdiv .mno{width:clamp(13px,1.05vw,17px);height:clamp(13px,1.05vw,17px);border-radius:50%;
+  border:1px solid rgba(20,23,14,.42);background:rgba(255,255,255,.36);
+  display:grid;place-items:center;flex:0 0 auto;line-height:1;
+  font-family:var(--display);font-size:clamp(6.5px,.54vw,8.5px);font-weight:600;
+  color:rgba(20,23,14,.8)}
+/* 中文 + 英文并排：英文就贴在汉字旁边，各自竖排一列，中间一条细线 */
+.secdiv .mtx{display:flex;flex-direction:row;align-items:flex-start;justify-content:center;
+  gap:clamp(3px,.32vw,5px);margin:auto 0;min-height:0}
+.secdiv .mtt{writing-mode:vertical-rl;white-space:nowrap;
+  font-family:var(--serif);font-size:clamp(9.5px,.82vw,12px);line-height:1.05;font-weight:800;
+  letter-spacing:.04em;color:#11140a}
+.secdiv .men{writing-mode:vertical-rl;white-space:nowrap;line-height:1.05;
+  border-left:1px solid rgba(20,23,14,.3);padding-left:clamp(3px,.3vw,5px);
+  font-family:var(--display);font-size:clamp(6.5px,.6vw,9px);letter-spacing:.2em;
+  text-transform:uppercase;font-weight:600;color:rgba(20,23,14,.64)}
+/* ---- 当前章节那本书：绿色的一本，比旁边所有书都大，封面上写着本章的名字 ---- */
+.secdiv .mopen{position:relative;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+  gap:clamp(4px,.4vw,7px);z-index:3;
+  width:calc(clamp(24px,2.3vw,36px) * 2.3);
+  height:calc(var(--k,.9) * 103%);
+  margin:0 clamp(8px,.9vw,18px);
+  padding:clamp(8px,.8vw,12px) 0 clamp(7px,.66vw,10px);
+  border-radius:3px 4px 4px 2px;color:#0b2a1a;overflow:hidden;
+  background-color:#31a06b;
+  background-image:
+    linear-gradient(92deg,rgba(0,0,0,.5) 0,rgba(0,0,0,.2) 6%,rgba(255,255,255,.24) 15%,
+      rgba(255,255,255,.08) 34%,rgba(0,0,0,.06) 58%,rgba(0,0,0,.26) 86%,rgba(0,0,0,.46) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.16),rgba(0,0,0,.2));
+  transform-origin:bottom center;transform:rotate(-2.4deg);
+  box-shadow:0 20px 28px -13px rgba(0,0,0,.92),-16px 6px 24px -9px rgba(0,0,0,.72),
+    0 0 32px rgba(var(--green-rgb),.26);
+  transition:box-shadow .4s}
+/* 右侧书口的一叠纸页 + 书顶纸页（给出厚度） */
+.secdiv .mopen::before{content:"";position:absolute;right:0;top:5%;bottom:5%;width:6.5%;
+  background:
+    repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,rgba(0,0,0,0) 1px 2.4px),
+    linear-gradient(90deg,#cfc8b1,#f3eeda 46%,#fffdf4);
+  box-shadow:inset 2px 0 4px rgba(0,0,0,.3)}
+.secdiv .mopen::after{content:"";position:absolute;left:4%;right:4%;top:0;height:clamp(4px,.4vw,6px);
+  border-radius:3px 0 0 0;
+  background:
+    repeating-linear-gradient(90deg,rgba(0,0,0,.16) 0 1px,rgba(0,0,0,0) 1px 2.4px),
+    linear-gradient(180deg,#fdfbf1,#eee8d7 55%,#cfc8b1);
+  box-shadow:inset 0 -3px 5px rgba(0,0,0,.22)}
+/* 封面折痕（贴着书脊的那道） */
+.secdiv .mopen .mfold{position:absolute;left:12%;top:0;bottom:0;width:3px;display:block;
+  background:linear-gradient(90deg,rgba(0,0,0,.42),rgba(255,255,255,.16) 56%,rgba(0,0,0,.28))}
+/* 本章的编号圆牌 */
+.secdiv .mopen .mno{width:clamp(15px,1.25vw,20px);height:clamp(15px,1.25vw,20px);
+  border-color:rgba(6,40,24,.5);background:rgba(255,255,255,.88);color:#0b2a1a}
+/* 封面上的字：中文大标题，英文竖排就在它旁边（和目录书脊同一套排法） */
+.secdiv .mopen .mtt{font-size:clamp(12.5px,1.16vw,17px);letter-spacing:.06em;color:#08281a}
+.secdiv .mopen .men{font-size:clamp(6.5px,.62vw,9.5px);letter-spacing:.22em;
+  border-left-color:rgba(8,40,24,.34);color:rgba(8,40,24,.68)}
+.secdiv .mbook:hover{opacity:.96;filter:saturate(1.05) brightness(1.08)}
+.secdiv .mopen:hover{filter:drop-shadow(0 18px 20px rgba(0,0,0,.88)) drop-shadow(0 0 26px rgba(var(--green-rgb),.32))}
 /* 底部标签条 */
 .secdiv .sdbar{display:flex;align-items:center;gap:clamp(12px,2vw,40px);
   border-top:1px solid rgba(255,255,255,.14);padding-top:clamp(13px,1.5vw,20px);
@@ -372,7 +388,15 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   .secdiv .sdbar span{flex:0 0 auto}
 }
 @media(max-width:620px){
-  .secdiv .sdmini{height:clamp(116px,32vw,172px)}
+  .secdiv .sdmini{height:clamp(118px,33vw,176px);gap:5px}
+  .secdiv .mbook{width:calc(22px * var(--w,1));padding:5px 0 4px}
+  .secdiv .mtx{gap:3px;margin-top:4px}
+  .secdiv .mno{width:12px;height:12px;font-size:6px}
+  .secdiv .mtt{font-size:8.5px;letter-spacing:0}
+  .secdiv .men{font-size:6px;letter-spacing:.12em;padding-left:3px}
+  .secdiv .mopen{width:calc(22px * 2.2);margin:0 6px}
+  .secdiv .mopen .mtt{font-size:11px;letter-spacing:.04em}
+  .secdiv .mopen .men{font-size:6.5px;letter-spacing:.18em}
   .secdiv .sdbar{font-size:10px;letter-spacing:.15em}
   .secdiv .sdcap .en{letter-spacing:.2em}
 }
@@ -1915,31 +1939,37 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
     });
   });
 })();
-/* ---- 章节分隔页：迷你书架（当前章节那本"打开"） ---- */
+/* ---- 章节分隔页：迷你书架（与目录 9 本书一一对应，当前章节那本摊开） ---- */
 (function(){
-  var CH=[
-    {c:'#dfd9a3',k:.86,w:1,r:-2.4},{c:'#cfe0cd',k:.82,w:1.04,r:0},{c:'#c7abd6',k:1,w:1,r:1.8},
-    {c:'#e4e2d6',k:.84,w:1.12,r:0},{c:'#a9c9dd',k:.92,w:1,r:-1.6},{c:'#b5d9a5',k:.98,w:1.07,r:0},
-    {c:'#e4bccb',k:.8,w:1,r:2},{c:'#e9e1bd',k:.94,w:.95,r:0},{c:'#a8d6cd',k:.88,w:1.06,r:-1.4}
+  var BK=[
+    {no:'01',cn:'国内社媒',    en:'SOCIAL',   c:'#dfd9a3',k:.88,w:1,   r:-1.1},
+    {no:'02',cn:'海外账号',    en:'OVERSEAS', c:'#cfe0cd',k:.83,w:.86, r:.6},
+    {no:'03',cn:'视频作品',    en:'VIDEO',    c:'#c7abd6',k:1,  w:1,   r:-.4},
+    {no:'04',cn:'网站与公众号',en:'WEBSITE',  c:'#e4e2d6',k:.84,w:1.1, r:.3},
+    {no:'05',cn:'运营数据看板',en:'DATA',     c:'#a9c9dd',k:1,  w:1,   r:-.3},
+    {no:'06',cn:'KOL / KOC 合作',en:'CREATOR',c:'#b5d9a5',k:.98,w:1.08,r:-.5},
+    {no:'07',cn:'平面作品',    en:'GRAPHIC',  c:'#e4bccb',k:.84,w:.92, r:-2.1},
+    {no:'08',cn:'展会活动',    en:'EXPO',     c:'#e9e1bd',k:.94,w:.95, r:.5},
+    {no:'09',cn:'营销与活动',  en:'CAMPAIGN', c:'#a8d6cd',k:.88,w:1.06,r:-.6}
   ];
   document.querySelectorAll('.sdmini').forEach(function(box){
     var cur=parseInt(box.getAttribute('data-cur'),10)||0;
-    CH.forEach(function(b,i){
-      var s;
-      if(i===cur){
-        s=document.createElement('i');
+    BK.forEach(function(b,i){
+      var s=document.createElement('i');
+      if(i===cur){                       /* 本章那本：摊开 */
         s.className='mopen';
-        s.style.setProperty('--k',Math.min(1.04,b.k*1.06).toFixed(3));
-        s.innerHTML='<b class="cv"></b><b class="pg l"></b><b class="pg r"></b><i class="mc"></i>';
-        box.appendChild(s);
-        return;
+        s.style.setProperty('--k',b.k);
+        s.innerHTML='<b class="mfold"></b><b class="mno">'+b.no+'</b>'+
+          '<b class="mtx"><b class="mtt">'+b.cn+'</b><b class="men">'+b.en+'</b></b>';
+      }else{                             /* 其他：和目录一样的书脊 */
+        s.className='mbook';
+        s.style.setProperty('--c',b.c);
+        s.style.setProperty('--k',b.k);
+        s.style.setProperty('--w',b.w);
+        s.style.setProperty('--r',b.r+'deg');
+        s.innerHTML='<b class="mno">'+b.no+'</b>'+
+          '<b class="mtx"><b class="mtt">'+b.cn+'</b><b class="men">'+b.en+'</b></b>';
       }
-      s=document.createElement('i');
-      s.className='mbook';
-      s.style.setProperty('--c',b.c);
-      s.style.setProperty('--k',b.k);
-      s.style.setProperty('--w',b.w);
-      s.style.setProperty('--r',b.r+'deg');
       box.appendChild(s);
     });
   });
