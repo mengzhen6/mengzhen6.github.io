@@ -109,27 +109,28 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
    章节分隔页已整体移除，镜像规则一并清掉（书架容器上的 shl class 也已去掉）。 */
 #toc .tlist{position:relative;display:flex;align-items:flex-end;justify-content:center;
   padding:clamp(24px,2.6vw,42px) clamp(10px,1.6vw,24px) clamp(44px,4.6vw,64px);
-  perspective:2300px;perspective-origin:50% 34%}
+  perspective:1500px;perspective-origin:50% 30%}
 /* 书架层板 */
 #toc .tlist::after{content:"";position:absolute;left:clamp(2px,.4vw,8px);right:clamp(2px,.4vw,8px);
   bottom:calc(clamp(44px,4.6vw,64px) - 9px);height:2px;border-radius:2px;pointer-events:none;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.22) 9%,rgba(255,255,255,.42) 50%,rgba(255,255,255,.22) 91%,transparent);
   box-shadow:0 3px 7px rgba(0,0,0,.85),0 0 22px rgba(255,255,255,.06)}
 /* 书与书轻微交叠，制造前后关系 */
-#toc .tlist > *+*{margin-left:clamp(2px,.8vw,18px)}
+#toc .tlist > *+*{margin-left:clamp(4px,.85vw,19px)}
 /* ---------- 站立的一本书 ---------- */
 #toc .trow{position:relative;flex:0 0 auto;--k:1;--w:1;--r:0deg;--ry:-6deg;
   --rt:1;--rr:calc(var(--r) * var(--rt));
-  width:calc(clamp(56px,6.1vw,88px) * var(--w));
+  width:calc(clamp(66px,7.2vw,104px) * var(--w));
   /* 英文在上、中文在下的上下堆叠让竖直空间翻倍：高度自适应（min-height 仍跟着 --k 高低错落），永不裁字 */
-  min-height:calc(clamp(300px,38vw,585px) * var(--k));height:auto;
+  min-height:calc(clamp(350px,45vw,730px) * var(--k));height:auto;
   display:flex;flex-direction:column;align-items:center;
-  padding:clamp(12px,1.2vw,19px) 0 clamp(9px,.9vw,13px);
+  padding:clamp(14px,1.4vw,22px) 0 clamp(10px,1vw,15px);
   border-radius:3px 4px 4px 3px;color:#14170e;overflow:hidden;text-decoration:none;
   background-color:var(--c,#ded8a2);
   background-image:
-    linear-gradient(90deg,rgba(0,0,0,.14) 0,rgba(0,0,0,.02) 4%,rgba(255,255,255,.07) 16%,
-      rgba(255,255,255,0) 40%,rgba(0,0,0,.03) 72%,rgba(0,0,0,.12) 100%);
+    linear-gradient(90deg,rgba(0,0,0,.30) 0,rgba(0,0,0,.07) 5%,rgba(255,255,255,.07) 18%,
+      rgba(255,255,255,0) 44%,rgba(0,0,0,.03) 68%,rgba(0,0,0,.12) 82%,
+      rgba(255,255,255,.28) 87%,rgba(255,255,255,.14) 95%,rgba(0,0,0,.26) 100%);
   transform-origin:bottom center;
   transform:rotate(var(--rr)) rotateY(var(--ry));
   box-shadow:0 20px 30px -14px rgba(0,0,0,.9),0 8px 18px rgba(0,0,0,.45),
@@ -138,7 +139,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .trow:active{transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-7px)}
 /* 书顶纸页（给出厚度） */
 #toc .trow::after{content:"";position:absolute;left:0;right:0;top:0;
-  height:clamp(3px,.32vw,4px);pointer-events:none;border-radius:3px 4px 0 0;
+  height:clamp(4px,.38vw,5px);pointer-events:none;border-radius:3px 4px 0 0;
   background:
     repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 1px,rgba(0,0,0,0) 1px 2px),
     linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.10) 62%,rgba(0,0,0,.05));
@@ -148,28 +149,28 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .trow::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,rgba(255,255,255,0) 1px 7px);
   opacity:.18}
-#toc .tno{width:clamp(24px,2.35vw,32px);height:clamp(24px,2.35vw,32px);border-radius:50%;
-  border:1.1px solid rgba(20,23,14,.38);background:rgba(255,255,255,.22);
+#toc .tno{width:clamp(20px,1.85vw,25px);height:clamp(20px,1.85vw,25px);border-radius:50%;
+  border:1px solid rgba(20,23,14,.42);background:rgba(255,255,255,.18);
   display:grid;place-items:center;flex:0 0 auto;
-  font-family:var(--display);font-size:clamp(9.5px,.78vw,11px);font-weight:600;letter-spacing:.02em;
+  font-family:var(--display);font-size:clamp(8.5px,.72vw,10px);font-weight:600;letter-spacing:.02em;
   color:rgba(20,23,14,.78);transition:.45s}
 /* 中文 + 英文并排（英文就在中文旁边，各自竖排一列，中间一条细线） */
-#toc .tmid{display:flex;flex-direction:column;align-items:center;gap:clamp(4px,.46vw,7px);
-  margin-top:clamp(7px,.72vw,10px);min-height:0}
+#toc .tmid{display:flex;flex-direction:column;align-items:center;gap:clamp(5px,.54vw,8px);
+  margin-top:clamp(8px,.84vw,12px);min-height:0}
 #toc .ttitle{writing-mode:vertical-rl;white-space:nowrap;
-  font-family:var(--serif);font-size:clamp(24px,2.2vw,31px);line-height:1.04;
+  font-family:var(--serif);font-size:clamp(28px,2.6vw,37px);line-height:1.04;
   font-weight:900;letter-spacing:.06em;color:#0d1008;
   /* 宋体/Georgia 都没有 900 字重，靠亚像素描边把笔画垫厚，做出「粗宋」的份量 */
   -webkit-text-stroke:.4px currentColor}
 #toc .ten{writing-mode:vertical-rl;white-space:nowrap;line-height:1.03;
-  font-family:var(--display);font-size:clamp(16px,1.58vw,22px);letter-spacing:.13em;
+  font-family:var(--display);font-size:clamp(19px,1.88vw,26.5px);letter-spacing:.13em;
   text-transform:uppercase;font-weight:900;color:rgba(20,23,14,.92);
   -webkit-text-stroke:.35px currentColor;
   transition:.45s}
 #toc .tcat{writing-mode:vertical-rl;white-space:nowrap;margin-top:auto;
   /* 上下堆叠后空间吃紧时 margin-top:auto 会塌成 0，用 padding 保底一段不塌缩的间隙 */
-  padding-top:clamp(5px,.5vw,8px);
-  font-size:clamp(8.5px,.7vw,9.5px);letter-spacing:.12em;font-weight:600;color:rgba(20,23,14,.64)}
+  padding-top:clamp(6px,.58vw,9px);
+  font-size:clamp(9.5px,.82vw,11px);letter-spacing:.12em;font-weight:600;color:rgba(20,23,14,.64)}
 /* 悬停 / 点击：把书"抽出来" + 荧光绿描边 */
 #toc .trow:hover,#toc .trow:focus-visible,#toc .trow.is-on{
   transform:rotate(var(--rr)) rotateY(var(--ry)) translateY(-19px);outline:none;z-index:6;
@@ -231,32 +232,32 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .tstack .tsliver.is-lay{width:calc(clamp(100px,11.4vw,156px) * var(--lw,1));
   height:clamp(15px,1.45vw,22px)}
 /* 逐本：高度系数 / 宽度系数 / 倾角 / 书脊色 */
-#toc .trow.b1{--k:.88;--c:#e6d883;--r:-3.2deg;--ry:-9.5deg}
-#toc .trow.b2{--k:.83;--c:#c6e0cc;--r:1.8deg;--w:.86;--ry:-9deg}
-#toc .trow.b3{--k:1;--c:#caa4de;--r:-1.2deg;--ry:-10.5deg}
-#toc .trow.b4{--k:.84;--c:#e7e3cf;--r:.8deg;--w:1.1;--ry:-10deg}
-#toc .trow.b5{--k:.9;--c:#9ac7e4;--r:-3.6deg;--w:1.02;--ry:-10deg}
-#toc .trow.b6{--k:.98;--c:#a4d98b;--r:2.2deg;--w:1.08;--ry:-10.5deg}
-#toc .trow.b7{--k:.84;--c:#e9aec4;--r:1.1deg;--w:.92;--ry:-9.5deg}
-#toc .trow.b8{--k:.94;--c:#eee0a4;--r:-1.6deg;--w:.95;--ry:-10deg}
-#toc .trow.b9{--k:.88;--c:#93dbcd;--r:1.9deg;--w:1.06;--ry:-11.5deg}
+#toc .trow.b1{--k:.88;--c:#e6d883;--r:-3.2deg;--ry:-14deg}
+#toc .trow.b2{--k:.83;--c:#c6e0cc;--r:1.8deg;--w:.86;--ry:-13.5deg}
+#toc .trow.b3{--k:1;--c:#caa4de;--r:-1.2deg;--ry:-15deg}
+#toc .trow.b4{--k:.84;--c:#e7e3cf;--r:.8deg;--w:1.1;--ry:-14.5deg}
+#toc .trow.b5{--k:.9;--c:#9ac7e4;--r:-3.6deg;--w:1.02;--ry:-14.5deg}
+#toc .trow.b6{--k:.98;--c:#a4d98b;--r:2.2deg;--w:1.08;--ry:-15deg}
+#toc .trow.b7{--k:.84;--c:#e9aec4;--r:1.1deg;--w:.92;--ry:-14deg}
+#toc .trow.b8{--k:.94;--c:#eee0a4;--r:-1.6deg;--w:.95;--ry:-14.5deg}
+#toc .trow.b9{--k:.88;--c:#93dbcd;--r:1.9deg;--w:1.06;--ry:-16deg}
 @media(max-width:1240px){
   #toc .tlist{padding-left:6px;padding-right:6px}
-  #toc .ttitle{font-size:clamp(19px,2.14vw,27px)}
-  #toc .ten{font-size:clamp(14.5px,1.52vw,19px)}
+  #toc .ttitle{font-size:clamp(22px,2.5vw,32px)}
+  #toc .ten{font-size:clamp(17px,1.82vw,23px)}
   #toc .trow.is-h{width:clamp(150px,18vw,230px)}
   #toc .tsliver.is-lay{width:clamp(64px,7.8vw,102px)}
   #toc .tstack .tsliver.is-lay{width:calc(clamp(82px,9.6vw,126px) * var(--lw,1))}
 }
 @media(max-width:980px){
-  #toc .tlist > *+*{margin-left:clamp(3px,1vw,12px)}
+  #toc .tlist > *+*{margin-left:clamp(4px,1vw,13px)}
   #toc .tlist > .tsliver{margin-left:-8px}
-  #toc .trow{--rt:.5;width:calc(clamp(48px,6.7vw,72px) * var(--w));
-    min-height:calc(clamp(250px,34vw,450px) * var(--k));height:auto}
-  #toc .ttitle{font-size:clamp(18px,2.32vw,25px);letter-spacing:.05em}
-  #toc .ten{font-size:clamp(13px,1.74vw,17px);letter-spacing:.11em}
-  #toc .tcat{font-size:clamp(7.5px,.95vw,9px);letter-spacing:.1em}
-  #toc .tno{width:22px;height:22px;font-size:9px}
+  #toc .trow{--rt:.5;width:calc(clamp(56px,7.9vw,85px) * var(--w));
+    min-height:calc(clamp(300px,41vw,560px) * var(--k));height:auto}
+  #toc .ttitle{font-size:clamp(21px,2.7vw,30px);letter-spacing:.05em}
+  #toc .ten{font-size:clamp(15.5px,2.05vw,20px);letter-spacing:.11em}
+  #toc .tcat{font-size:clamp(8.5px,1.08vw,10.5px);letter-spacing:.1em}
+  #toc .tno{width:18px;height:18px;font-size:8px}
   #toc .trow.is-h{width:clamp(126px,17vw,188px);height:clamp(40px,4.6vw,56px)}
   #toc .trow.is-h .ttitle{font-size:clamp(12px,1.6vw,15px)}
   #toc .tsliver{width:11px}
@@ -270,12 +271,12 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   #toc .tlist::after{display:none}
   #toc .tlist > *+*{margin-left:6px}
   #toc .tlist > .tsliver{margin-left:-6px}
-  #toc .trow{--rt:0;width:46px;min-height:calc(clamp(240px,60vw,405px) * var(--k));height:auto;padding:10px 0}
-  #toc .ttitle{font-size:18px;letter-spacing:.04em}
-  #toc .tmid{margin-top:9px;gap:4px}
-  #toc .ten{font-size:12.5px;letter-spacing:.08em}
-  #toc .tcat{font-size:7px;letter-spacing:.08em}
-  #toc .tno{width:20px;height:20px;font-size:8px}
+  #toc .trow{--rt:0;width:52px;min-height:calc(clamp(280px,70vw,470px) * var(--k));height:auto;padding:12px 0}
+  #toc .ttitle{font-size:20.5px;letter-spacing:.04em}
+  #toc .tmid{margin-top:11px;gap:5px}
+  #toc .ten{font-size:14px;letter-spacing:.08em}
+  #toc .tcat{font-size:7.5px;letter-spacing:.08em}
+  #toc .tno{width:17px;height:17px;font-size:7.5px}
   #toc .trow.is-h{width:auto;height:auto;min-height:0;padding:9px 11px;gap:7px}
   #toc .trow.is-h .tcat{display:none}
   #toc .tsliver{width:10px}
