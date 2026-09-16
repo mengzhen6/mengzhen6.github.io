@@ -18,6 +18,7 @@
   --green-rgb:61,255,143;
   --serif:"Songti SC","SimSun","STSong",Georgia,"Times New Roman",serif;
   --tocsans:"Microsoft YaHei","微软雅黑","PingFang SC","Hiragino Sans GB","Noto Sans SC","Source Han Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --tocen:Arial,"Helvetica Neue",Helvetica,"Segoe UI",sans-serif;
   --sans:"PingFang SC","Microsoft YaHei","Segoe UI",-apple-system,sans-serif;
   --display:"Didot","Bodoni MT","Playfair Display","Baskerville","Hoefler Text",Georgia,"Times New Roman",serif;
 }
@@ -126,7 +127,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   border-right:1px solid rgba(255,255,255,.06);
   box-shadow:15px 0 26px -14px rgba(0,0,0,.92),inset -26px 0 34px -30px rgba(0,0,0,1);
   cursor:pointer;z-index:calc(20 - var(--i));
-  transition:flex-grow .55s cubic-bezier(.2,.78,.2,1),background .45s,box-shadow .45s}
+  transition:flex-grow .62s cubic-bezier(.19,1,.22,1),background .45s,box-shadow .45s}
 #toc .dcard+.dcard{margin-left:clamp(-14px,-1.2vw,-9px)}
 /* 折痕：右缘一道竖向亮线 + 左缘压暗，模拟对折卡的厚度 */
 #toc .dcard::before{content:"";position:absolute;right:0;top:0;bottom:0;width:1px;pointer-events:none;
@@ -141,15 +142,22 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 信息块：序号 + 中文竖排（放大·靠上）+ 英文竖排，类目用 margin-top:auto 贴底 */
 #toc .dmeta{flex:1 1 auto;width:100%;display:flex;flex-direction:column;align-items:center;
   justify-content:flex-start;gap:clamp(9px,.86vw,14px)}
-#toc .dcols{display:flex;align-items:flex-start;justify-content:center;gap:clamp(6px,.58vw,10px);padding-top:var(--pt,0)}
-/* 汉字：微软雅黑 Bold（本机有真 Bold 面）+ 行距由 --lh 自适应拉伸填满竖直空档 */
+/* 汉字在上、英文在下：竖向堆叠（原先是英文并排在汉字右侧）。
+   flex:1 + justify-content:center → 「汉字+英文」整组在竖直槽里居中，
+   块间距固定，不再出现「短卡间距 68px、长卡 15px」那种参差 */
+#toc .dcols{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex:1 1 auto;gap:clamp(7px,.62vw,11px)}
+/* 汉字：微软雅黑 Bold（本机有真 Bold 面）；--ls 字距只做小幅呼吸，不再拉成大空隙。
+   --mh0 = 单列实际高（默认态，刚好不裁切）；--mh = 折成左右两列的高度（展开态，JS 给） */
 #toc .dzh{writing-mode:vertical-rl;white-space:nowrap;font-family:var(--tocsans);
   font-size:clamp(29px,3.05vw,44px);line-height:1.1;letter-spacing:var(--ls,0);
   font-weight:700;color:#eef8f2;-webkit-text-stroke:.3px currentColor;
-  transition:color .45s,-webkit-text-stroke-color .45s}
+  max-height:var(--mh0,none);
+  transition:color .45s,-webkit-text-stroke-color .45s,max-height .5s cubic-bezier(.2,.8,.2,1)}
+/* 英文：排在汉字正下方，Arial Bold */
 #toc .den{writing-mode:vertical-rl;white-space:nowrap;text-transform:uppercase;
-  font-family:var(--display);font-size:clamp(10px,.86vw,12.5px);letter-spacing:.2em;
-  color:rgba(184,255,212,.66);transition:color .45s}
+  font-family:var(--tocen);font-weight:700;font-size:clamp(10px,.82vw,11.5px);
+  letter-spacing:.14em;color:rgba(184,255,212,.72);transition:color .45s}
 #toc .dcat{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(8.5px,.74vw,10.5px);
   letter-spacing:.12em;color:rgba(184,255,212,.54);margin-top:auto;
   padding-top:clamp(8px,.8vw,12px);transition:color .45s}
@@ -161,7 +169,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .dcard:hover .dpart,#toc .dcard:focus-visible .dpart{
   -webkit-text-stroke-color:rgba(var(--green-rgb),.95)}
 /* 点击选中：整块变绿 + 展开放大 */
-#toc .dcard.is-on{flex-grow:2.6;z-index:19;
+#toc .dcard.is-on{flex-grow:1.75;z-index:19;
   background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
   box-shadow:15px 0 30px -14px rgba(0,0,0,.95),0 26px 56px -20px rgba(0,0,0,.95),
     0 0 0 1px rgba(var(--green-rgb),.85),0 0 58px rgba(var(--green-rgb),.3),
@@ -169,7 +177,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .dcard.is-on::before{background:linear-gradient(180deg,rgba(6,18,12,.02),rgba(6,18,12,.3),rgba(6,18,12,.02))}
 #toc .dcard.is-on::after{background:linear-gradient(90deg,rgba(5,20,12,.14),rgba(5,20,12,0))}
 #toc .dcard.is-on .dpart{-webkit-text-stroke-color:rgba(6,18,12,.82)}
-#toc .dcard.is-on .dzh{color:#05140c;-webkit-text-stroke-color:#05140c}
+/* 展开：放开 nowrap，让中文按 --mh 折成左右两列（像书页摊开） */
+#toc .dcard.is-on .dzh{color:#05140c;-webkit-text-stroke-color:#05140c;
+  white-space:normal;max-height:var(--mh,var(--mh0,none))}
 #toc .dcard.is-on .den{color:rgba(5,20,12,.66)}
 #toc .dcard.is-on .dcat{color:rgba(5,20,12,.56)}
 @media(max-width:1240px){
@@ -181,7 +191,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   #toc .deck{min-height:clamp(330px,42vw,420px)}
   #toc .dcard{padding:17px 3px 12px}
   #toc .dzh{font-size:clamp(22px,3.05vw,30px)}
-  #toc .den{font-size:clamp(8.5px,1vw,10.5px);letter-spacing:.16em}
+  #toc .den{font-size:clamp(8.5px,.9vw,10px);letter-spacing:.12em}
   #toc .dcat{font-size:clamp(7.5px,1.05vw,9.5px);letter-spacing:.08em}
   #toc .dpart{font-size:clamp(17px,2.3vw,22px);-webkit-text-stroke-width:1.1px}
 }
@@ -205,7 +215,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   #toc .dcard::before,#toc .dcard::after{display:none}
   #toc .dmeta{flex-direction:row;align-items:center;gap:11px;width:auto;flex:1 1 auto;min-width:0;
     justify-content:flex-start}
-  #toc .dcols{flex:0 0 auto;gap:8px;align-items:center;padding-top:0}
+  #toc .dcols{flex-direction:column;align-items:flex-start;flex:0 0 auto;gap:2px}
   #toc .dzh,#toc .den,#toc .dcat{writing-mode:horizontal-tb}
   #toc .dzh{font-size:19px;line-height:1.25}
   #toc .den{font-size:9.5px;letter-spacing:.16em}
@@ -214,8 +224,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   #toc .dcard.is-on{flex-grow:0;padding:15px;
     box-shadow:0 18px 40px -18px rgba(0,0,0,.95),0 0 0 1px rgba(var(--green-rgb),.85),
       0 0 40px rgba(var(--green-rgb),.22),inset 0 1px 0 rgba(255,255,255,.5)}
-  #toc .dcard.is-on .dzh{font-size:20px}
-  #toc .dcard.is-on .den{font-size:10px}
+  #toc .dcard.is-on .dzh{white-space:nowrap;max-height:none}   /* 字号不变 → 展开不跳 */
   #toc .dcard.is-on .dcat{display:block;order:2;font-size:9px;letter-spacing:.06em}
 }
 @media(max-width:900px){#toc .head{flex-direction:column;align-items:flex-start}}
@@ -1606,17 +1615,22 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
       c.addEventListener('focus',function(){pick(c);});
     })(cards[i]);
   }
-  /* 自适应撑满：竖排里 line-height 只改「列宽」，真正驱动上下字距的是 letter-spacing。
-     先把所有标题归零 / 给 0.08em 最小字距，此时卡组被最长的标题撑到自然高 —— 用 px 钉死它
-     （不钉的话，拉字距会继续把卡组顶高，一轮轮自我放大）。
-     然后逐卡按「序号与类目之间的可用槽高」反解字距：短标题拉得开、长标题保持自然，都不紧凑；
-     字距上限 0.9em，仍有剩余就把余量对半分到标题上下（--pt）。 */
+  /* 自适应：竖排里 line-height 只改「列宽」，真正驱动上下字距的是 letter-spacing（--ls）。
+     英文改到汉字正下方后，一张卡的内容 = 汉字列 + 间隔 + 英文列。
+     ① 先给最小字距、量出自然高 → ② 用 px 把卡组高度钉死
+        （不钉会「拉距 → 内容变高 → 槽更大 → 再拉」一轮轮自我放大）
+     ③ 按可用竖直槽反解字距，上限 0.18em —— 只做小幅呼吸，不再拉成大空隙
+     ④ 「汉字 + 英文」整组由 CSS 在竖直槽里居中，JS 不再分配 padding（块间距固定）
+     ⑤ --mh：半数字数的高度，展开态中文按它折成左右两列。 */
   var deck=document.querySelector('#toc .deck');
   function zero(){
     for(var i=0;i<cards.length;i++){
-      var zh=cards[i].querySelector('.dzh'),col=cards[i].querySelector('.dcols');
-      if(zh)zh.style.setProperty('--ls','0px');
-      if(col)col.style.setProperty('--pt','0px');
+      var zh=cards[i].querySelector('.dzh');
+      if(zh){
+        zh.style.setProperty('--ls','0px');
+        zh.style.setProperty('--mh0','none');
+        zh.style.setProperty('--mh','none');
+      }
     }
   }
   function fit(){
@@ -1624,19 +1638,20 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
     deck.style.height='';
     zero();
     if(window.innerWidth<=760)return;          /* 窄屏是横向折叠行，不适用 */
-    var i,c,zh,col,cat,fs;
+    var i,c,zh,col,en,cat,fs;
     for(i=0;i<cards.length;i++){                /* 基线：最小字距，量出自然高 */
       zh=cards[i].querySelector('.dzh');if(!zh)continue;
       fs=parseFloat(getComputedStyle(zh).fontSize)||40;
-      zh.style.setProperty('--ls',(fs*0.08).toFixed(2)+'px');
+      zh.style.setProperty('--ls',(fs*0.04).toFixed(2)+'px');
     }
     var base=deck.getBoundingClientRect().height;
-    if(base>140)deck.style.height=base.toFixed(1)+'px';
+    if(base>140)deck.style.height=base.toFixed(1)+'px';   /* 钉死卡组高度 */
     for(i=0;i<cards.length;i++){
-      c=cards[i];zh=c.querySelector('.dzh');col=c.querySelector('.dcols');cat=c.querySelector('.dcat');
-      if(!zh||!col||!cat)continue;
+      c=cards[i];zh=c.querySelector('.dzh');col=c.querySelector('.dcols');
+      en=c.querySelector('.den');cat=c.querySelector('.dcat');
+      if(!zh||!col||!en||!cat)continue;
       fs=parseFloat(getComputedStyle(zh).fontSize)||40;
-      var minLs=fs*0.08;
+      var minLs=fs*0.04,capLs=fs*0.20;
       zh.style.setProperty('--ls','0px');
       var cr=c.getBoundingClientRect();
       var avail=(cat.getBoundingClientRect().top-cr.top)-(col.getBoundingClientRect().top-cr.top);
@@ -1645,11 +1660,18 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
       if(avail<60||h0<20)continue;
       var kk=(zh.getBoundingClientRect().height-h0)/minLs;  /* 每 1px 字距换多少高度 */
       if(!(kk>0.5))continue;
-      var ls=(avail-h0)/kk,cap=fs*0.9;
-      if(ls>cap)ls=cap;else if(ls<minLs)ls=minLs;
+      var hEn=en.getBoundingClientRect().height;
+      var gapMin=Math.max(7,fs*0.2);                              /* 与 CSS 的 gap 同量级，仅用于估算 */
+      var ls=(avail-h0-gapMin-hEn)/kk;
+      if(ls>capLs)ls=capLs;else if(ls<minLs)ls=minLs;
       zh.style.setProperty('--ls',ls.toFixed(2)+'px');
-      var rest=avail-(h0+kk*ls);
-      col.style.setProperty('--pt',(rest>2?rest/2:0).toFixed(1)+'px');
+      var hZh=h0+kk*ls;
+      zh.style.setProperty('--mh0',(hZh+4).toFixed(1)+'px');      /* 默认态：单列刚好不裁切 */
+      var n=zh.textContent.length;
+      if(n>3){                                                   /* 展开折两列：按字数对半分 */
+        var per=Math.ceil(n/2);
+        zh.style.setProperty('--mh',(hZh/n*per+2).toFixed(1)+'px');
+      }
     }
   }
   function boot(){
