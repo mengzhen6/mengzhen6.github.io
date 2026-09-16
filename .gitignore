@@ -11,5 +11,6 @@ _*.py
 _*.js
 _*.json
 _*.txt
+_*.css
 _gen3/
 _ref/
