@@ -9,5 +9,7 @@ _*.png
 _*.html
 _*.py
 _*.js
+_*.json
+_*.txt
 _gen3/
 _ref/
