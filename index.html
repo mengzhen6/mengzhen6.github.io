@@ -97,7 +97,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 
 /* ---------- 01.5 TOC 目录：折叠卡片手风琴（点击一块变绿 + 展开放大） ---------- */
 /* 版式：左侧深绿竖边栏（目录 / CONTENTS）+ 9 张带折痕与投影的折叠长条。
-   长条默认中性暗色、数字为空心描边；悬停描绿边；点击后整块变亮绿并展开放大（flex-grow 过渡）。
+   长条默认中性暗色、顶部为小号空心序号、中文放大靠上；悬停描绿边；点击后整块变亮绿并展开放大（flex-grow 过渡）。
    相邻长条用负 margin 交叠、z-index 递减，制造"叠放次序"与数字穿插的折叠立体感。 */
 #toc .content{max-width:1340px}
 #toc .deck{position:relative;display:flex;align-items:stretch;overflow:hidden;
@@ -132,33 +132,31 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.16),rgba(255,255,255,.02));transition:background .45s}
 #toc .dcard::after{content:"";position:absolute;left:0;top:0;bottom:0;width:16px;pointer-events:none;
   background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,0));transition:background .45s}
-/* 空心数字：无填充，只留轮廓线 */
-#toc .dnum{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;
-  font-family:var(--display);font-size:clamp(84px,11.8vw,172px);line-height:.84;font-weight:900;
-  color:transparent;-webkit-text-stroke:1.8px rgba(var(--green-rgb),.34);
-  transition:color .5s,-webkit-text-stroke-color .5s}
-/* 底部信息块：药丸 + 中文竖排 + 英文竖排 + 类目 */
-#toc .dmeta{flex:0 0 auto;width:100%;display:flex;flex-direction:column;align-items:center;
-  gap:clamp(7px,.66vw,10px)}
-#toc .dpart{white-space:nowrap;font-size:clamp(8px,.66vw,9.5px);letter-spacing:.14em;font-weight:700;
-  padding:3px 9px;border-radius:999px;color:#06120c;
-  background:linear-gradient(180deg,#3dff8f,#23d473);transition:.45s}
+/* 序号：原「第X部分」绿药丸 → 无填充·小号空心数字；顶部那批大数字已整块删除 */
+#toc .dpart{white-space:nowrap;font-family:var(--display);font-weight:900;line-height:1;
+  font-size:clamp(20px,1.92vw,28px);letter-spacing:.04em;
+  padding:0;border-radius:0;background:none;
+  color:transparent;-webkit-text-stroke:1.25px rgba(var(--green-rgb),.58);transition:.45s}
+/* 信息块：序号 + 中文竖排（放大·靠上）+ 英文竖排，类目用 margin-top:auto 贴底 */
+#toc .dmeta{flex:1 1 auto;width:100%;display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start;gap:clamp(9px,.86vw,14px)}
 #toc .dcols{display:flex;align-items:flex-start;justify-content:center;gap:clamp(6px,.58vw,10px)}
 #toc .dzh{writing-mode:vertical-rl;white-space:nowrap;font-family:var(--serif);
-  font-size:clamp(17px,1.75vw,26px);line-height:1.06;font-weight:900;letter-spacing:.05em;
-  color:#e9f6ee;-webkit-text-stroke:.4px currentColor;transition:.45s}
+  font-size:clamp(25px,2.65vw,38px);line-height:1.06;font-weight:900;letter-spacing:.05em;
+  color:#e9f6ee;-webkit-text-stroke:.55px currentColor;transition:.45s}
 #toc .den{writing-mode:vertical-rl;white-space:nowrap;text-transform:uppercase;
   font-family:var(--display);font-size:clamp(9px,.8vw,11.5px);letter-spacing:.2em;
   color:rgba(184,255,212,.62);transition:.45s}
-#toc .dcat{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(7.5px,.66vw,9.5px);
-  letter-spacing:.12em;color:rgba(184,255,212,.5);transition:.45s}
+#toc .dcat{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(8px,.7vw,10px);
+  letter-spacing:.12em;color:rgba(184,255,212,.5);margin-top:auto;
+  padding-top:clamp(8px,.8vw,12px);transition:.45s}
 /* 悬停：浮起 + 描绿边 + 数字变亮 */
 #toc .dcard:hover,#toc .dcard:focus-visible{outline:none;z-index:19;
   background:linear-gradient(180deg,#1e2a23 0%,#141b17 50%,#0f1512 100%);
   box-shadow:15px 0 26px -14px rgba(0,0,0,.92),inset 0 0 0 1px rgba(var(--green-rgb),.45),
     inset -26px 0 34px -30px rgba(0,0,0,1)}
-#toc .dcard:hover .dnum,#toc .dcard:focus-visible .dnum{
-  color:rgba(var(--green-rgb),.08);-webkit-text-stroke-color:rgba(var(--green-rgb),.66)}
+#toc .dcard:hover .dpart,#toc .dcard:focus-visible .dpart{
+  -webkit-text-stroke-color:rgba(var(--green-rgb),.95)}
 /* 点击选中：整块变绿 + 展开放大 */
 #toc .dcard.is-on{flex-grow:2.6;z-index:19;
   background:linear-gradient(170deg,#46ffa0 0%,#2fe382 46%,#1cbd66 100%);
@@ -167,24 +165,22 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     inset 0 1px 0 rgba(255,255,255,.55)}
 #toc .dcard.is-on::before{background:linear-gradient(180deg,rgba(6,18,12,.02),rgba(6,18,12,.3),rgba(6,18,12,.02))}
 #toc .dcard.is-on::after{background:linear-gradient(90deg,rgba(6,18,12,.22),rgba(6,18,12,0))}
-#toc .dcard.is-on .dnum{color:rgba(6,18,12,.14);-webkit-text-stroke-color:rgba(6,18,12,.46)}
-#toc .dcard.is-on .dpart{background:#06120c;color:#3dff8f;box-shadow:0 6px 16px -6px rgba(0,0,0,.6)}
-#toc .dcard.is-on .dzh{color:#06120c;-webkit-text-stroke-color:#06120c;font-size:clamp(21px,2vw,30px)}
+#toc .dcard.is-on .dpart{-webkit-text-stroke-color:rgba(6,18,12,.82)}
+#toc .dcard.is-on .dzh{color:#06120c;-webkit-text-stroke-color:#06120c;font-size:clamp(28px,3vw,44px)}
 #toc .dcard.is-on .den{color:rgba(6,18,12,.6);font-size:clamp(10px,.88vw,13px)}
 #toc .dcard.is-on .dcat{color:rgba(6,18,12,.5);font-size:clamp(8.5px,.72vw,10px)}
 @media(max-width:1240px){
   #toc .dside{width:clamp(60px,6vw,78px)}
-  #toc .dzh{font-size:clamp(15px,1.6vw,21px)}
-  #toc .dnum{font-size:clamp(76px,11.6vw,148px)}
+  #toc .dzh{font-size:clamp(21px,2.5vw,31px)}
+  #toc .dpart{font-size:clamp(18px,2.05vw,24px)}
 }
 @media(max-width:980px){
-  #toc .deck{min-height:clamp(380px,46vw,470px)}
-  #toc .dcard{padding:14px 3px 12px}
-  #toc .dzh{font-size:clamp(14px,1.8vw,19px);letter-spacing:.03em}
+  #toc .deck{min-height:clamp(370px,45vw,460px)}
+  #toc .dcard{padding:17px 3px 12px}
+  #toc .dzh{font-size:clamp(19px,2.6vw,26px);letter-spacing:.03em}
   #toc .den{font-size:clamp(8.5px,1vw,10.5px);letter-spacing:.16em}
-  #toc .dcat{font-size:clamp(7px,1vw,9px);letter-spacing:.08em}
-  #toc .dpart{font-size:8px;padding:2px 7px;letter-spacing:.1em}
-  #toc .dnum{font-size:clamp(62px,11.6vw,112px);-webkit-text-stroke-width:1.5px}
+  #toc .dcat{font-size:clamp(7.5px,1.05vw,9.5px);letter-spacing:.08em}
+  #toc .dpart{font-size:clamp(17px,2.3vw,22px);-webkit-text-stroke-width:1.1px}
 }
 /* 窄屏：长条改为竖向堆叠的折叠行——点击展开一行，变绿并露出类目 */
 @media(max-width:760px){
@@ -204,20 +200,18 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     box-shadow:0 18px 26px -22px rgba(0,0,0,.95);
     transition:background .45s,box-shadow .45s,padding .45s}
   #toc .dcard::before,#toc .dcard::after{display:none}
-  #toc .dnum{flex:0 0 auto;width:44px;justify-content:flex-start;
-    font-size:34px;line-height:1;-webkit-text-stroke-width:1.6px}
-  #toc .dmeta{flex-direction:row;align-items:center;gap:11px;width:auto;flex:1 1 auto;min-width:0}
+  #toc .dmeta{flex-direction:row;align-items:center;gap:11px;width:auto;flex:1 1 auto;min-width:0;
+    justify-content:flex-start}
   #toc .dcols{flex:0 0 auto;gap:8px;align-items:center}
   #toc .dzh,#toc .den,#toc .dcat{writing-mode:horizontal-tb}
-  #toc .dzh{font-size:15px;letter-spacing:.04em}
+  #toc .dzh{font-size:17px;letter-spacing:.04em}
   #toc .den{font-size:9.5px;letter-spacing:.16em}
-  #toc .dcat{display:none}
-  #toc .dpart{order:3;margin-left:auto}
+  #toc .dcat{display:none;margin-top:0;padding-top:0}
+  #toc .dpart{order:3;margin-left:auto;font-size:18px;-webkit-text-stroke-width:1.05px}
   #toc .dcard.is-on{flex-grow:0;padding:15px;
     box-shadow:0 18px 40px -18px rgba(0,0,0,.95),0 0 0 1px rgba(var(--green-rgb),.85),
       0 0 40px rgba(var(--green-rgb),.22),inset 0 1px 0 rgba(255,255,255,.5)}
-  #toc .dcard.is-on .dnum{font-size:34px}
-  #toc .dcard.is-on .dzh{font-size:16px}
+  #toc .dcard.is-on .dzh{font-size:19px}
   #toc .dcard.is-on .den{font-size:10px}
   #toc .dcard.is-on .dcat{display:block;order:2;font-size:9px;letter-spacing:.06em}
 }
@@ -683,73 +677,64 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
       </div>
       <div class="dfold">
         <a class="dcard" style="--i:1" href="#domestic" title="国内社媒 · 社媒运营 · 0-1 搭建">
-          <span class="dnum">1</span>
           <span class="dmeta">
-            <span class="dpart">第一部分</span>
+            <span class="dpart">1</span>
             <span class="dcols"><span class="dzh">国内社媒</span><span class="den">Social</span></span>
             <span class="dcat">社媒运营 · 0-1 搭建</span>
           </span>
         </a>
         <a class="dcard" style="--i:2" href="#overseas" title="海外账号 · 海外运营 · 全球触达">
-          <span class="dnum">2</span>
           <span class="dmeta">
-            <span class="dpart">第二部分</span>
+            <span class="dpart">2</span>
             <span class="dcols"><span class="dzh">海外账号</span><span class="den">Overseas</span></span>
             <span class="dcat">海外运营 · 全球触达</span>
           </span>
         </a>
         <a class="dcard" style="--i:3" href="#works" title="视频作品 · 内容制作 · 拍摄剪辑">
-          <span class="dnum">3</span>
           <span class="dmeta">
-            <span class="dpart">第三部分</span>
+            <span class="dpart">3</span>
             <span class="dcols"><span class="dzh">视频作品</span><span class="den">Video</span></span>
             <span class="dcat">内容制作 · 拍摄剪辑</span>
           </span>
         </a>
         <a class="dcard" style="--i:4" href="#web" title="网站与公众号 · 官网 · 公众号">
-          <span class="dnum">4</span>
           <span class="dmeta">
-            <span class="dpart">第四部分</span>
+            <span class="dpart">4</span>
             <span class="dcols"><span class="dzh">网站与公众号</span><span class="den">Website</span></span>
             <span class="dcat">官网 · 公众号</span>
           </span>
         </a>
         <a class="dcard" style="--i:5" href="#xhsB" title="运营数据看板 · 数据分析 · 可视化">
-          <span class="dnum">5</span>
           <span class="dmeta">
-            <span class="dpart">第五部分</span>
+            <span class="dpart">5</span>
             <span class="dcols"><span class="dzh">运营数据看板</span><span class="den">Data</span></span>
             <span class="dcat">数据分析 · 可视化</span>
           </span>
         </a>
         <a class="dcard" style="--i:6" href="#wxSelf" title="KOL / KOC 合作 · 内容合作 · 博主营销">
-          <span class="dnum">6</span>
           <span class="dmeta">
-            <span class="dpart">第六部分</span>
+            <span class="dpart">6</span>
             <span class="dcols"><span class="dzh">KOL / KOC 合作</span><span class="den">Creator</span></span>
             <span class="dcat">内容合作 · 博主营销</span>
           </span>
         </a>
         <a class="dcard" style="--i:7" href="#visual" title="平面作品 · 平面设计 · 视觉输出">
-          <span class="dnum">7</span>
           <span class="dmeta">
-            <span class="dpart">第七部分</span>
+            <span class="dpart">7</span>
             <span class="dcols"><span class="dzh">平面作品</span><span class="den">Graphic</span></span>
             <span class="dcat">平面设计 · 视觉输出</span>
           </span>
         </a>
         <a class="dcard" style="--i:8" href="#expo" title="展会活动 · 展会执行 · 全流程">
-          <span class="dnum">8</span>
           <span class="dmeta">
-            <span class="dpart">第八部分</span>
+            <span class="dpart">8</span>
             <span class="dcols"><span class="dzh">展会活动</span><span class="den">Expo</span></span>
             <span class="dcat">展会执行 · 全流程</span>
           </span>
         </a>
         <a class="dcard" style="--i:9" href="#fans" title="营销与活动 · 活动策划 · SNS 传播">
-          <span class="dnum">9</span>
           <span class="dmeta">
-            <span class="dpart">第九部分</span>
+            <span class="dpart">9</span>
             <span class="dcols"><span class="dzh">营销与活动</span><span class="den">Campaign</span></span>
             <span class="dcat">活动策划 · SNS 传播</span>
           </span>
