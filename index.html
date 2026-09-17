@@ -140,8 +140,28 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   padding:0;border-radius:0;background:none;
   color:transparent;-webkit-text-stroke:1.25px rgba(var(--green-rgb),.58);transition:.45s}
 /* 信息块：序号 + 中文竖排（放大·靠上）+ 英文竖排，类目用 margin-top:auto 贴底 */
-#toc .dmeta{flex:1 1 auto;width:100%;display:flex;flex-direction:column;align-items:center;
+#toc .dmeta{position:relative;flex:1 1 auto;width:100%;display:flex;flex-direction:column;align-items:center;
   justify-content:flex-start;gap:clamp(9px,.86vw,14px)}
+/* —— 第二十轮「翻开」形态（对标用户参考图：打开的那块带内框、像翻开的一页）——
+   ::before = 中间那道折痕（硬线 + 两侧柔和的压暗，两列汉字正好分坐左右两页）
+   ::after  = 内边框（离卡片边 6px；卡片左右 padding 是 4px，上下是 clamp(16~24px)/clamp(13~19px)，
+              所以用 calc 把负偏移补回 padding，保证四边到卡边都是 6px，不会框到序号上）*/
+#toc .dmeta::before{content:"";position:absolute;pointer-events:none;opacity:0;
+  top:calc(0px - clamp(16px,1.7vw,24px));bottom:calc(0px - clamp(13px,1.3vw,19px));
+  left:-4px;right:-4px;
+  transition:opacity .5s .05s;
+  background:
+    /* 折缝：窄而柔的压暗，落在两列汉字的中间那条缝里 */
+    linear-gradient(90deg,transparent 45%,rgba(5,20,12,.21) 50%,transparent 55%),
+    /* 两页受光不同：左页整片略暗，右页干净，过渡跨过折缝 */
+    linear-gradient(90deg,rgba(5,20,12,.17) 0,rgba(5,20,12,.17) 42%,rgba(5,20,12,0) 58%,rgba(5,20,12,0) 100%)}
+#toc .dmeta::after{content:"";position:absolute;pointer-events:none;opacity:0;border-radius:7px;
+  border:1.5px solid rgba(6,22,13,.34);
+  left:2px;right:2px;
+  top:calc(6px - clamp(16px,1.7vw,24px));
+  bottom:calc(6px - clamp(13px,1.3vw,19px));
+  transition:opacity .5s}
+#toc .dcard.is-on .dmeta::before,#toc .dcard.is-on .dmeta::after{opacity:1}
 /* 汉字在上、英文在下：竖向堆叠（原先是英文并排在汉字右侧）。
    flex:1 + justify-content:center → 「汉字+英文」整组在竖直槽里居中，
    块间距固定，不再出现「短卡间距 68px、长卡 15px」那种参差 */
@@ -182,6 +202,14 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   white-space:normal;max-height:var(--mh,var(--mh0,none))}
 #toc .dcard.is-on .den{color:rgba(5,20,12,.66)}
 #toc .dcard.is-on .dcat{color:rgba(5,20,12,.56)}
+/* 翻开动效：中文+英文这组绕「折痕」旋转展开。transform 不影响布局，
+   所以不会撑高卡组，也不会破坏「点击不跳」；只在加 .is-on 那一刻播一次 */
+@keyframes tocUnfold{
+  0%{opacity:0;transform:perspective(1200px) rotateY(-74deg)}
+  40%{opacity:1}
+  100%{opacity:1;transform:perspective(1200px) rotateY(0deg)}}
+#toc .dcard.is-on .dcols{animation:tocUnfold .72s cubic-bezier(.36,.05,.22,1) both;
+  transform-origin:50% 50%}
 @media(max-width:1240px){
   #toc .dside{width:clamp(60px,6vw,78px)}
   #toc .dzh{font-size:clamp(25px,3.05vw,38px)}
@@ -213,6 +241,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     box-shadow:0 18px 26px -22px rgba(0,0,0,.95);
     transition:background .45s,box-shadow .45s,padding .45s}
   #toc .dcard::before,#toc .dcard::after{display:none}
+  #toc .dmeta::before,#toc .dmeta::after{display:none}
+  #toc .dcard.is-on .dcols{animation:none}
   #toc .dmeta{flex-direction:row;align-items:center;gap:11px;width:auto;flex:1 1 auto;min-width:0;
     justify-content:flex-start}
   #toc .dcols{flex-direction:column;align-items:flex-start;flex:0 0 auto;gap:2px}
