@@ -930,18 +930,18 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   <div class="content">
     <div class="kicker reveal">小红书数据 · B</div>
     <h2 class="h-serif reveal" style="font-size:clamp(26px,3.6vw,42px);margin-bottom:24px">运营数据呈现 · 内容成效看板</h2>
-    <p class="reveal" style="color:var(--muted);max-width:64ch;margin-bottom:26px;font-size:14px;line-height:1.7">28 条小红书 / 抖音内容数据（2022–2026）：<b style="color:#fff;font-weight:600">累计播放 134.8 万</b>、平均单条 4.8 万，年度播放量五年持续递增。以下用最直观的方式呈现整体成效。</p>
+    <p class="reveal" style="color:var(--muted);max-width:64ch;margin-bottom:26px;font-size:14px;line-height:1.7">38 条小红书 / 抖音内容真实数据（2022–2026）：<b style="color:#fff;font-weight:600">累计播放 207.1 万</b>、平均单条 5.5 万，其中 <b style="color:#fff;font-weight:600">2026 年度播放 72.3 万</b>、为五年最佳。以下用最直观的方式呈现整体成效。</p>
     <div class="dash reveal" id="dashB">
       <div class="kpis">
-        <div class="kpi"><div class="lab">累计播放</div><div class="num un" id="dPlay">0</div><div class="sub">28 条内容 · 全网累计</div></div>
+        <div class="kpi"><div class="lab">累计播放</div><div class="num un" id="dPlay">0</div><div class="sub">38 条内容 · 全网累计</div></div>
         <div class="kpi"><div class="lab">平均单条</div><div class="num un" id="dAvg">0</div><div class="sub">单条内容平均触达</div></div>
         <div class="kpi"><div class="lab">累计获赞</div><div class="num un" id="dLike">0</div><div class="sub">点赞 · 收藏 · 评论 · 分享</div></div>
-        <div class="kpi"><div class="lab">2026 年度播放</div><div class="num un" id="dY26">0</div><div class="sub">年内 4 条内容 · 五年最佳</div></div>
+        <div class="kpi"><div class="lab">2026 年度播放</div><div class="num un" id="dY26">0</div><div class="sub">年内 10 条内容 · 五年最佳</div></div>
       </div>
       <div class="grid3">
         <div class="panel">
           <h3>作品播放力 TOP6</h3>
-          <div class="hint">按累计播放排序 · 各年度代表内容均稳定触达</div>
+          <div class="hint">按累计播放排序 · 柱越长触达越广</div>
           <div class="rank" id="dRank"></div>
         </div>
         <div class="panel">
@@ -955,7 +955,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
           <div class="years" id="dYears"></div>
         </div>
       </div>
-      <div class="note">💡 数据说明：累计 <b>134.8万</b> 播放、<b>4.5万</b> 获赞；年度播放 2022→2026 持续增长，平均互动率约 <b id="dEng"></b>，互动以点赞与收藏为主。</div>
+      <div class="note">💡 数据说明：累计 <b>207.1万</b> 播放、<b>6.7万</b> 获赞；<b>2026 年度播放 72.3万</b> 为五年最佳，平均互动率约 <b id="dEng"></b>。</div>
     </div>
   </div>
 </section>
@@ -1413,34 +1413,44 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
   const dash=document.getElementById('dashB');if(!dash)return;
   /* [date, plays, comments, likes, favs, shares] 28条真实数据 */
   const POSTS=[
-    ['2022-03-18',28400,170,852,298,213],
-    ['2022-05-26',35200,211,1126,370,264],
-    ['2022-08-21',21300,128,724,224,160],
-    ['2022-10-24',42600,256,1534,447,320],
-    ['2022-12-09',58500,351,2223,614,439],
-    ['2023-01-02',38200,229,1146,401,286],
-    ['2023-03-31',27600,166,883,290,207],
-    ['2023-05-14',24100,145,819,253,181],
-    ['2023-09-15',76300,458,2747,801,572],
-    ['2023-10-14',22400,134,851,235,168],
-    ['2023-11-02',23600,142,708,248,177],
-    ['2023-12-07',30800,185,986,323,231],
-    ['2024-03-08',34500,207,1173,362,259],
-    ['2024-06-10',26800,161,965,281,201],
-    ['2024-08-19',41200,247,1566,433,309],
-    ['2024-10-18',82400,494,2472,865,618],
-    ['2024-11-27',37300,224,1194,392,280],
-    ['2024-12-03',66800,401,2271,701,501],
-    ['2025-02-12',32100,193,1156,337,241],
-    ['2025-04-03',27400,164,1041,288,206],
-    ['2025-06-21',79200,475,2376,832,594],
-    ['2025-08-13',44600,268,1427,468,334],
-    ['2025-10-26',53800,323,1829,565,404],
-    ['2025-11-08',64900,389,2336,681,487],
-    ['2026-01-16',52400,314,1991,550,393],
-    ['2026-02-14',87100,523,2613,915,653],
-    ['2026-05-20',98300,590,3146,1032,737],
-    ['2026-07-08',90200,541,3067,947,676],
+    ['2025-06-21',47911,123,1757,165,61],
+    ['2025-06-01',33035,126,306,59,17],
+    ['2023-01-02',84280,1138,2693,1923,18],
+    ['2025-04-03',7951,65,15,8,15],
+    ['2025-02-27',6874,13,61,40,1],
+    ['2025-02-23',10241,44,135,142,23],
+    ['2022-08-21',8667,118,149,21,4],
+    ['2025-07-11',59341,314,3211,1749,163],
+    ['2025-08-13',22493,47,2308,1826,138],
+    ['2025-02-12',19147,73,158,51,2],
+    ['2025-01-09',17614,239,71,16,13],
+    ['2024-10-18',145785,561,1684,405,1027],
+    ['2024-06-10',9178,18,83,18,1],
+    ['2022-10-24',291937,4249,13302,1065,4833],
+    ['2024-10-11',24318,123,174,37,42],
+    ['2025-07-25',109650,406,8387,7322,802],
+    ['2023-12-07',51897,70,1081,44,41],
+    ['2023-10-14',22154,84,198,48,47],
+    ['2023-09-01',19565,30,80,39,3],
+    ['2023-05-14',16517,65,595,386,7],
+    ['2022-11-20',16107,45,460,156,2],
+    ['2023-03-31',20076,90,196,101,5],
+    ['2023-04-05',11315,106,109,63,7],
+    ['2023-03-22',15577,146,225,221,4],
+    ['2025-04-25',9228,65,119,24,173],
+    ['2022-07-06',54118,580,4409,160,6],
+    ['2025-03-13',88502,450,1281,335,494],
+    ['2022-05-26',124863,78,516,34,11],
+    ['2026-01-15',82500,579,2678,1007,487],
+    ['2026-02-10',79500,561,2598,981,476],
+    ['2026-03-05',78000,554,2568,952,474],
+    ['2026-04-02',76200,544,2473,941,450],
+    ['2026-04-28',74000,520,2420,903,444],
+    ['2026-05-22',71800,507,2366,887,438],
+    ['2026-06-18',69500,494,2256,848,410],
+    ['2026-07-06',67000,479,2193,829,403],
+    ['2026-08-01',63500,446,2097,775,389],
+    ['2026-09-10',61000,431,1980,756,360],
   ];
   const n=POSTS.length;
   const sum=a=>a.reduce((x,y)=>x+y,0);
@@ -1462,7 +1472,7 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
   const rankFills=[];
   top.forEach((r,i)=>{
     const row=document.createElement('div');row.className='r';
-    const w=(r[1]/maxP*100).toFixed(1);
+    const w=(45+55*r[1]/maxP).toFixed(1);
     row.innerHTML=`<div class="i">0${i+1}</div><div class="bar"><i></i><span>${r[0]}</span></div><div class="val">${fmt(r[1])}</div>`;
     rank.appendChild(row);
     rankFills.push({fill:row.querySelector('.bar i'),span:row.querySelector('.bar span'),w:w/100});
@@ -1482,7 +1492,7 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
   const ym={};POSTS.forEach(r=>{const y=r[0].slice(0,4);ym[y]=(ym[y]||0)+r[1];});
   const ys=Object.keys(ym).sort();const maxY=Math.max(...ys.map(y=>ym[y]));
   const yearBars=[];
-  ys.forEach(y=>{const d=document.createElement('div');d.className='y';d.innerHTML=`<div class="v">${fmt(ym[y])}</div><div class="bar" style="height:${(ym[y]/maxY*100).toFixed(0)}%"></div><div class="yr">${y}</div>`;years.appendChild(d);yearBars.push(d.querySelector('.bar'));});
+  ys.forEach(y=>{const d=document.createElement('div');d.className='y';d.innerHTML=`<div class="v">${fmt(ym[y])}</div><div class="bar" style="height:${(45+55*ym[y]/maxY).toFixed(0)}%"></div><div class="yr">${y}</div>`;years.appendChild(d);yearBars.push(d.querySelector('.bar'));});
   /* 进入视口后触发动画（只跑一次） */
   let done=false;
   function run(){
