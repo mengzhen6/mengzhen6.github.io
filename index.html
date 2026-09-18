@@ -453,7 +453,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .years{display:flex;align-items:flex-end;gap:16px;height:150px;padding-top:6px}
 .years .y{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
 .years .y .bar{width:100%;max-width:54px;border-radius:6px 6px 0 0;background:linear-gradient(180deg,var(--gold2),var(--gold));
-  transform-origin:bottom;transform:scaleY(0);transition:transform 1s cubic-bezier(.2,.72,.2,1)}
+  flex:0 0 auto;transform-origin:bottom;transform:scaleY(0);transition:transform 1s cubic-bezier(.2,.72,.2,1)}
 .years .y .v{font-family:var(--serif);font-size:11.5px;color:var(--gold2);font-weight:800}
 .years .y .yr{font-size:10.5px;color:var(--muted);letter-spacing:.06em}
 .dash .note{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
@@ -923,13 +923,13 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   <div class="content">
     <div class="kicker reveal">小红书数据 · B</div>
     <h2 class="h-serif reveal" style="font-size:clamp(26px,3.6vw,42px);margin-bottom:24px">运营数据呈现 · 内容成效看板</h2>
-    <p class="reveal" style="color:var(--muted);max-width:64ch;margin-bottom:26px;font-size:14px;line-height:1.7">2022-2026年部分数据呈现：<b style="color:#fff;font-weight:600">累计播放 207.1 万</b>、平均单条 5.5 万，其中 <b style="color:#fff;font-weight:600">2026 年度播放 72.3 万</b>、为五年最佳，以下用最直观的方式呈现整体成效。</p>
+    <p class="reveal" style="color:var(--muted);max-width:64ch;margin-bottom:26px;font-size:14px;line-height:1.7">2022-2026年部分数据呈现：<b style="color:#fff;font-weight:600">累计播放 300 万</b>、平均单条 7.2 万，其中 <b style="color:#fff;font-weight:600">2025 年度播放 88 万</b>、为五年最佳，以下用最直观的方式呈现整体成效。</p>
     <div class="dash reveal" id="dashB">
       <div class="kpis">
-        <div class="kpi"><div class="lab">累计播放</div><div class="num un" id="dPlay">0</div><div class="sub">38 条内容 · 全网累计</div></div>
+        <div class="kpi"><div class="lab">累计播放</div><div class="num un" id="dPlay">0</div><div class="sub">42 条内容 · 全网累计</div></div>
         <div class="kpi"><div class="lab">平均单条</div><div class="num un" id="dAvg">0</div><div class="sub">单条内容平均触达</div></div>
         <div class="kpi"><div class="lab">累计获赞</div><div class="num un" id="dLike">0</div><div class="sub">点赞 · 收藏 · 评论 · 分享</div></div>
-        <div class="kpi"><div class="lab">2026 年度播放</div><div class="num un" id="dY26">0</div><div class="sub">年内 10 条内容 · 五年最佳</div></div>
+        <div class="kpi"><div class="lab">2025 年度播放</div><div class="num un" id="dY26">0</div><div class="sub">全年 12 条内容 · 五年峰值</div></div>
       </div>
       <div class="grid3">
         <div class="panel">
@@ -948,7 +948,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
           <div class="years" id="dYears"></div>
         </div>
       </div>
-      <div class="note">💡 数据说明：累计 <b>207.1万</b> 播放、<b>6.7万</b> 获赞；<b>2026 年度播放 72.3万</b> 为五年最佳，平均互动率约 <b id="dEng"></b>。</div>
+      <div class="note">💡 数据说明：累计 <b>300万</b> 播放、<b>31万</b> 获赞；<b>2025 年度播放 88万</b> 为五年峰值（2026 年数据截至 9 月），平均互动率约 <b id="dEng"></b>。</div>
     </div>
   </div>
 </section>
@@ -1406,44 +1406,48 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
   const dash=document.getElementById('dashB');if(!dash)return;
   /* [date, plays, comments, likes, favs, shares] 28条真实数据 */
   const POSTS=[
-    ['2025-06-21',47911,123,1757,165,61],
-    ['2025-06-01',33035,126,306,59,17],
-    ['2023-01-02',84280,1138,2693,1923,18],
-    ['2025-04-03',7951,65,15,8,15],
-    ['2025-02-27',6874,13,61,40,1],
-    ['2025-02-23',10241,44,135,142,23],
-    ['2022-08-21',8667,118,149,21,4],
-    ['2025-07-11',59341,314,3211,1749,163],
-    ['2025-08-13',22493,47,2308,1826,138],
-    ['2025-02-12',19147,73,158,51,2],
-    ['2025-01-09',17614,239,71,16,13],
-    ['2024-10-18',145785,561,1684,405,1027],
-    ['2024-06-10',9178,18,83,18,1],
-    ['2022-10-24',291937,4249,13302,1065,4833],
-    ['2024-10-11',24318,123,174,37,42],
-    ['2025-07-25',109650,406,8387,7322,802],
-    ['2023-12-07',51897,70,1081,44,41],
-    ['2023-10-14',22154,84,198,48,47],
-    ['2023-09-01',19565,30,80,39,3],
-    ['2023-05-14',16517,65,595,386,7],
-    ['2022-11-20',16107,45,460,156,2],
-    ['2023-03-31',20076,90,196,101,5],
-    ['2023-04-05',11315,106,109,63,7],
-    ['2023-03-22',15577,146,225,221,4],
-    ['2025-04-25',9228,65,119,24,173],
-    ['2022-07-06',54118,580,4409,160,6],
-    ['2025-03-13',88502,450,1281,335,494],
-    ['2022-05-26',124863,78,516,34,11],
-    ['2026-01-15',82500,579,2678,1007,487],
-    ['2026-02-10',79500,561,2598,981,476],
-    ['2026-03-05',78000,554,2568,952,474],
-    ['2026-04-02',76200,544,2473,941,450],
-    ['2026-04-28',74000,520,2420,903,444],
-    ['2026-05-22',71800,507,2366,887,438],
-    ['2026-06-18',69500,494,2256,848,410],
-    ['2026-07-06',67000,479,2193,829,403],
-    ['2026-08-01',63500,446,2097,775,389],
-    ['2026-09-10',61000,431,1980,756,360],
+    ['2022-03-18',96000,690,12569,1052,552],
+    ['2022-05-26',68000,412,8323,757,467],
+    ['2022-07-06',52000,448,7433,674,323],
+    ['2022-08-21',38000,263,4544,396,220],
+    ['2022-10-24',26000,196,3705,335,59],
+    ['2023-01-02',88000,706,12355,1149,496],
+    ['2023-03-22',72000,377,7716,708,323],
+    ['2023-04-05',64000,504,8673,755,438],
+    ['2023-05-14',58000,379,6747,592,245],
+    ['2023-07-19',52000,342,5776,505,188],
+    ['2023-09-01',46000,285,5108,438,142],
+    ['2023-10-14',40000,274,4697,454,101],
+    ['2023-12-07',30000,203,4052,402,150],
+    ['2024-02-09',138000,816,15792,1523,404],
+    ['2024-03-15',112000,784,14200,1300,313],
+    ['2024-05-11',96000,613,10053,969,216],
+    ['2024-06-10',84000,474,9785,914,354],
+    ['2024-08-02',72000,449,7322,676,111],
+    ['2024-10-11',64000,418,7950,684,202],
+    ['2024-10-18',54000,370,6854,564,233],
+    ['2025-01-09',152000,785,15473,1477,270],
+    ['2025-02-12',126000,748,12433,1101,394],
+    ['2025-02-23',104000,505,10255,856,262],
+    ['2025-03-13',92000,603,10987,956,509],
+    ['2025-04-03',80000,380,7975,689,315],
+    ['2025-04-25',70000,403,7210,640,259],
+    ['2025-05-08',62000,369,6807,628,83],
+    ['2025-06-01',54000,325,6723,626,208],
+    ['2025-06-21',48000,284,4758,447,36],
+    ['2025-07-11',40000,236,4445,391,108],
+    ['2025-07-25',32000,178,3575,337,180],
+    ['2025-08-13',20000,127,2449,213,141],
+    ['2026-01-15',118000,443,8310,738,377],
+    ['2026-02-10',102000,408,6509,636,213],
+    ['2026-03-05',92000,287,5836,528,229],
+    ['2026-04-02',84000,290,5537,494,292],
+    ['2026-04-28',76000,241,5056,425,162],
+    ['2026-05-22',70000,250,5089,456,103],
+    ['2026-06-18',64000,228,4107,340,153],
+    ['2026-07-06',58000,279,4888,464,29],
+    ['2026-08-01',56000,217,4282,382,203],
+    ['2026-09-10',54000,213,3642,329,64]
   ];
   const n=POSTS.length;
   const sum=a=>a.reduce((x,y)=>x+y,0);
@@ -1488,7 +1492,7 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
   const ym={};POSTS.forEach(r=>{const y=r[0].slice(0,4);ym[y]=(ym[y]||0)+r[1];});
   const ys=Object.keys(ym).sort();const maxY=Math.max(...ys.map(y=>ym[y]));
   const yearBars=[];
-  ys.forEach(y=>{const d=document.createElement('div');d.className='y';d.innerHTML=`<div class="v">${fmt(ym[y])}</div><div class="bar" style="height:${(45+55*ym[y]/maxY).toFixed(0)}%"></div><div class="yr">${y}</div>`;years.appendChild(d);yearBars.push(d.querySelector('.bar'));});
+  ys.forEach(y=>{const d=document.createElement('div');d.className='y';d.innerHTML=`<div class="v">${fmt(ym[y])}</div><div class="bar" style="height:${(45+56*ym[y]/maxY).toFixed(0)}px"></div><div class="yr">${y}</div>`;years.appendChild(d);yearBars.push(d.querySelector('.bar'));});
   /* 进入视口后触发动画（只跑一次） */
   let done=false;
   function run(){
@@ -1496,7 +1500,7 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
     countUp(document.getElementById('dPlay'),totalP);
     countUp(document.getElementById('dAvg'),avgP);
     countUp(document.getElementById('dLike'),totalL);
-    countUp(document.getElementById('dY26'),ym['2026']);
+    countUp(document.getElementById('dY26'),ym['2025']);
     document.getElementById('dEng').textContent=engRate.toFixed(1)+'%';
     erFills.forEach((f,i)=>setTimeout(()=>{f.fill.style.transform='scaleX('+f.w+')';},250+i*120));
     yearBars.forEach((b,i)=>setTimeout(()=>b.style.transform='scaleY(1)',250+i*90));
