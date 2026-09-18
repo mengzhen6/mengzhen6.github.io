@@ -112,13 +112,14 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #cover .scrollhint .wheel{width:1px;height:44px;background:linear-gradient(var(--gold),transparent);animation:drop 1.8s ease-in-out infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-/* ---------- 01.5 TOC 目录：折叠卡片手风琴（点击一块变绿 + 展开放大） ---------- */
+/* ---------- 01.5 TOC 目录：折叠卡片手风琴（滑到/点到哪块，哪块变绿；形态不变） ---------- */
 /* 版式：左侧深绿竖边栏（目录 / CONTENTS）+ 9 张带折痕与投影的折叠长条。
-   长条默认中性暗色、顶部为小号空心序号、中文放大靠上；悬停描绿边；点击后整块变亮绿并展开放大（flex-grow 过渡）。
+   长条默认中性暗色、顶部为小号空心序号、中文放大靠上；鼠标滑过/键盘聚焦/点击 → 整块变亮绿，
+   但尺寸与文字形态保持不变（不再展开放大、不再折成两列、无翻页动画）。
    相邻长条用负 margin 交叠、z-index 递减，制造"叠放次序"与数字穿插的折叠立体感。 */
 #toc .content{max-width:1340px}
 #toc .deck{position:relative;display:flex;align-items:stretch;overflow:hidden;
-  min-height:clamp(360px,38vw,470px);
+  min-height:clamp(420px,46vw,560px);
   border-radius:16px;border:1px solid rgba(var(--green-rgb),.16);
   background:linear-gradient(165deg,#111c16,#0a110e 58%,#0b1512);
   box-shadow:0 40px 80px -34px rgba(0,0,0,.98),0 0 0 1px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05)}
@@ -143,7 +144,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   box-shadow:15px 0 26px -14px rgba(0,0,0,.92),inset -26px 0 34px -30px rgba(0,0,0,1);
   cursor:pointer;z-index:calc(20 - var(--i));
   transform:perspective(1500px) rotateX(var(--tilt,-5deg));transform-origin:50% 50%;backface-visibility:hidden;
-  transition:flex-grow .68s cubic-bezier(.215,.61,.355,1),transform .68s cubic-bezier(.215,.61,.355,1),
+  transition:transform .68s cubic-bezier(.215,.61,.355,1),
     background .45s,box-shadow .45s}
 #toc .dcard+.dcard{margin-left:clamp(-14px,-1.2vw,-9px)}
 /* 折痕：右缘一道竖向亮线 + 左缘压暗，模拟对折卡的厚度 */
@@ -159,33 +160,13 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 信息块：序号 + 中文竖排（放大·靠上）+ 英文竖排，类目用 margin-top:auto 贴底 */
 #toc .dmeta{position:relative;flex:1 1 auto;width:100%;display:flex;flex-direction:column;align-items:center;
   justify-content:flex-start;gap:clamp(9px,.86vw,14px)}
-/* —— 第二十轮「翻开」形态（对标用户参考图：打开的那块带内框、像翻开的一页）——
-   ::before = 中间那道折痕（硬线 + 两侧柔和的压暗，两列汉字正好分坐左右两页）
-   ::after  = 内边框（离卡片边 6px；卡片左右 padding 是 4px，上下是 clamp(16~24px)/clamp(13~19px)，
-              所以用 calc 把负偏移补回 padding，保证四边到卡边都是 6px，不会框到序号上）*/
-#toc .dmeta::before{content:"";position:absolute;pointer-events:none;opacity:0;
-  top:calc(0px - clamp(16px,1.7vw,24px));bottom:calc(0px - clamp(13px,1.3vw,19px));
-  left:-4px;right:-4px;
-  transition:opacity .5s .05s;
-  background:
-    /* 折缝：窄而柔的压暗，落在两列汉字的中间那条缝里 */
-    linear-gradient(90deg,transparent 45%,rgba(5,20,12,.21) 50%,transparent 55%),
-    /* 两页受光不同：左页整片略暗，右页干净，过渡跨过折缝 */
-    linear-gradient(90deg,rgba(5,20,12,.17) 0,rgba(5,20,12,.17) 42%,rgba(5,20,12,0) 58%,rgba(5,20,12,0) 100%)}
-#toc .dmeta::after{content:"";position:absolute;pointer-events:none;opacity:0;border-radius:7px;
-  border:1.5px solid rgba(6,22,13,.34);
-  left:2px;right:2px;
-  top:calc(6px - clamp(16px,1.7vw,24px));
-  bottom:calc(6px - clamp(13px,1.3vw,19px));
-  transition:opacity .5s}
-#toc .dcard.is-on .dmeta::before,#toc .dcard.is-on .dmeta::after{opacity:1}
 /* 汉字在上、英文在下：竖向堆叠（原先是英文并排在汉字右侧）。
    flex:1 + justify-content:center → 「汉字+英文」整组在竖直槽里居中，
    块间距固定，不再出现「短卡间距 68px、长卡 15px」那种参差 */
 #toc .dcols{display:flex;flex-direction:column;align-items:center;justify-content:center;
   flex:1 1 auto;gap:clamp(7px,.62vw,11px)}
 /* 汉字：微软雅黑 Bold（本机有真 Bold 面）；--ls 字距只做小幅呼吸，不再拉成大空隙。
-   --mh0 = 单列实际高（默认态，刚好不裁切）；--mh = 折成左右两列的高度（展开态，JS 给） */
+   --mh0 = 单列实际高（默认态，刚好不裁切）；选中/悬停时形态不变，仍是单列 */
 #toc .dzh{writing-mode:vertical-rl;white-space:nowrap;font-family:var(--tocsans);
   font-size:clamp(29px,3.05vw,44px);line-height:1.1;letter-spacing:var(--ls,0);
   font-weight:700;color:#eef8f2;-webkit-text-stroke:.3px currentColor;
@@ -198,35 +179,29 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .dcat{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(8.5px,.74vw,10.5px);
   letter-spacing:.12em;color:rgba(184,255,212,.54);margin-top:auto;
   padding-top:clamp(8px,.8vw,12px);transition:color .45s}
-/* 悬停：浮起 + 描绿边 + 数字变亮 */
-#toc .dcard:hover,#toc .dcard:focus-visible{outline:none;z-index:19;--tilt:0deg;flex-grow:1.26;
-  background:linear-gradient(180deg,#1e2a23 0%,#141b17 50%,#0f1512 100%);
-  box-shadow:15px 0 26px -14px rgba(0,0,0,.92),inset 0 0 0 1px rgba(var(--green-rgb),.45),
-    inset -26px 0 34px -30px rgba(0,0,0,1)}
-#toc .dcard:hover .dpart,#toc .dcard:focus-visible .dpart{
-  -webkit-text-stroke-color:rgba(var(--green-rgb),.95)}
-/* 点击选中：整块变绿 + 展开放大 */
-#toc .dcard.is-on{flex-grow:1.75;z-index:19;--tilt:0deg;
+/* 滑动变绿：鼠标滑过 / 键盘聚焦哪块，哪块整块变绿（尺寸与文字形态不变） */
+#toc .dcard:hover,#toc .dcard:focus-visible{outline:none;z-index:19;--tilt:0deg;
+  background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
+  box-shadow:15px 0 30px -14px rgba(0,0,0,.95),0 26px 56px -20px rgba(0,0,0,.95),
+    0 0 0 1px rgba(var(--green-rgb),.85),0 0 58px rgba(var(--green-rgb),.3),
+    inset 0 1px 0 rgba(255,255,255,.55)}
+#toc .dcard:hover::before,#toc .dcard:focus-visible::before{background:linear-gradient(180deg,rgba(6,18,12,.02),rgba(6,18,12,.3),rgba(6,18,12,.02))}
+#toc .dcard:hover::after,#toc .dcard:focus-visible::after{background:linear-gradient(90deg,rgba(5,20,12,.14),rgba(5,20,12,0))}
+#toc .dcard:hover .dpart,#toc .dcard:focus-visible .dpart,#toc .dcard.is-on .dpart{
+  -webkit-text-stroke-color:rgba(6,18,12,.82)}
+/* 文字变色（悬停 / 聚焦 / 选中同款）：仍保持单列竖排，不改 nowrap 与 max-height */
+#toc .dcard:hover .dzh,#toc .dcard:focus-visible .dzh,#toc .dcard.is-on .dzh{
+  color:#05140c;-webkit-text-stroke-color:#05140c}
+#toc .dcard:hover .den,#toc .dcard:focus-visible .den,#toc .dcard.is-on .den{color:rgba(5,20,12,.66)}
+#toc .dcard:hover .dcat,#toc .dcard:focus-visible .dcat,#toc .dcard.is-on .dcat{color:rgba(5,20,12,.56)}
+/* 点击选中：整块变绿，形态与默认一致（不展开放大、不折成两列） */
+#toc .dcard.is-on{z-index:19;--tilt:0deg;
   background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
   box-shadow:15px 0 30px -14px rgba(0,0,0,.95),0 26px 56px -20px rgba(0,0,0,.95),
     0 0 0 1px rgba(var(--green-rgb),.85),0 0 58px rgba(var(--green-rgb),.3),
     inset 0 1px 0 rgba(255,255,255,.55)}
 #toc .dcard.is-on::before{background:linear-gradient(180deg,rgba(6,18,12,.02),rgba(6,18,12,.3),rgba(6,18,12,.02))}
 #toc .dcard.is-on::after{background:linear-gradient(90deg,rgba(5,20,12,.14),rgba(5,20,12,0))}
-#toc .dcard.is-on .dpart{-webkit-text-stroke-color:rgba(6,18,12,.82)}
-/* 展开：放开 nowrap，让中文按 --mh 折成左右两列（像书页摊开） */
-#toc .dcard.is-on .dzh{color:#05140c;-webkit-text-stroke-color:#05140c;
-  white-space:normal;max-height:var(--mh,var(--mh0,none))}
-#toc .dcard.is-on .den{color:rgba(5,20,12,.66)}
-#toc .dcard.is-on .dcat{color:rgba(5,20,12,.56)}
-/* 翻开动效：中文+英文这组绕「折痕」旋转展开。transform 不影响布局，
-   所以不会撑高卡组，也不会破坏「点击不跳」；只在加 .is-on 那一刻播一次 */
-@keyframes tocUnfold{
-  0%{opacity:0;transform:perspective(1200px) rotateY(-74deg)}
-  40%{opacity:1}
-  100%{opacity:1;transform:perspective(1200px) rotateY(0deg)}}
-#toc .dcard.is-on .dcols{animation:tocUnfold .72s cubic-bezier(.36,.05,.22,1) both;
-  transform-origin:50% 50%}
 @media(max-width:1240px){
   #toc .dside{width:clamp(60px,6vw,78px)}
   #toc .dzh{font-size:clamp(25px,3.05vw,38px)}
@@ -258,8 +233,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     box-shadow:0 18px 26px -22px rgba(0,0,0,.95);
     transform:none;transition:background .45s,box-shadow .45s,padding .45s}
   #toc .dcard::before,#toc .dcard::after{display:none}
-  #toc .dmeta::before,#toc .dmeta::after{display:none}
-  #toc .dcard.is-on .dcols{animation:none}
   #toc .dmeta{flex-direction:row;align-items:center;gap:11px;width:auto;flex:1 1 auto;min-width:0;
     justify-content:flex-start}
   #toc .dcols{flex-direction:column;align-items:flex-start;flex:0 0 auto;gap:2px}
@@ -268,13 +241,11 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   #toc .den{font-size:9.5px;letter-spacing:.16em}
   #toc .dcat{display:none;margin-top:0;padding-top:0}
   #toc .dpart{order:3;margin-left:auto;font-size:18px;-webkit-text-stroke-width:1.05px}
-  #toc .dcard.is-on{flex-grow:0;padding:15px;
+  #toc .dcard.is-on{padding:15px;
     box-shadow:0 18px 40px -18px rgba(0,0,0,.95),0 0 0 1px rgba(var(--green-rgb),.85),
       0 0 40px rgba(var(--green-rgb),.22),inset 0 1px 0 rgba(255,255,255,.5)}
-  #toc .dcard.is-on .dzh{white-space:nowrap;max-height:none}   /* 字号不变 → 展开不跳 */
   #toc .dcard.is-on .dcat{display:block;order:2;font-size:9px;letter-spacing:.06em}
 }
-@media(max-width:900px){#toc .head{flex-direction:column;align-items:flex-start}}
 
 /* ---------- 02 about ---------- */
 #about .content{display:grid;grid-template-columns:1.05fr 1fr;gap:60px;align-items:center}
@@ -718,18 +689,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 <!-- 01.5 TOC 目录：行式列表导航 -->
 <section class="scene" id="toc">
   <div class="content">
-    <div class="head">
-      <div>
-        <div class="kicker reveal">Contents · 目录</div>
-        <h2 class="h-serif reveal">每一页，<br/>都有入口。</h2>
-        <p class="reveal">下方每一个板块都对应本作品集的一页：国内社媒、海外账号、视频作品、网站与公众号、运营数据看板、KOL / KOC 合作、平面作品、展会活动、营销与活动。</p>
-      </div>
-      <div class="stat reveal">
-        <div class="num">13 <span>页</span></div>
-        <div class="lab">全流程作品集编排<br/>一页一主题</div>
-      </div>
-    </div>
-    <!-- 折叠卡片目录：点击一块 → 变绿 + 展开放大 -->
+    <!-- 折叠卡片目录：滑到/点到哪块，哪块变绿（形态不变） -->
     <div class="deck reveal">
       <div class="dside" aria-hidden="true">
         <span class="dszh">目录</span>
@@ -1693,7 +1653,7 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
   vm.addEventListener('click',function(e){if(e.target===vm)closeV();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeV();});
 })();
-/* ---- 目录折叠卡：点击一块 → 变绿 + 展开放大 ---- */
+/* ---- 目录折叠卡：滑到/点到哪块，哪块变绿（形态不变） ---- */
 (function(){
   var cards=document.querySelectorAll('#toc .dcard');
   if(!cards.length)return;
@@ -1703,6 +1663,7 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
   }
   for(var i=0;i<cards.length;i++){
     (function(c){
+      c.addEventListener('mouseenter',function(){pick(c);});   /* 滑动到哪个板块，哪个板块变绿 */
       c.addEventListener('click',function(){pick(c);});
       c.addEventListener('focus',function(){pick(c);});
     })(cards[i]);
@@ -1713,7 +1674,7 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
         （不钉会「拉距 → 内容变高 → 槽更大 → 再拉」一轮轮自我放大）
      ③ 按可用竖直槽反解字距，上限 0.18em —— 只做小幅呼吸，不再拉成大空隙
      ④ 「汉字 + 英文」整组由 CSS 在竖直槽里居中，JS 不再分配 padding（块间距固定）
-     ⑤ --mh：半数字数的高度，展开态中文按它折成左右两列。 */
+     ⑤ 形态恒定：只保留单列的 --mh0，不再有展开态折两列的 --mh。 */
   var deck=document.querySelector('#toc .deck');
   function zero(){
     for(var i=0;i<cards.length;i++){
@@ -1721,7 +1682,6 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
       if(zh){
         zh.style.setProperty('--ls','0px');
         zh.style.setProperty('--mh0','none');
-        zh.style.setProperty('--mh','none');
       }
     }
   }
@@ -1758,12 +1718,7 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
       if(ls>capLs)ls=capLs;else if(ls<minLs)ls=minLs;
       zh.style.setProperty('--ls',ls.toFixed(2)+'px');
       var hZh=h0+kk*ls;
-      zh.style.setProperty('--mh0',(hZh+4).toFixed(1)+'px');      /* 默认态：单列刚好不裁切 */
-      var n=zh.textContent.length;
-      if(n>3){                                                   /* 展开折两列：按字数对半分 */
-        var per=Math.ceil(n/2);
-        zh.style.setProperty('--mh',(hZh/n*per+2).toFixed(1)+'px');
-      }
+      zh.style.setProperty('--mh0',(hZh+4).toFixed(1)+'px');      /* 单列刚好不裁切（形态恒定，无两列态） */
     }
   }
   function boot(){
