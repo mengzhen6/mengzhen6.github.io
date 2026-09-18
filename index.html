@@ -96,11 +96,12 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #cover{flex-direction:column;text-align:center;background:radial-gradient(120% 100% at 50% 0%,#14151b 0%,#0a0a0c 60%)}
 #cover .bgimg{position:absolute;inset:0;z-index:0;object-fit:cover;width:100%;height:100%;opacity:.10;
   filter:grayscale(1) brightness(.9)}
-#cover h1{font-family:var(--sans);font-size:clamp(48px,9.5vw,128px);line-height:1.02;font-weight:800}
+#cover h1{font-family:var(--sans);font-size:clamp(54px,11vw,146px);line-height:1.02;font-weight:800}
 /* StrokeText 两幕（对标 React Bits StrokeText 默认参数 1:1）：
    fontSize=128 fontWeight=800 letterSpacing=-4 strokeWidth=1.4
    drawDuration=1.6 fillDelay=.2 stagger=.05 fillDuration=.8 ease=power2.out/.inOut fillMode=wipe */
-#cover h1 .stsvg{display:block;margin:0 auto;height:1.3em;width:auto;overflow:visible}
+#cover h1 .stsvg{display:block;margin:0 auto;height:1.3em;width:auto;overflow:visible;transition:opacity .45s ease}
+#cover h1 .stsvg.out{opacity:0}
 #cover h1 .stsvg text{font-family:var(--sans);font-size:128px;font-weight:800;letter-spacing:-4px}
 #cover h1 .st-stroke{fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round}
 #cover h1 .st-stroke tspan{stroke-dasharray:896;stroke-dashoffset:896}
@@ -110,7 +111,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #cover h1 .st-sgroup{transition:opacity .7s cubic-bezier(.25,.46,.45,.94)}
 #cover h1 .stsvg.fillin .st-sgroup{opacity:0}
 #cover h1 .st-rect{width:0;transition:width .8s cubic-bezier(.42,0,.58,1)}
-#cover h1 .st-fill{fill:#fff}
+#cover h1 .st-fill{fill:var(--gold)}
 #cover h1 .ch{display:inline-block;opacity:0;transform:translateY(60px) rotateX(-60deg);animation:charup 1.1s cubic-bezier(.16,.7,.3,1) forwards;filter:blur(6px)}
 @keyframes charup{to{opacity:1;transform:none;filter:blur(0)}}
 @keyframes fadein{to{opacity:1}}
@@ -1153,11 +1154,40 @@ document.querySelectorAll('.divider .t').forEach(splitChars);
   measure();
   if(document.fonts&&document.fonts.ready){document.fonts.ready.then(measure).catch(function(){});}
 
+  /* 英/中两幕循环（trigger='loop'）：每幕 = 描边勾勒 1.6s → +0.2s 绿色填充擦出 0.8s → 停留 → 整体淡出 → 下一幕 */
+  function setWord(word){
+    var D=/[^\x00-\xff]/.test(word)?3200:896;   /* 汉字轮廓更长，dash 相应加大 */
+    while(st.firstChild)st.removeChild(st.firstChild);
+    word.split('').forEach(function(c,i){
+      var ts=document.createElementNS(NS,'tspan');
+      ts.textContent=c;ts.style.setProperty('--i',i);
+      ts.style.strokeDasharray=D;ts.style.strokeDashoffset=D;
+      st.appendChild(ts);
+    });
+    fl.textContent=word;
+  }
+  var timers=[];
+  function act(word){
+    timers.forEach(clearTimeout);timers=[];
+    svg.classList.remove('go','fillin','out');
+    rect.style.transition='none';rect.style.width='0px';
+    setWord(word);
+    void svg.getBoundingClientRect();          /* 强制重排，重启动画 */
+    rect.style.transition='';
+    svg.classList.add('go');
+    timers.push(setTimeout(function(){svg.classList.add('fillin');rect.style.width=box.w+'px';},1800));
+  }
+  function loop(){
+    act('Portfolio');
+    timers.push(setTimeout(function(){svg.classList.add('out');},4000));
+    timers.push(setTimeout(function(){act('作品集');},4650));
+    timers.push(setTimeout(function(){svg.classList.add('out');},8650));
+    timers.push(setTimeout(loop,9300));
+  }
   const rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(rm){rect.style.transition='none';rect.style.width=box.w+'px';sg.style.opacity='0';return;}
-  requestAnimationFrame(function(){requestAnimationFrame(function(){svg.classList.add('go');});});
-  /* 时间轴与组件一致：drawDuration 1.6s + fillDelay .2s 后开始擦出（fillDuration .8s） */
-  setTimeout(function(){svg.classList.add('fillin');rect.style.width=box.w+'px';},1800);
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(function(){loop();}).catch(function(){loop();});}
+  else loop();
 })();
 
 /* ---- contact title ---- */
