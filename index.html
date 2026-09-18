@@ -428,10 +428,19 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .dash .kpi .num.un{color:#fff}
 .dash .kpi .sub{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4}
 .dash .kpi .sub b{color:var(--gold2);font-weight:600}
-.dash .grid3{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dash .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
 .dash .panel{background:linear-gradient(160deg,#14161b,#0e0f13);border:1px solid var(--line);border-radius:16px;padding:22px 24px;min-width:0}
 .dash .panel h3{font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:.02em}
 .dash .panel .hint{font-size:11px;color:var(--muted);letter-spacing:.05em;margin-bottom:18px}
+/* 年度互动率条形（聚合 · 内容质量） */
+.er{display:flex;flex-direction:column;gap:13px}
+.er .r{display:grid;grid-template-columns:36px 1fr auto;gap:9px;align-items:center}
+.er .r .i{font-size:10.5px;color:var(--muted);font-weight:600;text-align:center}
+.er .r .bar{height:20px;border-radius:5px;position:relative;overflow:hidden;
+  background:linear-gradient(90deg,rgba(61,255,143,.10),rgba(61,255,143,.18))}
+.er .r .bar i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);
+  background:linear-gradient(90deg,var(--gold),var(--gold2));transition:transform 1.05s cubic-bezier(.2,.72,.2,1)}
+.er .r .val{font-family:var(--serif);font-size:12.5px;font-weight:800;color:#fff;min-width:48px;text-align:right;font-variant-numeric:tabular-nums}
 /* 互动构成环 */
 .mix{display:flex;align-items:center;gap:22px}
 .mix .donut{width:150px;height:150px;border-radius:50%;flex:0 0 auto;position:relative}
@@ -928,6 +937,11 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <div class="kpi"><div class="lab">2026 年度播放</div><div class="num un" id="dY26">0</div><div class="sub">年内 10 条内容 · 五年最佳</div></div>
       </div>
       <div class="grid3">
+        <div class="panel">
+          <h3>年度互动率</h3>
+          <div class="hint">互动量 ÷ 播放量 · 衡量内容质量</div>
+          <div class="er" id="dEngBar"></div>
+        </div>
         <div class="panel">
           <h3>互动构成</h3>
           <div class="hint">点赞 / 收藏 / 评论 / 分享 占比</div>
@@ -1449,7 +1463,22 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
     function tick(t){const k=Math.min(1,(t-st)/dur);const e=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(target*e));if(k<1)requestAnimationFrame(tick);}
     requestAnimationFrame(tick);
   }
-/* 互动构成环 */
+  /* 年度互动率（聚合 · 互动量÷播放量） */
+  const yer={};
+  POSTS.forEach(r=>{const y=r[0].slice(0,4);const e=r[2]+r[3]+r[4]+r[5];if(!yer[y])yer[y]={p:0,e:0};yer[y].p+=r[1];yer[y].e+=e;});
+  const erYrs=Object.keys(yer).sort();
+  const maxR=Math.max(...erYrs.map(y=>yer[y].e/yer[y].p));
+  const erFills=[];
+  const erBox=document.getElementById('dEngBar');
+  erYrs.forEach(y=>{
+    const rate=yer[y].e/yer[y].p*100;
+    const row=document.createElement('div');row.className='r';
+    const w=(25+75*(rate/100)/maxR).toFixed(1);
+    row.innerHTML=`<div class="i">${y}</div><div class="bar"><i></i></div><div class="val">${rate.toFixed(1)}%</div>`;
+    erBox.appendChild(row);
+    erFills.push({fill:row.querySelector('.bar i'),w:w/100});
+  });
+  /* 互动构成环 */
   const mix=document.getElementById('dMix');
   const items=[['点赞','#3dff8f',totalL],['收藏','#7dffb8',totalF],['评论','#6f8f7a',totalC],['分享','#4d6b5c',totalS]];
   let acc=0;const segs=[];
@@ -1474,6 +1503,7 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
     countUp(document.getElementById('dLike'),totalL);
     countUp(document.getElementById('dY26'),ym['2026']);
     document.getElementById('dEng').textContent=engRate.toFixed(1)+'%';
+    erFills.forEach((f,i)=>setTimeout(()=>{f.fill.style.transform='scaleX('+f.w+')';},250+i*120));
     yearBars.forEach((b,i)=>setTimeout(()=>b.style.transform='scaleY(1)',250+i*90));
   }
   if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)run();});},{threshold:.3});io.observe(dash);}
