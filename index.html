@@ -1762,14 +1762,17 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
   var CFG = window.__PILLNAV__ || {};
 
   var DEFAULTS = {
-    /* 导航项：[英文文案, 锚点] */
+    /* 导航项：[英文文案, 锚点] —— 与目录页各卡片底下的英文一致 */
     items: [
-      ['About', '#about'],
-      ['Social Data', '#domestic'],
-      ['Videos', '#works'],
-      ['Web Design', '#web'],
-      ['Visual Design', '#visual'],
-      ['Exhibitions', '#expo']
+      ['Social', '#domestic'],
+      ['Overseas', '#overseas'],
+      ['Video', '#works'],
+      ['Website', '#web'],
+      ['Data', '#xhsB'],
+      ['Creator', '#wxSelf'],
+      ['Graphic', '#visual'],
+      ['Expo', '#expo'],
+      ['Campaign', '#fans']
     ],
     cta: ['Contact', '#contact'],   /* 右侧实心按钮（对标截图中的「注册」） */
     mobileItems: [                  /* 移动端弹层：全量章节（英文） */
@@ -1903,6 +1906,12 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
     '}',
     '@media (min-width:' + (opt('mobileBreakpoint') + 1) + 'px){',
     '  .pnav-pop{display:none}',
+    '}',
+    '/* 中屏收窄胶囊，防止 9 项溢出 */',
+    '@media (max-width:1360px) and (min-width:' + (opt('mobileBreakpoint') + 1) + 'px){',
+    '  .pnav{--pill-pad-x:11px;--nav-h:38px}',
+    '  .pnav-brand{font-size:13px;letter-spacing:.14em}',
+    '  .pnav-pill .pnav-label{font-size:12px}',
     '}'
   ].join('\n');
 
