@@ -96,7 +96,17 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #cover{flex-direction:column;text-align:center;background:radial-gradient(120% 100% at 50% 0%,#14151b 0%,#0a0a0c 60%)}
 #cover .bgimg{position:absolute;inset:0;z-index:0;object-fit:cover;width:100%;height:100%;opacity:.10;
   filter:grayscale(1) brightness(.9)}
-#cover h1{font-family:var(--serif);font-size:clamp(52px,12vw,150px);line-height:1.02;font-weight:600;letter-spacing:.02em;perspective:600px}
+#cover h1{font-family:var(--serif);font-size:clamp(52px,12vw,150px);line-height:1.02;font-weight:600;letter-spacing:.02em}
+/* StrokeText 两幕（对标 React Bits StrokeText）：一幕绿描边勾勒 Portfolio，二幕擦出白色「作品集」 */
+#cover h1 .stsvg{display:block;height:1.12em;width:auto;overflow:visible}
+#cover h1 .st-stroke{fill:none;stroke:var(--gold);stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round}
+#cover h1 .st-stroke tspan{stroke-dasharray:700;stroke-dashoffset:700}
+#cover h1 .stsvg.go .st-stroke tspan{animation:stDraw 1.6s cubic-bezier(.16,.7,.3,1) forwards;animation-delay:calc(.2s + var(--i)*.08s)}
+@keyframes stDraw{to{stroke-dashoffset:0}}
+#cover h1 .st-sgroup{transition:opacity .7s ease}
+#cover h1 .stsvg.fillin .st-sgroup{opacity:0}
+#cover h1 .st-rect{width:0;transition:width 1.05s cubic-bezier(.2,.8,.2,1)}
+#cover h1 .st-fill{fill:#fff}
 #cover h1 .ch{display:inline-block;opacity:0;transform:translateY(60px) rotateX(-60deg);animation:charup 1.1s cubic-bezier(.16,.7,.3,1) forwards;filter:blur(6px)}
 @keyframes charup{to{opacity:1;transform:none;filter:blur(0)}}
 @keyframes fadein{to{opacity:1}}
@@ -1102,9 +1112,48 @@ function splitChars(el){const t=el.dataset.txt||el.textContent;el.textContent=''
 document.querySelectorAll('.divider .t').forEach(splitChars);
 
 /* ---- cover title ---- */
-const title=document.getElementById('title');
-const tt='作品集';
-[...tt].forEach((c,i)=>{const s=document.createElement('span');s.className='ch';s.textContent=c;s.style.animationDelay=(.2+i*.16)+'s';title.appendChild(s);});
+/* ---- cover title · StrokeText 两幕（对标 React Bits StrokeText）----
+   第一幕：Portfolio 绿色描边逐字勾勒；第二幕：描边淡出、「作品集」白色填充从左到右擦出 */
+(function(){
+  const host=document.getElementById('title'); if(!host) return;
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(NS,'svg');
+  svg.setAttribute('class','stsvg');
+  svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+  const defs=document.createElementNS(NS,'defs');
+  const cp=document.createElementNS(NS,'clipPath'); cp.setAttribute('id','stWipe');
+  const rect=document.createElementNS(NS,'rect'); rect.setAttribute('class','st-rect');
+  cp.appendChild(rect); defs.appendChild(cp); svg.appendChild(defs);
+  const sg=document.createElementNS(NS,'g'); sg.setAttribute('class','st-sgroup');
+  const st=document.createElementNS(NS,'text');
+  st.setAttribute('class','st-stroke'); st.setAttribute('y','0'); st.setAttribute('text-anchor','middle');
+  'Portfolio'.split('').forEach((c,i)=>{const ts=document.createElementNS(NS,'tspan');ts.textContent=c;ts.style.setProperty('--i',i);st.appendChild(ts);});
+  sg.appendChild(st); svg.appendChild(sg);
+  const fl=document.createElementNS(NS,'text');
+  fl.setAttribute('class','st-fill'); fl.setAttribute('y','0'); fl.setAttribute('text-anchor','middle');
+  fl.setAttribute('clip-path','url(#stWipe)'); fl.textContent='作品集';
+  svg.appendChild(fl); host.appendChild(svg);
+
+  let box={x:-270,y:-88,w:540,h:122};
+  function measure(){
+    try{
+      const a=st.getBBox(),b=fl.getBBox();
+      const x=Math.min(a.x,b.x),y=Math.min(a.y,b.y);
+      const x2=Math.max(a.x+a.width,b.x+b.width),y2=Math.max(a.y+a.height,b.y+b.height);
+      const pad=10;
+      box={x:x-pad,y:y-pad,w:(x2-x)+pad*2,h:(y2-y)+pad*2};
+      svg.setAttribute('viewBox',box.x+' '+box.y+' '+box.w+' '+box.h);
+      rect.setAttribute('x',box.x); rect.setAttribute('y',box.y); rect.setAttribute('height',box.h);
+    }catch(e){}
+  }
+  measure();
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(measure).catch(function(){});}
+
+  const rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(rm){rect.style.transition='none';rect.style.width=box.w+'px';sg.style.opacity='0';return;}
+  requestAnimationFrame(function(){requestAnimationFrame(function(){svg.classList.add('go');});});
+  setTimeout(function(){svg.classList.add('fillin');rect.style.width=box.w+'px';},2920);
+})();
 
 /* ---- contact title ---- */
 const ct='联系我吧';
