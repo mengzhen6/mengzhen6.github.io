@@ -422,7 +422,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .dash .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .dash .kpi{background:linear-gradient(160deg,#15171d,#0e0f13);border:1px solid var(--line);border-radius:14px;
   padding:18px 20px;position:relative;overflow:hidden}
-.dash .kpi::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:.75}
+.dash .kpi::after{content:"";position:absolute;left:0;top:0;bottom:0;width:9px;background:var(--gold);opacity:1}
 .dash .kpi .lab{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;white-space:nowrap}
 .dash .kpi .num{font-family:var(--serif);font-size:clamp(26px,2.7vw,38px);font-weight:800;color:var(--gold2);line-height:1;letter-spacing:.01em}
 .dash .kpi .num.un{color:#fff}
@@ -432,10 +432,10 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .dash .panel{background:linear-gradient(160deg,#14161b,#0e0f13);border:1px solid var(--line);border-radius:16px;padding:22px 24px;min-width:0}
 .dash .panel h3{font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:.02em}
 .dash .panel .hint{font-size:11px;color:var(--muted);letter-spacing:.05em;margin-bottom:18px}
-/* 播放力排名柱状（金色动画 · 占1/3） */
+/* 区间分布柱状（绿色动画 · 占1/3） */
 .rank{display:flex;flex-direction:column;gap:11px}
-.rank .r{display:grid;grid-template-columns:24px 1fr auto;gap:9px;align-items:center}
-.rank .r .i{font-family:var(--serif);font-size:11.5px;color:var(--muted);text-align:center;font-weight:700}
+.rank .r{display:grid;grid-template-columns:72px 1fr auto;gap:9px;align-items:center}
+.rank .r .i{font-family:var(--serif);font-size:11px;color:var(--muted);text-align:center;font-weight:700;white-space:nowrap}
 .rank .r .bar{height:22px;border-radius:5px;position:relative;overflow:hidden;
   background:linear-gradient(90deg,rgba(61,255,143,.12),rgba(61,255,143,.20))}
 .rank .r .bar i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);
@@ -940,8 +940,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
       </div>
       <div class="grid3">
         <div class="panel">
-          <h3>作品播放力 TOP6</h3>
-          <div class="hint">按累计播放排序 · 柱越长触达越广</div>
+          <h3>播放量区间分布</h3>
+          <div class="hint">38 条内容分档统计 · 柱越长该档内容越多</div>
           <div class="rank" id="dRank"></div>
         </div>
         <div class="panel">
@@ -1408,7 +1408,7 @@ function drag(el){let down=false,sx=0,sl=0;
 el.addEventListener('mousedown',e=>{down=true;el.classList.add('grabbing');sx=e.pageX;sl=el.scrollLeft;});
 addEventListener('mouseup',()=>{down=false;el.classList.remove('grabbing');});
 addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
-/* 内容成效看板：真实数据 · 直观呈现（数字滚动 + 播放力排名柱状 + 互动构成环 + 年度柱） */
+/* 内容成效看板：真实数据 · 直观呈现（数字滚动 + 区间分布柱状 + 互动构成环 + 年度柱） */
 (function(){
   const dash=document.getElementById('dashB');if(!dash)return;
   /* [date, plays, comments, likes, favs, shares] 28条真实数据 */
@@ -1458,7 +1458,6 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
   const totalP=sum(P),avgP=Math.round(totalP/n),totalL=sum(L),totalF=sum(F),totalC=sum(C),totalS=sum(S);
   const eng=totalL+totalF+totalC+totalS;
   const engRate=eng/totalP*100;
-  const sorted=POSTS.slice().sort((a,b)=>b[1]-a[1]);
   const fmt=v=>{if(v>=10000){const s=(v/10000);return (s>=100?s.toFixed(0):s.toFixed(1)).replace(/\.0$/,'')+'万';}return v.toLocaleString('en-US');};
   /* KPI 数字滚动 */
   function countUp(el,target){
@@ -1466,17 +1465,20 @@ addEventListener('mousemove',e=>{if(down)el.scrollLeft=sl-(e.pageX-sx);});}
     function tick(t){const k=Math.min(1,(t-st)/dur);const e=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(target*e));if(k<1)requestAnimationFrame(tick);}
     requestAnimationFrame(tick);
   }
-  /* 播放力 TOP6 排名柱状 */
-  const rank=document.getElementById('dRank');
-  const top=sorted.slice(0,6);const maxP=top[0][1];
-  const rankFills=[];
-  top.forEach((r,i)=>{
-    const row=document.createElement('div');row.className='r';
-    const w=(45+55*r[1]/maxP).toFixed(1);
-    row.innerHTML=`<div class="i">0${i+1}</div><div class="bar"><i></i><span>${r[0]}</span></div><div class="val">${fmt(r[1])}</div>`;
-    rank.appendChild(row);
-    rankFills.push({fill:row.querySelector('.bar i'),span:row.querySelector('.bar span'),w:w/100});
-  });
+  /* 播放量区间分布（聚合分档 · 不含单条数据） */
+const rank=document.getElementById('dRank');
+const buckets=[['20万+',0],['10-20万',0],['5-10万',0],['1-5万',0],['1万以下',0]];
+POSTS.forEach(r=>{const p=r[1];if(p>=200000)buckets[0][1]++;else if(p>=100000)buckets[1][1]++;else if(p>=50000)buckets[2][1]++;else if(p>=10000)buckets[3][1]++;else buckets[4][1]++;});
+const maxB=Math.max(...buckets.map(b=>b[1]));
+const rankFills=[];
+buckets.forEach(b=>{
+  const row=document.createElement('div');row.className='r';
+  const c=b[1],pct=(c/n*100).toFixed(1).replace(/\.0$/,'');
+  const w=(40+60*c/maxB).toFixed(1);
+  row.innerHTML=`<div class="i">${b[0]}</div><div class="bar"><i></i><span>${c} 条 · ${pct}%</span></div><div class="val">${c} 条</div>`;
+  rank.appendChild(row);
+  rankFills.push({fill:row.querySelector('.bar i'),span:row.querySelector('.bar span'),w:w/100});
+});
   /* 互动构成环 */
   const mix=document.getElementById('dMix');
   const items=[['点赞','#3dff8f',totalL],['收藏','#7dffb8',totalF],['评论','#6f8f7a',totalC],['分享','#4d6b5c',totalS]];
