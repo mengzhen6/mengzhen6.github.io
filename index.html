@@ -311,35 +311,33 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .ctable td:not(.b){min-width:118px}
 .ctable tbody tr{height:56px}
 
-/* 竞品分析引导页：左文案 · 右侧"点击掉落"卡片堆（黑底 · 绿框 · 白字 · 绿色荧光） */
-#compete .compete-wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;align-items:center}
+/* 竞品分析引导页：左文案吸顶 · 右侧 ScrollStack 滚动堆叠（黑底 · 绿框 · 白字 · 绿色荧光） */
+#compete{min-height:420vh;align-items:flex-start;padding-top:14vh;padding-bottom:0}
+#compete .compete-wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:start}
+#compete .compete-left{will-change:transform}
 #compete .compete-left p{max-width:46ch}
-.ss-deck{position:relative;height:min(78vh,700px)}
-.ss-deck::before{content:"";position:absolute;inset:-64px -48px;pointer-events:none;z-index:0;
-  background:radial-gradient(56% 56% at 50% 46%,rgba(61,255,143,.16),transparent 72%)}
-.ss-card{position:absolute;inset:0;z-index:1;background:#000;border:2px solid var(--gold);border-radius:16px;
-  padding:20px 22px;overflow:auto;will-change:transform;
-  box-shadow:0 0 0 1px rgba(61,255,143,.22),0 0 46px -6px rgba(61,255,143,.55),0 24px 60px rgba(0,0,0,.6);
-  transition:transform .45s cubic-bezier(.22,1,.28,1)}
-.ss-card.fall{transition:transform .68s cubic-bezier(.5,0,.85,.4),opacity .5s ease-in .08s;
-  transform:translate3d(4vw,112vh,0) rotate(9deg) !important;opacity:0}
-.ss-card .ss-head{margin-bottom:14px}
+/* .ss-card 由 ScrollStack JS 用 translate3d 钉住（body 的 overflow-x:hidden 会让 sticky 失效） */
+.ss-card{background:#000;border:2px solid var(--gold);border-radius:16px;
+  padding:18px 20px 14px;margin-bottom:56vh;transform-origin:top center;will-change:transform;
+  box-shadow:0 0 0 1px rgba(61,255,143,.22),0 0 46px -6px rgba(61,255,143,.55),0 24px 60px rgba(0,0,0,.6)}
+.ss-card .ss-head{margin-bottom:12px}
 .ss-card .ss-head h4{color:#fff !important;font-family:var(--serif);font-weight:800;
-  font-size:clamp(16px,1.55vw,22px);letter-spacing:.04em;margin:0}
-.ss-card .ctable{box-shadow:none}
-.ss-card .ctable td:not(.b){min-width:92px}
+  font-size:clamp(15px,1.4vw,20px);letter-spacing:.04em;margin:0}
+/* 卡片内表格：完整展示，不出滚轮，适当缩小 */
+.ss-card{overflow:visible}
+.ss-card .ctable{box-shadow:none;border-width:2px}
+.ss-card .ctable th{padding:7px 7px}
+.ss-card .ctable th b{font-size:11px}
+.ss-card .ctable th i{font-size:10px}
+.ss-card .ctable td{padding:7px 8px;line-height:1.55;font-size:10.5px}
+.ss-card .ctable td.b{font-size:11px;white-space:normal}
+.ss-card .ctable td:not(.b){min-width:0}
 .ss-card .ctable tbody tr{height:auto}
-.ss-card .ctable th{padding:8px 8px}
-.ss-card .ctable td{padding:8px 10px;line-height:1.6;font-size:11.5px}
-.ss-card .ctable td.b{font-size:12px}
-.ss-ui{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:22px;min-height:36px}
-#chint{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold2)}
-#crestart{display:none;cursor:pointer;font:700 12px/1 var(--sans);letter-spacing:.14em;color:#04150c;
-  background:var(--gold);border:0;border-radius:999px;padding:10px 18px}
+.ss-end{height:30vh}
 @media (max-width:900px){
-  #compete .compete-wrap{grid-template-columns:1fr;gap:40px}
-  .ss-deck{height:64vh}
-  .ss-card{padding:14px}
+  #compete{min-height:0;padding-top:12vh}
+  #compete .compete-wrap{grid-template-columns:1fr;gap:44px}
+  .ss-card{margin-bottom:44vh;padding:14px}
 }
 
 @media (max-width:900px){#about .content{grid-template-columns:1fr;gap:40px}}
@@ -715,7 +713,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 <div id="progress"></div>
 <div id="topbar">
   <span class="brand">MENG ZHEN · 蒙贞</span>
-  <span class="sceneidx">SCENE <b id="si">01</b> / 17</span>
+  <span class="sceneidx">SCENE <b id="si">01</b> / 13</span>
 </div>
 <div id="nav"></div>
 <div id="cursor"></div>
@@ -876,128 +874,62 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
       </div>
     </div>
 
-    <!-- 右侧：点击掉落式卡片堆叠（黑底 · 绿框 · 白字 · 绿色荧光） -->
+    <!-- 右侧：ScrollStack 滚动堆叠（黑底 · 绿框 · 白字 · 绿色荧光） -->
     <div class="compete-stack" id="cstack">
-      <div class="ss-deck" id="cdeck">
-        <div class="ss-card">
-          <div class="ss-head"><h4>1. 国内海钓渔具竞品分析</h4></div>
-          <div class="ss-slot"></div>
-        </div>
-        <div class="ss-card">
-          <div class="ss-head"><h4>2. 海外海钓渔具竞品分析</h4></div>
-          <div class="ss-slot"></div>
-        </div>
-        <div class="ss-card">
-          <div class="ss-head"><h4>3. 国内电气行业展会营销竞品分析</h4></div>
-          <div class="ss-slot"></div>
-        </div>
-        <div class="ss-card">
-          <div class="ss-head"><h4>4. 国内电气行业直播竞品分析</h4></div>
-          <div class="ss-slot"></div>
-        </div>
+      <div class="ss-card">
+        <div class="ss-head"><h4>1. 国内海钓渔具竞品分析</h4></div>
+        <table class="ctable">
+        <thead><tr><th style="width:118px"><b>Brand</b><i>品牌</i></th><th><b>Target Audience</b><i>目标用户</i></th><th><b>Market Position</b><i>市场定位</i></th><th><b>Product Advantage</b><i>产品优势</i></th><th><b>Marketing Approach</b><i>营销方式</i></th></tr></thead>
+        <tbody>
+          <tr><td class="b">光威 GW</td><td>大众钓鱼爱好者，覆盖入门到进阶用户</td><td>国内大众化专业渔具品牌，强调品牌积累与可靠品质</td><td>产品线丰富，覆盖鱼竿、鱼轮、配件，突出耐用与高性价比</td><td>电商直播、赛事合作、达人内容与用户口碑传播</td></tr>
+          <tr><td class="b">狼王 Line Winder</td><td>注重装备性能的钓鱼用户与进阶玩家</td><td>专注渔具装备领域，强调专业性能与装备可靠性</td><td>主打鱼轮、鱼竿等核心装备，突出机械性能与产品稳定性</td><td>电商详情页、产品测评与参数对比内容</td></tr>
+          <tr><td class="b">AWM</td><td>海钓玩家，聚焦海洋垂钓场景用户</td><td>面向海钓场景的专业装备品牌，强调真实海洋体验</td><td>聚焦海钓竿、渔轮及相关配件，强调耐腐蚀与强度表现</td><td>海钓场景视频、玩家实测与达人分享</td></tr>
+          <tr><td class="b">迪佳 TICA</td><td>中高端钓鱼用户与专业钓手</td><td>中高端专业渔具品牌，强调技术与品质</td><td>覆盖海钓竿、路亚装备、渔轮等，注重材料与工艺</td><td>专业钓手合作、赛事活动与产品技术介绍</td></tr>
+          <tr><td class="b">汉鼎 HANGDING</td><td>年轻入门用户与新消费钓鱼人群</td><td>新消费渔具品牌，强调年轻化与易用性</td><td>产品强调易用性、价格优势与入门友好</td><td>短视频、电商直播与达人种草</td></tr>
+        </tbody>
+      </table>
       </div>
-      <div class="ss-ui">
-        <span id="chint">Click · 点击掉落一张</span>
-        <button id="crestart" type="button">&#8634; 重新堆叠</button>
+      <div class="ss-card">
+        <div class="ss-head"><h4>2. 海外海钓渔具竞品分析</h4></div>
+        <table class="ctable">
+        <thead><tr><th style="width:100px"><b>Brand</b><i>品牌</i></th><th><b>Brand Image</b><i>品牌形象</i></th><th><b>Core Value</b><i>核心价值</i></th><th><b>User Community</b><i>用户生态</i></th><th><b>Global Communication</b><i>全球传播方式</i></th></tr></thead>
+        <tbody>
+          <tr><td class="b">Shimano</td><td>全球专业渔具品牌，定位技术创新型钓鱼装备专家</td><td>强调轻量化、高精度、高耐久性技术，覆盖完整海钓装备体系</td><td>职业钓手、赛事社群与全球钓鱼爱好者社区</td><td>科技化、专业化表达：技术视频、赛事内容与职业钓手合作</td></tr>
+          <tr><td class="b">Daiwa</td><td>日本专业渔具品牌，强调创新技术与用户体验</td><td>注重材料研发、防腐蚀技术与轻量化设计</td><td>钓鱼社群、俱乐部与垂钓文化圈层</td><td>钓鱼教学、产品测试与用户实战内容，专业中带生活感</td></tr>
+          <tr><td class="b">Penn Fishing</td><td>美国经典海钓品牌，定位大型海钓与硬核玩家市场</td><td>强调力量、耐用性与复杂海洋环境适应能力</td><td>大物钓鱼玩家与远海垂钓社群</td><td>巨物捕获视频、钓鱼挑战与职业玩家故事</td></tr>
+          <tr><td class="b">Abu Garcia</td><td>综合型国际渔具品牌，覆盖专业与大众用户</td><td>产品丰富，强调易用性与可靠性能</td><td>年轻钓鱼用户与休闲垂钓社群</td><td>达人合作、技巧分享与社区内容</td></tr>
+          <tr><td class="b">Okuma</td><td>国际海钓装备品牌，强调性能与性价比平衡</td><td>覆盖渔轮、鱼竿等装备，强调稳定性能表现</td><td>大众海钓用户与入门进阶玩家</td><td>产品展示、用户案例与钓鱼活动</td></tr>
+        </tbody>
+      </table>
       </div>
+      <div class="ss-card">
+        <div class="ss-head"><h4>3. 国内电气行业展会营销竞品分析</h4></div>
+        <table class="ctable">
+        <thead><tr><th style="width:96px"><b>Brand</b><i>品牌</i></th><th><b>Exhibition Role</b><i>展会定位</i></th><th><b>Exhibition Frequency</b><i>展会频次</i></th><th><b>Display Focus</b><i>展示重点</i></th><th><b>Customer Engagement</b><i>客户互动</i></th><th><b>Lead Generation</b><i>获客方式</i></th></tr></thead>
+        <tbody>
+          <tr><td class="b">施耐德电气</td><td>行业解决方案展示平台</td><td>高频参与（年度重点工业展、能源展、行业活动）</td><td>智能能源、数字化解决方案、工业自动化生态</td><td>技术论坛、专家交流、案例分享</td><td>客户咨询、项目合作洽谈</td></tr>
+          <tr><td class="b">西门子</td><td>工业技术展示窗口</td><td>高频参与（工博会、自动化相关展会、行业活动）</td><td>自动化、数字工厂、工业软件解决方案</td><td>技术演讲、现场 Demo、方案交流</td><td>企业客户线索收集、合作机会挖掘</td></tr>
+          <tr><td class="b">汇川技术</td><td>国产自动化方案展示平台</td><td>定期参与（自动化展、制造业展会、新品发布活动）</td><td>产品应用案例、工业解决方案、技术能力展示</td><td>产品演示、工程师交流、应用场景讲解</td><td>渠道合作、客户开发</td></tr>
+          <tr><td class="b">信捷电气</td><td>产品应用推广平台</td><td>持续参与（行业展会、新品展示活动）</td><td>PLC、控制系统、自动化产品展示</td><td>技术交流、产品体验、方案沟通</td><td>工程客户转化、渠道拓展</td></tr>
+          <tr><td class="b">正泰电器</td><td>综合能源与电气解决方案展示平台</td><td>高频参与（电力、新能源、工业类展会）</td><td>低压电器、新能源、电力系统解决方案</td><td>产品体验、企业交流、项目展示</td><td>政企客户拓展、合作洽谈</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="ss-card">
+        <div class="ss-head"><h4>4. 国内电气行业直播竞品分析</h4></div>
+        <table class="ctable">
+        <thead><tr><th style="width:118px"><b>Brand</b><i>品牌</i></th><th><b>Content Purpose</b><i>内容目的</i></th><th><b>Main Format</b><i>内容形式</i></th><th><b>Audience</b><i>受众</i></th><th><b>Conversion Path</b><i>转化路径</i></th></tr></thead>
+        <tbody>
+          <tr><td class="b">西门子 Siemens</td><td>工业数字化解决方案推广</td><td>工博会直播、技术论坛、专家访谈、行业趋势分享</td><td>工程师、企业技术决策者与行业客户</td><td>专家型、教育型沟通，强调技术价值</td></tr>
+          <tr><td class="b">施耐德电气 Schneider Electric</td><td>智能能源管理与自动化品牌传播</td><td>技术课堂、案例分享、行业趋势直播</td><td>企业客户、能源与工业行业用户</td><td>顾问式沟通，帮助客户理解技术趋势</td></tr>
+          <tr><td class="b">汇川技术 Inovance</td><td>国产工业自动化产品推广</td><td>产品发布直播、技术培训、应用案例拆解</td><td>自动化工程师、制造业客户</td><td>工程师视角，强调实践经验</td></tr>
+          <tr><td class="b">信捷电气 Xinje</td><td>自动化控制产品推广与技术教学</td><td>系列化技术直播、产品教学、案例解析</td><td>入门工程师、设备制造商</td><td>专业但易理解，降低学习门槛</td></tr>
+          <tr><td class="b">和利时 HollySys</td><td>工业自动化与控制系统能力展示</td><td>技术交流直播、行业解决方案分享</td><td>流程工业与大型项目客户</td><td>B 端专业沟通，突出行业经验</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="ss-end"></div>
     </div>
-  </div>
-</section>
-
-<!-- 竞品分析 1/4：国内海钓渔具 -->
-<section class="scene" id="compete1">
-  <div class="content">
-    <div class="kicker reveal">Competitor Analysis · 01</div>
-    <h2 class="h-serif reveal" style="font-size:clamp(26px,3.2vw,42px);margin-bottom:22px">1. 国内海钓渔具竞品分析</h2>
-    <table class="ctable reveal">
-      <thead><tr>
-        <th style="width:132px"><b>Brand</b><i>品牌</i></th>
-        <th><b>Target Audience</b><i>目标用户</i></th>
-        <th><b>Market Position</b><i>市场定位</i></th>
-        <th><b>Product Advantage</b><i>产品优势</i></th>
-        <th><b>Marketing Approach</b><i>营销方式</i></th>
-      </tr></thead>
-      <tbody>
-        <tr><td class="b">光威 GW</td><td>大众钓鱼爱好者，覆盖入门到进阶用户</td><td>国内大众化专业渔具品牌，强调品牌积累与可靠品质</td><td>产品线丰富，覆盖鱼竿、鱼轮、配件，突出耐用与高性价比</td><td>电商直播、赛事合作、达人内容与用户口碑传播</td></tr>
-        <tr><td class="b">狼王 Line Winder</td><td>注重装备性能的钓鱼用户与进阶玩家</td><td>专注渔具装备领域，强调专业性能与装备可靠性</td><td>主打鱼轮、鱼竿等核心装备，突出机械性能与产品稳定性</td><td>电商详情页、产品测评与参数对比内容</td></tr>
-        <tr><td class="b">AWM</td><td>海钓玩家，聚焦海洋垂钓场景用户</td><td>面向海钓场景的专业装备品牌，强调真实海洋体验</td><td>聚焦海钓竿、渔轮及相关配件，强调耐腐蚀与强度表现</td><td>海钓场景视频、玩家实测与达人分享</td></tr>
-        <tr><td class="b">迪佳 TICA</td><td>中高端钓鱼用户与专业钓手</td><td>中高端专业渔具品牌，强调技术与品质</td><td>覆盖海钓竿、路亚装备、渔轮等，注重材料与工艺</td><td>专业钓手合作、赛事活动与产品技术介绍</td></tr>
-        <tr><td class="b">汉鼎 HANGDING</td><td>年轻入门用户与新消费钓鱼人群</td><td>新消费渔具品牌，强调年轻化与易用性</td><td>产品强调易用性、价格优势与入门友好</td><td>短视频、电商直播与达人种草</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- 竞品分析 2/4：海外海钓渔具 -->
-<section class="scene" id="compete2">
-  <div class="content">
-    <div class="kicker reveal">Competitor Analysis · 02</div>
-    <h2 class="h-serif reveal" style="font-size:clamp(26px,3.2vw,42px);margin-bottom:22px">2. 海外海钓渔具竞品分析</h2>
-    <table class="ctable reveal">
-      <thead><tr>
-        <th style="width:132px"><b>Brand</b><i>品牌</i></th>
-        <th><b>Brand Image</b><i>品牌形象</i></th>
-        <th><b>Core Value</b><i>核心价值</i></th>
-        <th><b>User Community</b><i>用户生态</i></th>
-        <th><b>Global Communication</b><i>全球传播方式</i></th>
-      </tr></thead>
-      <tbody>
-        <tr><td class="b">Shimano</td><td>全球专业渔具品牌，定位技术创新型钓鱼装备专家</td><td>强调轻量化、高精度、高耐久性技术，覆盖完整海钓装备体系</td><td>职业钓手、赛事社群与全球钓鱼爱好者社区</td><td>科技化、专业化表达：技术视频、赛事内容与职业钓手合作</td></tr>
-        <tr><td class="b">Daiwa</td><td>日本专业渔具品牌，强调创新技术与用户体验</td><td>注重材料研发、防腐蚀技术与轻量化设计</td><td>钓鱼社群、俱乐部与垂钓文化圈层</td><td>钓鱼教学、产品测试与用户实战内容，专业中带生活感</td></tr>
-        <tr><td class="b">Penn Fishing</td><td>美国经典海钓品牌，定位大型海钓与硬核玩家市场</td><td>强调力量、耐用性与复杂海洋环境适应能力</td><td>大物钓鱼玩家与远海垂钓社群</td><td>巨物捕获视频、钓鱼挑战与职业玩家故事</td></tr>
-        <tr><td class="b">Abu Garcia</td><td>综合型国际渔具品牌，覆盖专业与大众用户</td><td>产品丰富，强调易用性与可靠性能</td><td>年轻钓鱼用户与休闲垂钓社群</td><td>达人合作、技巧分享与社区内容</td></tr>
-        <tr><td class="b">Okuma</td><td>国际海钓装备品牌，强调性能与性价比平衡</td><td>覆盖渔轮、鱼竿等装备，强调稳定性能表现</td><td>大众海钓用户与入门进阶玩家</td><td>产品展示、用户案例与钓鱼活动</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- 竞品分析 3/4：国内电气行业展会营销 -->
-<section class="scene" id="compete3">
-  <div class="content">
-    <div class="kicker reveal">Competitor Analysis · 03</div>
-    <h2 class="h-serif reveal" style="font-size:clamp(26px,3.2vw,42px);margin-bottom:22px">3. 国内电气行业展会营销竞品分析</h2>
-    <table class="ctable reveal">
-      <thead><tr>
-        <th style="width:118px"><b>Brand</b><i>品牌</i></th>
-        <th><b>Exhibition Role</b><i>展会定位</i></th>
-        <th><b>Exhibition Frequency</b><i>展会频次</i></th>
-        <th><b>Display Focus</b><i>展示重点</i></th>
-        <th><b>Customer Engagement</b><i>客户互动</i></th>
-        <th><b>Lead Generation</b><i>获客方式</i></th>
-      </tr></thead>
-      <tbody>
-        <tr><td class="b">施耐德电气</td><td>行业解决方案展示平台</td><td>高频参与（年度重点工业展、能源展、行业活动）</td><td>智能能源、数字化解决方案、工业自动化生态</td><td>技术论坛、专家交流、案例分享</td><td>客户咨询、项目合作洽谈</td></tr>
-        <tr><td class="b">西门子</td><td>工业技术展示窗口</td><td>高频参与（工博会、自动化相关展会、行业活动）</td><td>自动化、数字工厂、工业软件解决方案</td><td>技术演讲、现场 Demo、方案交流</td><td>企业客户线索收集、合作机会挖掘</td></tr>
-        <tr><td class="b">汇川技术</td><td>国产自动化方案展示平台</td><td>定期参与（自动化展、制造业展会、新品发布活动）</td><td>产品应用案例、工业解决方案、技术能力展示</td><td>产品演示、工程师交流、应用场景讲解</td><td>渠道合作、客户开发</td></tr>
-        <tr><td class="b">信捷电气</td><td>产品应用推广平台</td><td>持续参与（行业展会、新品展示活动）</td><td>PLC、控制系统、自动化产品展示</td><td>技术交流、产品体验、方案沟通</td><td>工程客户转化、渠道拓展</td></tr>
-        <tr><td class="b">正泰电器</td><td>综合能源与电气解决方案展示平台</td><td>高频参与（电力、新能源、工业类展会）</td><td>低压电器、新能源、电力系统解决方案</td><td>产品体验、企业交流、项目展示</td><td>政企客户拓展、合作洽谈</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- 竞品分析 4/4：国内电气行业直播 -->
-<section class="scene" id="compete4">
-  <div class="content">
-    <div class="kicker reveal">Competitor Analysis · 04</div>
-    <h2 class="h-serif reveal" style="font-size:clamp(26px,3.2vw,42px);margin-bottom:22px">4. 国内电气行业直播竞品分析</h2>
-    <table class="ctable reveal">
-      <thead><tr>
-        <th style="width:150px"><b>Brand</b><i>品牌</i></th>
-        <th><b>Content Purpose</b><i>内容目的</i></th>
-        <th><b>Main Format</b><i>内容形式</i></th>
-        <th><b>Audience</b><i>受众</i></th>
-        <th><b>Conversion Path</b><i>转化路径</i></th>
-      </tr></thead>
-      <tbody>
-        <tr><td class="b">西门子 Siemens</td><td>工业数字化解决方案推广</td><td>工博会直播、技术论坛、专家访谈、行业趋势分享</td><td>工程师、企业技术决策者与行业客户</td><td>专家型、教育型沟通，强调技术价值</td></tr>
-        <tr><td class="b">施耐德电气 Schneider Electric</td><td>智能能源管理与自动化品牌传播</td><td>技术课堂、案例分享、行业趋势直播</td><td>企业客户、能源与工业行业用户</td><td>顾问式沟通，帮助客户理解技术趋势</td></tr>
-        <tr><td class="b">汇川技术 Inovance</td><td>国产工业自动化产品推广</td><td>产品发布直播、技术培训、应用案例拆解</td><td>自动化工程师、制造业客户</td><td>工程师视角，强调实践经验</td></tr>
-        <tr><td class="b">信捷电气 Xinje</td><td>自动化控制产品推广与技术教学</td><td>系列化技术直播、产品教学、案例解析</td><td>入门工程师、设备制造商</td><td>专业但易理解，降低学习门槛</td></tr>
-        <tr><td class="b">和利时 HollySys</td><td>工业自动化与控制系统能力展示</td><td>技术交流直播、行业解决方案分享</td><td>流程工业与大型项目客户</td><td>B 端专业沟通，突出行业经验</td></tr>
-      </tbody>
-    </table>
   </div>
 </section>
 
@@ -1455,7 +1387,7 @@ document.querySelectorAll('.strip').forEach(el=>io2.observe(el));
 /* ---- progress + scene index ---- */
 const scenes=[...document.querySelectorAll('.scene')];
 const nav=document.getElementById('nav');
-/* PillNav：场景中文名（主场景进导航；compete1-4 竞品表格子页归属「竞品分析」，不单列） */
+/* PillNav：场景中文名（compete 引导页内含四张竞品卡片，归属「竞品分析」） */
 const NAVNAME={about:'关于我',toc:'目录',compete:'竞品分析',domestic:'国内社媒',overseas:'海外社媒',works:'视频作品',
   web:'网页设计',xhsB:'小红书',wxSelf:'公众号',visual:'视觉设计',expo:'展会活动',fans:'粉丝运营',contact:'联系我'};
 const navScenes=scenes.filter(s=>NAVNAME[s.id]);
@@ -1531,49 +1463,64 @@ addEventListener('scroll',onScroll,{passive:true});onScroll();
   });
 })();
 
-/* ---- 竞品卡片堆：四张叠放，点击掉落一张（黑底绿框 · 绿色荧光） ---- */
+/* ---- ScrollStack（React Bits ScrollStack 原生等效版 · 零依赖） ---- */
+/* 参数同组件：itemStackDistance 30 / stackPosition 20% / scaleEndPosition 10% / baseScale .85 / itemScale .03
+   钉住不用 sticky（body overflow-x:hidden 会失效），改用 translate3d 位移，逻辑与组件一致 */
 (function(){
-  var deck=document.getElementById('cdeck');if(!deck)return;
-  var cards=[].slice.call(deck.querySelectorAll('.ss-card'));
+  var stack=document.getElementById('cstack');if(!stack)return;
+  var cards=[].slice.call(stack.querySelectorAll('.ss-card'));
   if(!cards.length)return;
-  var hint=document.getElementById('chint'),btn=document.getElementById('crestart');
-  /* 表格内容直接复用四个竞品表格页，保证两处内容一致 */
-  ['compete1','compete2','compete3','compete4'].forEach(function(id,i){
-    var src=document.querySelector('#'+id+' .ctable'),c=cards[i];
-    if(!src||!c)return;
-    var tb=src.cloneNode(true);
-    tb.classList.remove('reveal');tb.classList.add('in');
-    c.querySelector('.ss-slot').appendChild(tb);
-  });
+  var scene=document.getElementById('compete');
+  var left=document.querySelector('.compete-left');
+  var endEl=stack.querySelector('.ss-end');
+  var ITEM_DIST=30, BASE=0.85, STEP=0.03, STACK=0.20, SCALE_END=0.10;
 
-  var order=cards.slice(),busy=false;
-  function layout(){
-    order.forEach(function(c,i){
-      c.style.zIndex=String(order.length-i);
-      c.style.transform=i===0?'translate3d(0,0,0)':'translate3d(0,'+(-i*18)+'px,0)';
-      c.style.pointerEvents=i===0?'auto':'none';
-    });
+  function docTop(el){return el.getBoundingClientRect().top+window.scrollY;}
+  function clamp(v,a,b){return v<a?a:(v>b?b:v);}
+  function progress(t,s,e){return t<s?0:(t>e?1:(t-s)/(e-s));}
+
+  var tops=[],endTop=0,sceneTop=0,sceneH=0,leftTop=0,leftH=0;
+  function measure(){
+    tops=cards.map(docTop);
+    endTop=endEl?docTop(endEl):(tops[tops.length-1]+cards[cards.length-1].offsetHeight);
+    sceneTop=docTop(scene);sceneH=scene.offsetHeight;
+    if(left){leftTop=docTop(left);leftH=left.offsetHeight;}
   }
-  function ui(){
-    var n=order.length;
-    if(hint){hint.style.display=n?'':'none';hint.textContent='Click · 点击掉落一张（还剩 '+n+' 张）';}
-    if(btn)btn.style.display=n?'none':'inline-flex';
+
+  function update(){
+    var y=window.scrollY,vh=window.innerHeight;
+    var stackPosPx=STACK*vh, scaleEndPx=SCALE_END*vh, pinEnd=endTop-vh/2;
+
+    for(var i=0;i<cards.length;i++){
+      var cardTop=tops[i];
+      var triggerStart=cardTop-stackPosPx-ITEM_DIST*i;
+      var triggerEnd=cardTop-scaleEndPx;
+      var pinStart=triggerStart;
+      var sp=progress(y,triggerStart,triggerEnd);
+      var target=BASE+i*STEP;
+      var scale=1-sp*(1-target);
+      var ty=0;
+      if(y>=pinStart&&y<=pinEnd) ty=y-cardTop+stackPosPx+ITEM_DIST*i;
+      else if(y>pinEnd) ty=pinEnd-cardTop+stackPosPx+ITEM_DIST*i;
+      cards[i].style.transform='translate3d(0,'+Math.round(ty*100)/100+'px,0) scale('+Math.round(scale*1000)/1000+')';
+    }
+
+    /* 左侧文案跟随吸顶（同样用位移实现） */
+    if(left){
+      var want=y-(leftTop-vh*0.14);
+      var maxT=(sceneTop+sceneH-40-leftH)-leftTop;
+      var tt=clamp(want,0,Math.max(0,maxT));
+      left.style.transform='translate3d(0,'+Math.round(tt*100)/100+'px,0)';
+    }
   }
-  deck.addEventListener('click',function(){
-    if(busy||!order.length)return;
-    busy=true;
-    var c=order.shift();
-    c.classList.add('fall');
-    setTimeout(function(){c.style.visibility='hidden';layout();ui();busy=false;},620);
-    ui();
-  });
-  if(btn)btn.addEventListener('click',function(e){
-    e.stopPropagation();
-    order=cards.slice();
-    cards.forEach(function(c){c.classList.remove('fall');c.style.visibility='';});
-    layout();ui();
-  });
-  layout();ui();
+
+  function loop(){update();requestAnimationFrame(loop);}
+  function remeasure(){measure();update();}
+  addEventListener('resize',remeasure,{passive:true});
+  addEventListener('load',remeasure);
+  if(window.ResizeObserver){new ResizeObserver(remeasure).observe(stack);}
+  measure();update();
+  if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches))requestAnimationFrame(loop);
 })();
 
 /* ---- coverflow ---- */
