@@ -140,33 +140,31 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   border-radius:16px;border:1px solid rgba(var(--green-rgb),.16);
   background:linear-gradient(165deg,#111c16,#0a110e 58%,#0b1512);
   box-shadow:0 40px 80px -34px rgba(0,0,0,.98),0 0 0 1px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05)}
-/* 左侧深绿边栏：三大能力方向思维导图（大标题先出现，子节点后出现） */
+/* 左侧深绿边栏：三张能力卡片（沿用旧亮绿 #3dff8f） */
 #toc .dside{position:relative;flex:0 0 auto;width:clamp(262px,23.5vw,334px);
-  display:flex;flex-direction:column;justify-content:center;gap:clamp(15px,1.7vw,24px);
-  padding:clamp(20px,2.2vw,34px) clamp(18px,2vw,30px);
+  display:flex;flex-direction:column;justify-content:center;gap:clamp(13px,1.5vw,20px);
+  padding:clamp(20px,2.2vw,34px) clamp(16px,1.8vw,26px);
   background:linear-gradient(180deg,#1c4026,#0c2214 78%,#091a10);
   border-right:1px solid rgba(var(--green-rgb),.3)}
 #toc .dside::after{content:"";position:absolute;right:-1px;top:9%;bottom:9%;width:1px;pointer-events:none;
   background:linear-gradient(180deg,transparent,rgba(var(--green-rgb),.85),transparent)}
-#toc .mgroup .mno{font-family:var(--serif);font-size:12px;letter-spacing:.3em;color:var(--gold2)}
-#toc .mgroup .mtitle{margin-top:3px;font-family:var(--tocsans);font-weight:700;
-  font-size:clamp(16px,1.35vw,20px);color:#eafff1;letter-spacing:.06em;
-  display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
-#toc .mgroup .mtitle span{font-size:9px;letter-spacing:.26em;color:rgba(234,255,241,.55);font-weight:600}
-#toc .mkids{margin-top:9px;margin-left:5px;padding-left:14px;border-left:1px solid rgba(var(--green-rgb),.55);
-  display:flex;flex-direction:column;gap:7px}
-#toc .mk{position:relative;font-size:12px;color:rgba(234,255,241,.88);display:flex;align-items:baseline;gap:8px;white-space:nowrap}
-#toc .mk::before{content:"";position:absolute;left:-14px;top:.72em;width:10px;height:1px;background:rgba(var(--green-rgb),.55)}
-#toc .mk::after{content:"";position:absolute;left:-17px;top:calc(.72em - 3px);width:6px;height:6px;border-radius:50%;
-  border:1px solid var(--gold2);background:#0c2214}
-#toc .mk b{font-size:9px;font-weight:500;letter-spacing:.06em;color:rgba(234,255,241,.5)}
-/* 入场时序：大标题先出现，子节点后出现 */
-#toc .mgroup .mno,#toc .mgroup .mtitle,#toc .mgroup .mkids{opacity:0;transform:translateY(16px);
+#toc .capcard{display:flex;gap:14px;align-items:flex-start;
+  padding:clamp(13px,1.3vw,17px) clamp(13px,1.3vw,17px);
+  border-radius:14px;border:1px solid rgba(61,255,143,.16);
+  background:linear-gradient(170deg,#141c16,#0e1411 62%,#0d1310);
+  box-shadow:0 20px 36px -24px rgba(0,0,0,.92),inset 0 1px 0 rgba(255,255,255,.04)}
+#toc .capcard .ic{flex:0 0 auto;width:clamp(34px,3vw,42px);height:clamp(34px,3vw,42px);border-radius:50%;
+  border:1px solid rgba(61,255,143,.6);display:grid;place-items:center;
+  color:#3dff8f;font-size:clamp(13px,1.2vw,16px);line-height:1;
+  background:radial-gradient(circle at 50% 32%,rgba(61,255,143,.14),transparent 72%)}
+#toc .capcard h4{font-family:var(--tocsans);font-size:clamp(13.5px,1.15vw,15.5px);font-weight:700;
+  color:#3dff8f;letter-spacing:.05em}
+#toc .capcard p{margin-top:5px;font-size:clamp(10.5px,.85vw,11.5px);line-height:1.78;color:rgba(234,255,241,.6)}
+/* 入场时序：卡片依次浮现 */
+#toc .capcard{opacity:0;transform:translateY(16px);
   transition:opacity .7s cubic-bezier(.16,.7,.3,1),transform .7s cubic-bezier(.16,.7,.3,1)}
-#toc .mgroup .mno{transition-delay:calc(.15s + var(--gi)*.18s)}
-#toc .mgroup .mtitle{transition-delay:calc(.24s + var(--gi)*.18s)}
-#toc .mgroup .mkids{transition-delay:calc(.62s + var(--gi)*.18s)}
-#toc .deck.in .mno,#toc .deck.in .mtitle,#toc .deck.in .mkids{opacity:1;transform:none}
+#toc .capcard{transition-delay:calc(.15s + var(--gi)*.18s)}
+#toc .deck.in .capcard{opacity:1;transform:none}
 /* 9 张折叠长条 */
 #toc .dfold{flex:1 1 auto;display:flex;align-items:stretch;min-width:0}
 #toc .dcard{position:relative;flex:1 1 0;min-width:0;overflow:hidden;text-decoration:none;
@@ -243,9 +241,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 @media(max-width:980px){
   #toc .deck{min-height:clamp(330px,42vw,420px)}
   #toc .dside{width:clamp(196px,21vw,232px);padding:14px 14px}
-  #toc .mgroup .mtitle{font-size:14px}
-  #toc .mk{font-size:10.5px}
-  #toc .mk b{display:none}
+  #toc .capcard{gap:10px}
+  #toc .capcard p{font-size:10px}
   #toc .dcard{padding:17px 3px 12px}
   #toc .dzh{font-size:clamp(20px,2.7vw,26px)}
   #toc .den{font-size:clamp(8.5px,.9vw,10px);letter-spacing:.12em}
@@ -261,9 +258,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     background:linear-gradient(90deg,#1c4026,#0c2214)}
   #toc .dside::after{left:9%;right:9%;top:auto;bottom:-1px;width:auto;height:1px;
     background:linear-gradient(90deg,transparent,rgba(var(--green-rgb),.85),transparent)}
-  #toc .mgroup{display:flex;flex-direction:column}
-  #toc .mkids{margin-left:3px}
-  #toc .mk{white-space:normal}
+  #toc .capcard p{white-space:normal}
   #toc .dfold{flex-direction:column}
   #toc .dfold .dcard,#toc .dfold .dcard+.dcard{margin-left:0;flex:0 0 auto;
     flex-direction:row;align-items:center;gap:12px;padding:12px 15px;
@@ -730,32 +725,17 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     <!-- 折叠卡片目录：滑到/点到哪块，哪块变绿（形态不变） -->
     <div class="deck reveal">
       <div class="dside">
-        <div class="mgroup" style="--gi:0">
-          <div class="mno">01</div>
-          <div class="mtitle">市场洞察<span>MARKET INSIGHT</span></div>
-          <div class="mkids">
-            <div class="mk">竞品分析<b>Competitor Analysis</b></div>
-            <div class="mk">市场调研<b>Market Research</b></div>
-            <div class="mk">用户洞察<b>Consumer Understanding</b></div>
-          </div>
+        <div class="capcard" style="--gi:0">
+          <span class="ic">✦</span>
+          <div><h4>内容创作</h4><p>文案、脚本、分镜头，视频策划与拍摄剪辑全流程，文字功底扎实。</p></div>
         </div>
-        <div class="mgroup" style="--gi:1">
-          <div class="mno">02</div>
-          <div class="mtitle">数字营销<span>DIGITAL MARKETING</span></div>
-          <div class="mkids">
-            <div class="mk">内容策略<b>Content Strategy</b></div>
-            <div class="mk">社媒运营<b>Social Media Operation</b></div>
-            <div class="mk">数据复盘<b>Performance Review</b></div>
-          </div>
+        <div class="capcard" style="--gi:1">
+          <span class="ic">◈</span>
+          <div><h4>平台运营</h4><p>视频号、小红书、抖音、公众号、INS、FACEBOOK 多平台从 0 到 1 搭建与运营。</p></div>
         </div>
-        <div class="mgroup" style="--gi:2">
-          <div class="mno">03</div>
-          <div class="mtitle">营销项目管理<span>CAMPAIGN MANAGEMENT</span></div>
-          <div class="mkids">
-            <div class="mk">展会策划<b>Exhibition Planning</b></div>
-            <div class="mk">营销物料<b>Marketing Materials</b></div>
-            <div class="mk">跨部门协作<b>Cross-functional Communication</b></div>
-          </div>
+        <div class="capcard" style="--gi:2">
+          <span class="ic">❖</span>
+          <div><h4>设计策划</h4><p>海报、物料、产品图、详情页、流程设计与活动策划，审美与创意思维出色。</p></div>
         </div>
       </div>
       <div class="dfold">
