@@ -572,6 +572,24 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #wxSelf .kolc b{font-family:var(--serif);font-size:22px;letter-spacing:.1em;color:var(--gold2);opacity:.9}
 #wxSelf .kolc h4{font-size:16.5px;letter-spacing:.04em;color:#f2f4f6;margin:14px 0 10px}
 #wxSelf .kolc p{font-size:13px;line-height:1.8;color:var(--muted)}
+/* 02 卡框内的杂货馆文章卡：竖向排列（复用 #web .mc 视觉） */
+#wxSelf .kolstack{display:grid;gap:10px;margin-top:18px}
+#wxSelf .kolstack .mc{position:relative;display:grid;grid-template-columns:34px 1fr 26px;gap:3px 10px;align-items:center;
+  padding:12px 13px;background:linear-gradient(155deg,#15171d,#0e0f13);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .4s,border-color .4s,box-shadow .4s}
+#wxSelf .kolstack .mc::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:2px;border-radius:2px;
+  background:var(--green);opacity:0;transition:.4s}
+#wxSelf .kolstack .mcno{grid-column:1;grid-row:1/3;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.16);
+  display:grid;place-items:center;font-family:var(--serif);font-size:11px;letter-spacing:.04em;color:var(--muted);transition:.4s}
+#wxSelf .kolstack .mct{grid-column:2;grid-row:1;font-size:12.5px;font-weight:600;line-height:1.45;color:#eceef0;transition:.4s}
+#wxSelf .kolstack .mcm{grid-column:2;grid-row:2;display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+#wxSelf .kolstack .mcacc{color:var(--green);border:1px solid rgba(var(--green-rgb),.38);border-radius:999px;padding:1px 8px}
+#wxSelf .kolstack .mcgo{grid-column:3;grid-row:1/3;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.2);
+  display:grid;place-items:center;font-size:11px;color:#d0d4d9;justify-self:end;transition:.4s}
+#wxSelf .kolstack .mc:hover{transform:translateY(-3px);border-color:rgba(var(--green-rgb),.55);box-shadow:0 18px 38px rgba(0,0,0,.5)}
+#wxSelf .kolstack .mc:hover::before{opacity:1}
+#wxSelf .kolstack .mc:hover .mcno,#wxSelf .kolstack .mc:hover .mcgo{background:var(--green);border-color:var(--green);color:#08120c}
+#wxSelf .kolstack .mc:hover .mct{color:var(--green)}
 @media (max-width:900px){#wxSelf .kolrow{grid-template-columns:1fr}}
 
 /* ---------- mask gallery ---------- */
@@ -956,8 +974,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 <section class="scene" id="domestic">
   <div class="content split">
     <div class="left">
-      <div class="kicker reveal">国内社媒 · 案例</div>
-      <h2 class="h-serif reveal" style="font-size:clamp(24px,2.7vw,38px);line-height:1.18">0-1 创建<br>SWAGE<br>品牌社媒平台</h2>
+      <div class="kicker reveal">社媒 · 案例</div>
+      <h2 class="h-serif reveal" style="font-size:clamp(24px,2.7vw,38px);line-height:1.18">数字营销<br>DIGITAL MARKETING</h2>
       <div class="steps reveal">
         <div class="st"><span class="no">平台</span><span>抖音 · 小红书 · 公众号</span></div>
         <div class="st"><span class="no">内容</span><span>内容 · 脚本</span></div>
@@ -969,45 +987,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
       <div class="cards" id="cardsDom">
         <div class="ctrack" id="cardsTrack"></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- 06 国外社媒：左 1/6 文案 + 右侧折叠滑动轮播 -->
-<section class="scene" id="overseas">
-  <div class="content split">
-    <div class="left">
-      <div class="kicker reveal">国外社媒 · INS / FACEBOOK</div>
-      <h2 class="h-serif reveal" style="font-size:clamp(22px,2.4vw,34px);line-height:1.2">海外账号<br>视频运营<br>全球触达</h2>
-      <p class="reveal" style="color:var(--muted);margin-top:18px;font-size:14.5px;max-width:30ch;line-height:1.7">运营三个海外官方账号，其中 swage_fishing 从 0-1 搭建（文案、策划、选题、拍摄、剪辑、运营全流程负责）。</p>
-    </div>
-    <div class="right reveal">
-      <div class="circ" id="galOvs">
-        <div class="track" id="stageOvs"></div>
-        <div class="ctrls">
-          <button onclick="moveGal('galOvs',-1)" aria-label="上一张">‹</button>
-          <div class="dots" id="galDotsOvs"></div>
-          <button onclick="moveGal('galOvs',1)" aria-label="下一张">›</button>
-        </div>
-        <div class="hint">点击图片放大</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 09 视频作品 -->
-<section class="scene" id="works">
-  <div class="content">
-    <div class="kicker reveal">视频作品 · 精选</div>
-    <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:8px">拍摄剪辑作品选集</h2>
-    <p class="reveal" style="color:var(--muted);margin-bottom:34px">文案 · 分镜头 · 脚本 · 拍摄 · 剪辑 熟练操作。以下均为本人制作的<strong style="color:var(--gold)">无水印原片</strong>，点击可直接播放。</p>
-    <div class="links stagger reveal" id="vlist">
-      <button class="link vlink" data-v="vid02"><span class="no">01</span><div class="txt"><div class="tag">视频</div><div class="name">作品一</div></div><span class="arrow play">▶</span></button>
-      <button class="link vlink" data-v="vid04"><span class="no">02</span><div class="txt"><div class="tag">视频</div><div class="name">作品二</div></div><span class="arrow play">▶</span></button>
-      <button class="link vlink" data-v="vid05"><span class="no">03</span><div class="txt"><div class="tag">视频</div><div class="name">作品三</div></div><span class="arrow play">▶</span></button>
-      <button class="link vlink" data-v="vid07"><span class="no">04</span><div class="txt"><div class="tag">视频</div><div class="name">作品四</div></div><span class="arrow play">▶</span></button>
-      <button class="link vlink" data-v="vid08"><span class="no">05</span><div class="txt"><div class="tag">视频</div><div class="name">作品五</div></div><span class="arrow play">▶</span></button>
-      <button class="link vlink" data-v="vid09"><span class="no">06</span><div class="txt"><div class="tag">视频</div><div class="name">作品六</div></div><span class="arrow play">▶</span></button>
     </div>
   </div>
 </section>
@@ -1085,25 +1064,46 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
           <span class="mcm"><span class="mcacc">利宝保险</span><span class="mcd">2024.04.12</span></span>
           <span class="mcgo">↗</span>
         </a>
-        <a class="mc" href="https://mp.weixin.qq.com/s/Uf5y5jJQMmjZnurwgv0Stg" target="_blank" rel="noopener">
-          <span class="mcno">10</span>
-          <span class="mct">杂货馆故事 | “徐叶子的旅行拍摄日志”</span>
-          <span class="mcm"><span class="mcacc">可乐杂货馆</span><span class="mcd">2021.02.25</span></span>
-          <span class="mcgo">↗</span>
-        </a>
-        <a class="mc" href="https://mp.weixin.qq.com/s/OEOVzTYhxtMcpNHEzVhg4w" target="_blank" rel="noopener">
-          <span class="mcno">11</span>
-          <span class="mct">杂货馆故事 | 李香香爱拍照</span>
-          <span class="mcm"><span class="mcacc">可乐杂货馆</span><span class="mcd">2020.06.20</span></span>
-          <span class="mcgo">↗</span>
-        </a>
-        <a class="mc" href="https://mp.weixin.qq.com/s/vhdrjlnP9I5RXRY5bRGUBg" target="_blank" rel="noopener">
-          <span class="mcno">12</span>
-          <span class="mct">杂货馆故事 | “旅行博主” 任小珂</span>
-          <span class="mcm"><span class="mcacc">可乐杂货馆</span><span class="mcd">2020.03.29</span></span>
-          <span class="mcgo">↗</span>
-        </a>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 国外社媒：左 1/6 文案 + 右侧折叠滑动轮播 -->
+<section class="scene" id="overseas">
+  <div class="content split">
+    <div class="left">
+      <div class="kicker reveal">国外社媒 · INS / FACEBOOK</div>
+      <h2 class="h-serif reveal" style="font-size:clamp(22px,2.4vw,34px);line-height:1.2">海外营销<br>OVERSEAS MARKETING</h2>
+      <p class="reveal" style="color:var(--muted);margin-top:18px;font-size:14.5px;max-width:30ch;line-height:1.7">运营三个海外官方账号，其中 swage_fishing 从 0-1 搭建（文案、策划、选题、拍摄、剪辑、运营全流程负责）。</p>
+    </div>
+    <div class="right reveal">
+      <div class="circ" id="galOvs">
+        <div class="track" id="stageOvs"></div>
+        <div class="ctrls">
+          <button onclick="moveGal('galOvs',-1)" aria-label="上一张">‹</button>
+          <div class="dots" id="galDotsOvs"></div>
+          <button onclick="moveGal('galOvs',1)" aria-label="下一张">›</button>
+        </div>
+        <div class="hint">点击图片放大</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 视频作品 -->
+<section class="scene" id="works">
+  <div class="content">
+    <div class="kicker reveal">视频作品 · 精选</div>
+    <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:8px">拍摄剪辑作品选集</h2>
+    <p class="reveal" style="color:var(--muted);margin-bottom:34px">文案 · 分镜头 · 脚本 · 拍摄 · 剪辑 熟练操作。以下均为本人制作的<strong style="color:var(--gold)">无水印原片</strong>，点击可直接播放。</p>
+    <div class="links stagger reveal" id="vlist">
+      <button class="link vlink" data-v="vid02"><span class="no">01</span><div class="txt"><div class="tag">视频</div><div class="name">作品一</div></div><span class="arrow play">▶</span></button>
+      <button class="link vlink" data-v="vid04"><span class="no">02</span><div class="txt"><div class="tag">视频</div><div class="name">作品二</div></div><span class="arrow play">▶</span></button>
+      <button class="link vlink" data-v="vid05"><span class="no">03</span><div class="txt"><div class="tag">视频</div><div class="name">作品三</div></div><span class="arrow play">▶</span></button>
+      <button class="link vlink" data-v="vid07"><span class="no">04</span><div class="txt"><div class="tag">视频</div><div class="name">作品四</div></div><span class="arrow play">▶</span></button>
+      <button class="link vlink" data-v="vid08"><span class="no">05</span><div class="txt"><div class="tag">视频</div><div class="name">作品五</div></div><span class="arrow play">▶</span></button>
+      <button class="link vlink" data-v="vid09"><span class="no">06</span><div class="txt"><div class="tag">视频</div><div class="name">作品六</div></div><span class="arrow play">▶</span></button>
     </div>
   </div>
 </section>
@@ -1162,6 +1162,26 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <b>02</b>
         <h4>国内 KOL 专题采访</h4>
         <p>自主策划采访主题，完成访谈执行，产出图文传播内容。</p>
+        <div class="kolstack">
+        <a class="mc" href="https://mp.weixin.qq.com/s/Uf5y5jJQMmjZnurwgv0Stg" target="_blank" rel="noopener">
+          <span class="mcno">10</span>
+          <span class="mct">杂货馆故事 | “徐叶子的旅行拍摄日志”</span>
+          <span class="mcm"><span class="mcacc">可乐杂货馆</span><span class="mcd">2021.02.25</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+          <a class="mc" href="https://mp.weixin.qq.com/s/OEOVzTYhxtMcpNHEzVhg4w" target="_blank" rel="noopener">
+          <span class="mcno">11</span>
+          <span class="mct">杂货馆故事 | 李香香爱拍照</span>
+          <span class="mcm"><span class="mcacc">可乐杂货馆</span><span class="mcd">2020.06.20</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+          <a class="mc" href="https://mp.weixin.qq.com/s/vhdrjlnP9I5RXRY5bRGUBg" target="_blank" rel="noopener">
+          <span class="mcno">12</span>
+          <span class="mct">杂货馆故事 | “旅行博主” 任小珂</span>
+          <span class="mcm"><span class="mcacc">可乐杂货馆</span><span class="mcd">2020.03.29</span></span>
+          <span class="mcgo">↗</span>
+        </a>
+        </div>
       </div>
       <div class="kolc">
         <b>03</b>
@@ -1193,7 +1213,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 <section class="scene" id="expo">
   <div class="content">
     <div class="kicker reveal">展会活动 · 全流程执行</div>
-    <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:16px">展会前期 · 中期 · 后期</h2>
+    <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:16px">展会营销与项目策划<br>TRADE MARKETING &amp; CAMPAIGN</h2>
     <p class="reveal" style="color:var(--muted);max-width:74ch;margin-bottom:38px">从展前筹备到展后复盘，整条链路独立跟进：物料设计、展位布置、现场拍摄、社媒传播、客户跟进与数据复盘，一气贯通。</p>
     <div class="stages reveal">
       <div class="stage">
