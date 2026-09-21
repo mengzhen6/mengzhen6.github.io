@@ -10,7 +10,7 @@
   --bg2:#0e0f13;
   --panel:#14161c;
   --line:rgba(255,255,255,.08);
-  --txt:#f4f5f7;
+  --txt:#8b8b93;
   --muted:#8b8b93;
   --gold:#3dff8f;
   --gold2:#7dffb8;
@@ -39,7 +39,7 @@ img{display:block;max-width:100%}
 #topbar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;
   padding:18px 40px;z-index:150;mix-blend-mode:difference;pointer-events:none}
 #topbar .brand{font-family:var(--serif);letter-spacing:.35em;font-size:13px;font-weight:600}
-#topbar .sceneidx{font-size:12px;letter-spacing:.15em;color:#ddd}
+#topbar .sceneidx{font-size:12px;letter-spacing:.15em;color:var(--muted)}
 #topbar .sceneidx b{color:var(--gold2)}
 /* PillNav（对标 React Bits PillNav）：容器背景**透明**，一个胶囊滑块跟随指针，离开后回到当前屏 */
 #nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:150;
@@ -126,7 +126,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 首屏左下角：方向两行 */
 #cover .cover-meta{position:absolute;left:clamp(28px,4vw,58px);bottom:38px;z-index:3;text-align:left;
   opacity:0;animation:fadein 1.2s 1.6s forwards}
-#cover .cover-meta .cmen{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+#cover .cover-meta .cmen{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 #cover .cover-meta .cmzh{margin-top:7px;font-size:11px;letter-spacing:.22em;color:var(--muted)}
 
 /* ---------- 01.5 TOC 目录：折叠卡片手风琴（滑到/点到哪块，哪块变绿；形态不变） ---------- */
@@ -148,7 +148,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .dside::after{content:"";position:absolute;right:-1px;top:9%;bottom:9%;width:1px;pointer-events:none;
   background:linear-gradient(180deg,transparent,rgba(var(--green-rgb),.85),transparent)}
 #toc .dszh{writing-mode:vertical-rl;font-family:var(--tocsans);font-weight:700;letter-spacing:.2em;
-  font-size:clamp(22px,2.1vw,30px);color:#eafff1;-webkit-text-stroke:.3px currentColor}
+  font-size:clamp(22px,2.1vw,30px);color:var(--muted);-webkit-text-stroke:.3px currentColor}
 #toc .dsen{writing-mode:vertical-rl;text-transform:uppercase;letter-spacing:.44em;
   font-size:clamp(8px,.68vw,9.5px);color:rgba(184,255,212,.58)}
 /* 9 张折叠长条 */
@@ -209,8 +209,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 文字变色（悬停 / 聚焦 / 选中同款）：仍保持单列竖排，不改 nowrap 与 max-height */
 #toc .dcard:hover .dzh,#toc .dcard:focus-visible .dzh,#toc .dcard.is-on .dzh{
   color:#05140c;-webkit-text-stroke-color:#05140c}
-#toc .dcard:hover .den,#toc .dcard:focus-visible .den,#toc .dcard.is-on .den{color:rgba(234,255,241,.7)}
-#toc .dcard:hover .dcat,#toc .dcard:focus-visible .dcat,#toc .dcard.is-on .dcat{color:rgba(234,255,241,.6)}
+#toc .dcard:hover .den,#toc .dcard:focus-visible .den,#toc .dcard.is-on .den{color:rgba(139,139,147,.7)}
+#toc .dcard:hover .dcat,#toc .dcard:focus-visible .dcat,#toc .dcard.is-on .dcat{color:rgba(139,139,147,.6)}
 /* 点击选中：整块变绿，形态与默认一致（不展开放大、不折成两列） */
 #toc .dcard.is-on{z-index:19;--tilt:0deg;
   background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
@@ -277,16 +277,16 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #about .mm{display:flex;flex-direction:column;gap:clamp(15px,1.7vw,24px)}
 #about .mgroup .mno{font-family:var(--serif);font-size:12px;letter-spacing:.3em;color:var(--gold2)}
 #about .mgroup .mtitle{margin-top:3px;font-family:var(--sans);font-weight:700;
-  font-size:clamp(16px,1.35vw,20px);color:#eafff1;letter-spacing:.06em;
+  font-size:clamp(16px,1.35vw,20px);color:var(--muted);letter-spacing:.06em;
   display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
-#about .mgroup .mtitle span{font-size:9px;letter-spacing:.26em;color:rgba(234,255,241,.55);font-weight:600}
+#about .mgroup .mtitle span{font-size:9px;letter-spacing:.26em;color:rgba(139,139,147,.55);font-weight:600}
 #about .mkids{margin-top:9px;margin-left:5px;padding-left:14px;border-left:1px solid rgba(61,255,143,.55);
   display:flex;flex-direction:column;gap:7px}
-#about .mk{position:relative;font-size:12.5px;color:rgba(234,255,241,.88);display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+#about .mk{position:relative;font-size:12.5px;color:rgba(139,139,147,.88);display:flex;align-items:baseline;gap:8px;white-space:nowrap}
 #about .mk::before{content:"";position:absolute;left:-14px;top:.72em;width:10px;height:1px;background:rgba(61,255,143,.55)}
 #about .mk::after{content:"";position:absolute;left:-17px;top:calc(.72em - 3px);width:6px;height:6px;border-radius:50%;
   border:1px solid var(--gold2);background:#0c2214}
-#about .mk b{font-size:9px;font-weight:500;letter-spacing:.06em;color:rgba(234,255,241,.5)}
+#about .mk b{font-size:9px;font-weight:500;letter-spacing:.06em;color:rgba(139,139,147,.5)}
 /* 入场时序：大标题先出现，子节点后出现 */
 #about .mgroup .mno,#about .mgroup .mtitle,#about .mgroup .mkids{opacity:0;transform:translateY(16px);
   transition:opacity .7s cubic-bezier(.16,.7,.3,1),transform .7s cubic-bezier(.16,.7,.3,1)}
@@ -298,16 +298,16 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 竞品对比表：黑底格子 · 绿色外框 */
 .ctable{width:100%;border-collapse:separate;border-spacing:0;background:#000;
   border:2px solid var(--gold);box-shadow:0 0 44px -16px rgba(61,255,143,.45)}
-.ctable th{background:rgba(61,255,143,.13);color:#eafff1;padding:10px 10px;line-height:1.45;
+.ctable th{background:rgba(61,255,143,.13);color:var(--muted);padding:10px 10px;line-height:1.45;
   border-right:1px solid rgba(61,255,143,.35);border-bottom:1px solid rgba(61,255,143,.55);vertical-align:middle}
 .ctable th b{display:block;font-size:12.5px;font-weight:800;letter-spacing:.02em}
-.ctable th i{display:block;font-style:normal;font-size:11px;font-weight:600;color:rgba(234,255,241,.72);margin-top:2px}
+.ctable th i{display:block;font-style:normal;font-size:11px;font-weight:600;color:rgba(139,139,147,.72);margin-top:2px}
 .ctable td{background:#000;color:#d9efe2;border-right:1px solid rgba(61,255,143,.20);
   border-bottom:1px solid rgba(61,255,143,.20);padding:10px 12px;line-height:1.7;
   font-size:12px;text-align:left;vertical-align:middle}
 .ctable tr:last-child td{border-bottom:0}
 .ctable tr th:last-child,.ctable tr td:last-child{border-right:0}
-.ctable td.b{color:#fff;font-weight:700;font-size:12.5px;background:#050807;text-align:center;white-space:nowrap}
+.ctable td.b{color:var(--muted);font-weight:700;font-size:12.5px;background:#050807;text-align:center;white-space:nowrap}
 .ctable td:not(.b){min-width:118px}
 .ctable tbody tr{height:56px}
 
@@ -410,9 +410,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 标题条：黑色方块横贯卡片底部、紧贴图片下缘，文字全部白色加粗，不遮图 */
 .pcard .cap{display:flex;align-items:center;justify-content:center;gap:9px;margin:0;padding:14px 16px;
   background:#000;border:none;border-radius:0;flex:0 0 auto}
-.pcard .cap .k{font-size:13.5px;letter-spacing:.06em;color:#fff;font-weight:700;white-space:nowrap}
-.pcard .cap .d{color:#fff;font-weight:700;font-size:14px}
-.pcard .cap .v{font-size:clamp(14px,1.05vw,16px);letter-spacing:.03em;color:#fff;font-weight:700;white-space:nowrap}
+.pcard .cap .k{font-size:13.5px;letter-spacing:.06em;color:var(--muted);font-weight:700;white-space:nowrap}
+.pcard .cap .d{color:var(--muted);font-weight:700;font-size:14px}
+.pcard .cap .v{font-size:clamp(14px,1.05vw,16px);letter-spacing:.03em;color:var(--muted);font-weight:700;white-space:nowrap}
 
 .cfl{position:relative;height:min(62vh,600px);perspective:1200px}
 .cfl .track{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
@@ -420,13 +420,13 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   transform-style:preserve-3d;transition:transform .5s,filter .5s;border-radius:14px;overflow:hidden;background:#111;
   box-shadow:0 30px 60px rgba(0,0,0,.55);cursor:pointer}
 .cfl .item img{width:100%;height:100%;object-fit:cover}
-.cfl .item .cap{position:absolute;left:0;right:0;bottom:0;padding:20px 16px 14px;font-size:13px;color:#eee;letter-spacing:.05em;
+.cfl .item .cap{position:absolute;left:0;right:0;bottom:0;padding:20px 16px 14px;font-size:13px;color:var(--muted);letter-spacing:.05em;
   background:linear-gradient(transparent,rgba(0,0,0,.72));opacity:0;transition:.4s}
 .cfl .item:hover .cap{opacity:1}
 .cfl .item:nth-child(odd){border-radius:50% 14px 14px 50% / 50% 14px 14px 50%}
 .cfl{--n:0}
 .cfl .ctrls{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);display:flex;gap:16px;z-index:5}
-.cfl .ctrls button{background:transparent;border:1px solid rgba(255,255,255,.25);color:#fff;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:18px;transition:.3s}
+.cfl .ctrls button{background:transparent;border:1px solid rgba(255,255,255,.25);color:var(--muted);width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:18px;transition:.3s}
 .cfl .ctrls button:hover{border-color:var(--gold);color:var(--gold2);box-shadow:0 0 16px rgba(61,255,143,.3)}
 
 /* ---------- 海外 circular gallery 环形画廊：完整展示 · 自动播放 · 点击放大 ---------- */
@@ -445,9 +445,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   background:linear-gradient(160deg,#1a1c23,#0f1014);border-top:1px solid rgba(61,255,143,.28)}
 .circ .ci .cap .k{font-family:var(--serif);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
 .circ .ci .cap .d{color:var(--gold);font-size:11px}
-.circ .ci .cap .v{font-family:var(--serif);font-size:clamp(12px,.9vw,13.5px);letter-spacing:.02em;color:#edeff1;white-space:nowrap}
+.circ .ci .cap .v{font-family:var(--serif);font-size:clamp(12px,.9vw,13.5px);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
 .circ .ctrls{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:18px;z-index:8}
-.circ .ctrls button{background:rgba(10,11,15,.5);border:1px solid rgba(255,255,255,.25);color:#fff;width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:17px;transition:.3s}
+.circ .ctrls button{background:rgba(10,11,15,.5);border:1px solid rgba(255,255,255,.25);color:var(--muted);width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:17px;transition:.3s}
 .circ .ctrls button:hover{border-color:var(--gold);color:var(--gold2);box-shadow:0 0 16px rgba(61,255,143,.3)}
 .circ .dots{display:flex;gap:8px;align-items:center}
 .circ .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.28);transition:.3s;cursor:pointer}
@@ -509,12 +509,12 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .dash .kpi::after{content:"";position:absolute;left:0;top:0;bottom:0;width:14px;background:var(--gold);opacity:1}
 .dash .kpi .lab{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;white-space:nowrap}
 .dash .kpi .num{font-family:var(--serif);font-size:clamp(26px,2.7vw,38px);font-weight:800;color:var(--gold2);line-height:1;letter-spacing:.01em}
-.dash .kpi .num.un{color:#fff}
+.dash .kpi .num.un{color:var(--muted)}
 .dash .kpi .sub{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4}
 .dash .kpi .sub b{color:var(--gold2);font-weight:600}
 .dash .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
 .dash .panel{background:linear-gradient(160deg,#14161b,#0e0f13);border:1px solid var(--line);border-radius:16px;padding:22px 24px;min-width:0}
-.dash .panel h3{font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:.02em}
+.dash .panel h3{font-size:15px;font-weight:800;color:var(--muted);margin-bottom:4px;letter-spacing:.02em}
 .dash .panel .hint{font-size:11px;color:var(--muted);letter-spacing:.05em;margin-bottom:18px}
 /* 年度互动率条形（聚合 · 内容质量） */
 .er{display:flex;flex-direction:column;gap:13px}
@@ -524,7 +524,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   background:linear-gradient(90deg,rgba(61,255,143,.10),rgba(61,255,143,.18))}
 .er .r .bar i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);
   background:linear-gradient(90deg,var(--gold),var(--gold2));transition:transform 1.05s cubic-bezier(.2,.72,.2,1)}
-.er .r .val{font-family:var(--serif);font-size:12.5px;font-weight:800;color:#fff;min-width:48px;text-align:right;font-variant-numeric:tabular-nums}
+.er .r .val{font-family:var(--serif);font-size:12.5px;font-weight:800;color:var(--muted);min-width:48px;text-align:right;font-variant-numeric:tabular-nums}
 /* 互动构成环 */
 .mix{display:flex;align-items:center;gap:22px}
 .mix .donut{width:150px;height:150px;border-radius:50%;flex:0 0 auto;position:relative}
@@ -535,7 +535,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .mix .legend{flex:1;display:flex;flex-direction:column;gap:9px;min-width:0}
 .mix .legend .l{display:flex;align-items:center;gap:9px;font-size:12.5px;color:#e9ebee}
 .mix .legend .l .dot{width:9px;height:9px;border-radius:2px;flex:0 0 auto}
-.mix .legend .l .n{margin-left:auto;font-family:var(--serif);font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+.mix .legend .l .n{margin-left:auto;font-family:var(--serif);font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
 /* 年度趋势 */
 .years{display:flex;align-items:flex-end;gap:16px;height:150px;padding-top:6px}
 .years .y{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
@@ -638,13 +638,13 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   cursor:zoom-in;pointer-events:none}
 .pk .stage img.on{opacity:1;transform:scale(1) translateY(0);pointer-events:auto}
 .pk .ptag{position:absolute;left:18px;top:16px;z-index:6;max-width:60%;
-  font-family:var(--serif);font-size:13.5px;letter-spacing:.1em;color:#edeff1;
+  font-family:var(--serif);font-size:13.5px;letter-spacing:.1em;color:var(--muted);
   background:linear-gradient(90deg,rgba(10,11,15,.72),rgba(10,11,15,.15));
   padding:8px 16px 8px 12px;border-left:2px solid var(--gold);border-radius:4px;
   backdrop-filter:blur(5px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pk .bar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:6;
   display:flex;align-items:center;gap:16px}
-.pk .pbtn{background:rgba(10,11,15,.5);border:1px solid rgba(255,255,255,.25);color:#fff;
+.pk .pbtn{background:rgba(10,11,15,.5);border:1px solid rgba(255,255,255,.25);color:var(--muted);
   width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1;transition:.3s}
 .pk .pbtn:hover{border-color:var(--gold);color:var(--gold2);box-shadow:0 0 14px rgba(61,255,143,.3)}
 .pk .pcdots{display:flex;gap:8px;align-items:center}
@@ -881,14 +881,14 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
     <div class="compete-left">
       <div class="kicker reveal">Competitor Analysis · Insight</div>
       <h2 class="h-serif reveal" style="font-size:clamp(30px,4.4vw,56px);margin-bottom:6px;letter-spacing:.02em">COMPETITOR ANALYSIS</h2>
-      <h3 class="reveal" style="font-family:var(--serif);font-weight:600;font-size:clamp(19px,2.2vw,27px);color:#fff;margin-bottom:30px;letter-spacing:.08em">竞品分析与市场洞察</h3>
+      <h3 class="reveal" style="font-family:var(--serif);font-weight:600;font-size:clamp(19px,2.2vw,27px);color:var(--muted);margin-bottom:30px;letter-spacing:.08em">竞品分析与市场洞察</h3>
       <p class="reveal" style="color:var(--muted);max-width:46ch;line-height:1.9;font-size:14.5px;margin-bottom:22px">在 Marketing 工作中，我参与过竞品信息收集与分析，通过对竞品的产品、定位、内容及传播方式进行对比，为后续内容策划和营销方向提供参考。</p>
       <div class="reveal" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:40px">
         <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2)">Competitor research · Market positioning · Content analysis</span>
       </div>
       <div class="reveal" style="max-width:46ch;border-left:2px solid var(--gold);padding:4px 0 4px 20px">
         <div style="font-family:var(--serif);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold2);margin-bottom:9px">Objective</div>
-        <p style="color:#fff;font-size:14.5px;line-height:1.9;margin:0">了解主要竞品的产品定位、传播重点及内容策略，寻找品牌在产品表达和内容传播上的差异化机会。</p>
+        <p style="color:var(--muted);font-size:14.5px;line-height:1.9;margin:0">了解主要竞品的产品定位、传播重点及内容策略，寻找品牌在产品表达和内容传播上的差异化机会。</p>
       </div>
     </div>
 
@@ -1235,7 +1235,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 <section class="scene" id="xhsB">
   <div class="content">
     <h2 class="h-serif reveal" style="font-size:clamp(26px,3.6vw,42px);margin-bottom:24px">运营数据呈现 · 内容成效看板</h2>
-    <p class="reveal" style="color:var(--muted);max-width:64ch;margin-bottom:26px;font-size:14px;line-height:1.7">2022-2026年部分数据呈现：<b style="color:#fff;font-weight:600">累计播放 300 万</b>、平均单条 7.2 万，其中 <b style="color:#fff;font-weight:600">2025 年度播放 88 万</b>、为五年最佳，以下用最直观的方式呈现整体成效。</p>
+    <p class="reveal" style="color:var(--muted);max-width:64ch;margin-bottom:26px;font-size:14px;line-height:1.7">2022-2026年部分数据呈现：<b style="color:var(--muted);font-weight:600">累计播放 300 万</b>、平均单条 7.2 万，其中 <b style="color:var(--muted);font-weight:600">2025 年度播放 88 万</b>、为五年最佳，以下用最直观的方式呈现整体成效。</p>
     <div class="dash reveal" id="dashB">
       <div class="kpis">
         <div class="kpi"><div class="lab">累计播放</div><div class="num un" id="dPlay">0</div><div class="sub">42 条内容 · 全网累计</div></div>
@@ -2109,7 +2109,7 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
     greenDim: 'rgba(61,255,143,.10)',
     greenBorder: 'rgba(61,255,143,.30)',
     dark: '#04150c',
-    textColor: '#e9fff2',
+    textColor: '#8b8b93',
     mobileBreakpoint: 820    /* 与站点 #nav 的隐藏断点一致 */
   };
 
