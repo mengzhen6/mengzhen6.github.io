@@ -130,7 +130,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #cover .cover-meta .cmzh{margin-top:7px;font-size:11px;letter-spacing:.22em;color:var(--muted)}
 
 /* ---------- 01.5 TOC 目录：折叠卡片手风琴（滑到/点到哪块，哪块变绿；形态不变） ---------- */
-/* 版式：左侧深绿竖边栏（目录 / CONTENTS）+ 9 张带折痕与投影的折叠长条。
+/* 版式：左侧深绿竖边栏（目录 / CONTENTS）+ 5 张带折痕与投影的折叠长条（五大板块）。
    长条默认中性暗色、顶部为小号空心序号、中文放大靠上；鼠标滑过/键盘聚焦/点击 → 整块变亮绿，
    但尺寸与文字形态保持不变（不再展开放大、不再折成两列、无翻页动画）。
    相邻长条用负 margin 交叠、z-index 递减，制造"叠放次序"与数字穿插的折叠立体感。 */
@@ -141,7 +141,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   background:linear-gradient(165deg,#111c16,#0a110e 58%,#0b1512);
   box-shadow:0 40px 80px -34px rgba(0,0,0,.98),0 0 0 1px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05)}
 /* 左侧深绿边栏 */
-#toc .dside{position:relative;flex:0 0 auto;width:clamp(64px,6.2vw,88px);
+#toc .dside{position:relative;flex:0 0 auto;width:clamp(96px,9vw,132px);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(9px,.9vw,15px);
   background:linear-gradient(180deg,#1c4026,#0c2214 78%,#091a10);
   border-right:1px solid rgba(var(--green-rgb),.3)}
@@ -151,9 +151,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   font-size:clamp(22px,2.1vw,30px);color:var(--muted);-webkit-text-stroke:.3px currentColor}
 #toc .dsen{writing-mode:vertical-rl;text-transform:uppercase;letter-spacing:.44em;
   font-size:clamp(8px,.68vw,9.5px);color:rgba(184,255,212,.58)}
-/* 9 张折叠长条 */
+/* 5 张折叠长条 */
 #toc .dfold{flex:1 1 auto;display:flex;align-items:stretch;min-width:0}
-#toc .dcard{position:relative;flex:1 1 0;min-width:0;overflow:hidden;text-decoration:none;
+#toc .dcard{position:relative;flex:.75 1 0;min-width:0;overflow:hidden;text-decoration:none;
   display:flex;flex-direction:column;align-items:center;
   padding:clamp(16px,1.7vw,24px) 4px clamp(13px,1.3vw,19px);
   background:linear-gradient(180deg,#1a1f26 0%,#12161b 46%,#0d1014 100%);
@@ -162,7 +162,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   cursor:pointer;z-index:calc(20 - var(--i));
   transform:perspective(1500px) rotateX(var(--tilt,-5deg));transform-origin:50% 50%;backface-visibility:hidden;
   transition:transform .68s cubic-bezier(.215,.61,.355,1),
-    background .45s,box-shadow .45s}
+    background .45s,box-shadow .45s,flex-grow .55s cubic-bezier(.215,.61,.355,1)}
 #toc .dcard+.dcard{margin-left:clamp(-14px,-1.2vw,-9px)}
 /* 折痕：右缘一道竖向亮线 + 左缘压暗，模拟对折卡的厚度 */
 #toc .dcard::before{content:"";position:absolute;right:0;top:0;bottom:0;width:1px;pointer-events:none;
@@ -196,8 +196,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .dcat{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(8.5px,.74vw,10.5px);
   letter-spacing:.12em;color:rgba(184,255,212,.54);margin-top:auto;
   padding-top:clamp(8px,.8vw,12px);transition:color .45s}
-/* 滑动变绿：鼠标滑过 / 键盘聚焦哪块，哪块整块变绿（尺寸与文字形态不变） */
-#toc .dcard:hover,#toc .dcard:focus-visible{outline:none;z-index:19;--tilt:0deg;
+/* 滑动变绿 + 手风琴展开：悬停/聚焦哪块，哪块整块变绿并横向展开 */
+#toc .dcard:hover,#toc .dcard:focus-visible{outline:none;z-index:19;--tilt:0deg;flex-grow:1.45;
   background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
   box-shadow:15px 0 30px -14px rgba(0,0,0,.95),0 26px 56px -20px rgba(0,0,0,.95),
     0 0 0 1px rgba(var(--green-rgb),.85),0 0 58px rgba(var(--green-rgb),.3),
@@ -211,8 +211,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   color:#05140c;-webkit-text-stroke-color:#05140c}
 #toc .dcard:hover .den,#toc .dcard:focus-visible .den,#toc .dcard.is-on .den{color:rgba(139,139,147,.7)}
 #toc .dcard:hover .dcat,#toc .dcard:focus-visible .dcat,#toc .dcard.is-on .dcat{color:rgba(139,139,147,.6)}
-/* 点击选中：整块变绿，形态与默认一致（不展开放大、不折成两列） */
-#toc .dcard.is-on{z-index:19;--tilt:0deg;
+/* 点击选中：整块变绿，同款手风琴展开 */
+#toc .dcard.is-on{z-index:19;--tilt:0deg;flex-grow:1.45;
   background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
   box-shadow:15px 0 30px -14px rgba(0,0,0,.95),0 26px 56px -20px rgba(0,0,0,.95),
     0 0 0 1px rgba(var(--green-rgb),.85),0 0 58px rgba(var(--green-rgb),.3),
@@ -220,7 +220,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .dcard.is-on::before{background:linear-gradient(180deg,rgba(6,18,12,.02),rgba(6,18,12,.3),rgba(6,18,12,.02))}
 #toc .dcard.is-on::after{background:linear-gradient(90deg,rgba(5,20,12,.14),rgba(5,20,12,0))}
 @media(max-width:1240px){
-  #toc .dside{width:clamp(60px,6vw,78px)}
+  #toc .dside{width:clamp(84px,8vw,110px)}
   #toc .dzh{font-size:clamp(22px,2.7vw,34px)}
   #toc .dpart{font-size:clamp(18px,2.05vw,24px)}
 }
@@ -816,67 +816,39 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <span class="dsen">Contents</span>
       </div>
             <div class="dfold">
-        <a class="dcard" style="--i:1" href="#domestic" title="国内社媒 · 社媒运营 · 0-1 搭建">
+        <a class="dcard" style="--i:1" href="#compete" title="市场洞察 · MARKET INSIGHT">
           <span class="dmeta">
             <span class="dpart">1</span>
-            <span class="dcols"><span class="dzh">国内社媒</span><span class="den">Social</span></span>
-            <span class="dcat">社媒运营 · 0-1 搭建</span>
+            <span class="dcols"><span class="dzh">市场洞察</span><span class="den">Market Insight</span></span>
+            <span class="dcat">竞品分析 · 市场调研 · 用户洞察</span>
           </span>
         </a>
-        <a class="dcard" style="--i:2" href="#overseas" title="海外账号 · 海外运营 · 全球触达">
+        <a class="dcard" style="--i:2" href="#domestic" title="数字营销 · DIGITAL MARKETING">
           <span class="dmeta">
             <span class="dpart">2</span>
-            <span class="dcols"><span class="dzh">海外账号</span><span class="den">Overseas</span></span>
-            <span class="dcat">海外运营 · 全球触达</span>
+            <span class="dcols"><span class="dzh">数字营销</span><span class="den">Digital Marketing</span></span>
+            <span class="dcat">国内社媒 · 网站与公众号 · 数据看板</span>
           </span>
         </a>
-        <a class="dcard" style="--i:3" href="#works" title="视频作品 · 内容制作 · 拍摄剪辑">
+        <a class="dcard" style="--i:3" href="#overseas" title="海外营销 · OVERSEAS MARKETING">
           <span class="dmeta">
             <span class="dpart">3</span>
-            <span class="dcols"><span class="dzh">视频作品</span><span class="den">Video</span></span>
-            <span class="dcat">内容制作 · 拍摄剪辑</span>
+            <span class="dcols"><span class="dzh">海外营销</span><span class="den">Overseas Marketing</span></span>
+            <span class="dcat">海外账号 · KOL / KOC 合作</span>
           </span>
         </a>
-        <a class="dcard" style="--i:4" href="#web" title="网站与公众号 · 官网 · 公众号">
+        <a class="dcard" style="--i:4" href="#expo" title="营销策划 · MARKETING CAMPAIGN">
           <span class="dmeta">
             <span class="dpart">4</span>
-            <span class="dcols"><span class="dzh">网站与公众号</span><span class="den">Website</span></span>
-            <span class="dcat">官网 · 公众号</span>
+            <span class="dcols"><span class="dzh">营销策划</span><span class="den">Marketing Campaign</span></span>
+            <span class="dcat">展会营销 · 活动策划</span>
           </span>
         </a>
-        <a class="dcard" style="--i:5" href="#xhsB" title="运营数据看板 · 数据分析 · 可视化">
+        <a class="dcard" style="--i:5" href="#visual" title="精选作品 · SELECTED WORKS">
           <span class="dmeta">
             <span class="dpart">5</span>
-            <span class="dcols"><span class="dzh">运营数据看板</span><span class="den">Data</span></span>
-            <span class="dcat">数据分析 · 可视化</span>
-          </span>
-        </a>
-        <a class="dcard" style="--i:6" href="#wxSelf" title="KOL / KOC 合作 · 内容合作 · 博主营销">
-          <span class="dmeta">
-            <span class="dpart">6</span>
-            <span class="dcols"><span class="dzh">KOL / KOC 合作</span><span class="den">Creator</span></span>
-            <span class="dcat">内容合作 · 博主营销</span>
-          </span>
-        </a>
-        <a class="dcard" style="--i:7" href="#visual" title="平面作品 · 平面设计 · 视觉输出">
-          <span class="dmeta">
-            <span class="dpart">7</span>
-            <span class="dcols"><span class="dzh">平面作品</span><span class="den">Graphic</span></span>
-            <span class="dcat">平面设计 · 视觉输出</span>
-          </span>
-        </a>
-        <a class="dcard" style="--i:8" href="#expo" title="展会活动 · 展会执行 · 全流程">
-          <span class="dmeta">
-            <span class="dpart">8</span>
-            <span class="dcols"><span class="dzh">展会活动</span><span class="den">Expo</span></span>
-            <span class="dcat">展会执行 · 全流程</span>
-          </span>
-        </a>
-        <a class="dcard" style="--i:9" href="#fans" title="营销与活动 · 活动策划 · SNS 传播">
-          <span class="dmeta">
-            <span class="dpart">9</span>
-            <span class="dcols"><span class="dzh">营销与活动</span><span class="den">Campaign</span></span>
-            <span class="dcat">活动策划 · SNS 传播</span>
+            <span class="dcols"><span class="dzh">精选作品</span><span class="den">Selected Works</span></span>
+            <span class="dcat">视频作品 · 平面设计</span>
           </span>
         </a>
       </div>
@@ -885,13 +857,12 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   </div>
 </section>
 
-<!-- 01.6 竞品分析与市场洞察 -->
+<!-- 01.5 竞品分析与市场洞察 -->
 <section class="scene" id="compete">
   <div class="content compete-wrap">
     <div class="compete-left">
-      <div class="kicker reveal">Competitor Analysis · Insight</div>
-      <h2 class="h-serif reveal" style="font-size:clamp(30px,4.4vw,56px);margin-bottom:6px;letter-spacing:.02em">COMPETITOR ANALYSIS</h2>
-      <h3 class="reveal" style="font-family:var(--serif);font-weight:600;font-size:clamp(19px,2.2vw,27px);color:var(--muted);margin-bottom:30px;letter-spacing:.08em">竞品分析与市场洞察</h3>
+      <div class="kicker reveal">市场洞察 · 竞品分析</div>
+      <h2 class="h-serif reveal" style="font-size:clamp(26px,3.6vw,46px);margin-bottom:30px;letter-spacing:.06em">竞品分析与市场洞察</h2>
       <p class="reveal" style="color:var(--muted);max-width:46ch;line-height:1.9;font-size:14.5px;margin-bottom:22px">在 Marketing 工作中，我参与过竞品信息收集与分析，通过对竞品的产品、定位、内容及传播方式进行对比，为后续内容策划和营销方向提供参考。</p>
       <div class="reveal" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:40px">
         <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2)">Competitor research · Market positioning · Content analysis</span>
@@ -1148,7 +1119,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 <!-- 18 展会活动：前期 / 中期 / 后期 -->
 <section class="scene" id="expo">
   <div class="content">
-    <div class="kicker reveal">会展与活动营销 · EVENT MARKETING</div>
+    <div class="kicker reveal">营销策划 · MARKETING CAMPAIGN</div>
     <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:16px">展会营销与项目策划<br>TRADE MARKETING &amp; CAMPAIGN</h2>
     <p class="reveal" style="color:var(--muted);max-width:74ch;margin-bottom:38px">从展前筹备到展后复盘，整条链路独立跟进：物料设计、展位布置、现场拍摄、社媒传播、客户跟进与数据复盘，一气贯通。</p>
     <div class="stages reveal">
@@ -1192,7 +1163,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 <!-- 22 粉丝福利 大幅聚焦轮播 -->
 <section class="scene" id="fans">
   <div class="content">
-    <div class="kicker reveal">会展与活动营销 · EVENT MARKETING</div>
+    <div class="kicker reveal">营销策划 · MARKETING CAMPAIGN</div>
     <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:8px">营销与活动</h2>
     <p class="reveal" style="color:var(--muted);margin-bottom:30px">200 项任务规划 · SNS 传播 · 内容推广 · 互动福利 · 直播总体规划</p>
     <div class="pk reveal" id="fanPk">
@@ -1430,9 +1401,8 @@ document.querySelectorAll('.strip').forEach(el=>io2.observe(el));
 /* ---- progress + scene index ---- */
 const scenes=[...document.querySelectorAll('.scene')];
 const nav=document.getElementById('nav');
-/* PillNav：场景中文名（compete 引导页内含四张竞品卡片，归属「竞品分析」） */
-const NAVNAME={about:'关于我',toc:'目录',compete:'竞品分析',domestic:'国内社媒',overseas:'海外社媒',works:'视频作品',
-  web:'网页设计',xhsB:'小红书',wxSelf:'公众号',visual:'视觉设计',expo:'展会活动',fans:'粉丝运营',contact:'联系我'};
+/* 侧边圆点导航：跟随目录五大板块（About 打头） */
+const NAVNAME={about:'关于我',toc:'目录',compete:'市场洞察 · 竞品分析',domestic:'数字营销',overseas:'海外营销',expo:'营销策划',visual:'精选作品',contact:'联系我'};
 const navScenes=scenes.filter(s=>NAVNAME[s.id]);
 navScenes.forEach(s=>{
   const b=document.createElement('button');
@@ -2090,25 +2060,21 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
   var CFG = window.__PILLNAV__ || {};
 
   var DEFAULTS = {
-    /* 导航项：[英文文案, 锚点] —— 与目录页各卡片底下的英文一致 */
+    /* 导航项：[英文文案, 锚点] —— About 打头，后面跟目录五大板块 */
     items: [
-      ['Social', '#domestic'],
+      ['About', '#about'],
+      ['Insight', '#compete'],
+      ['Digital', '#domestic'],
       ['Overseas', '#overseas'],
-      ['Video', '#works'],
-      ['Website', '#web'],
-      ['Data', '#xhsB'],
-      ['Creator', '#wxSelf'],
-      ['Graphic', '#visual'],
-      ['Expo', '#expo'],
-      ['Campaign', '#fans']
+      ['Campaign', '#expo'],
+      ['Works', '#visual']
     ],
     cta: ['Contact', '#contact'],   /* 右侧实心按钮（对标截图中的「注册」） */
     mobileItems: [                  /* 移动端弹层：全量章节（英文） */
       ['Home', '#cover'], ['About', '#about'], ['Contents', '#toc'],
-      ['Social CN', '#domestic'], ['Social Global', '#overseas'], ['Videos', '#works'],
-      ['Web Design', '#web'], ['Xiaohongshu', '#xhsB'], ['WeChat', '#wxSelf'],
-      ['Visual Design', '#visual'], ['Exhibitions', '#expo'], ['Fans', '#fans'],
-      ['Contact', '#contact']
+      ['Market Insight', '#compete'], ['Digital Marketing', '#domestic'],
+      ['Overseas Marketing', '#overseas'], ['Marketing Campaign', '#expo'],
+      ['Selected Works', '#visual'], ['Contact', '#contact']
     ],
     logoText: 'MZ',           /* 左侧圆形 logo 文字 */
     brandText: 'Portfolio',   /* logo 右侧品牌名（英文） */
@@ -2235,7 +2201,7 @@ document.querySelectorAll('a,button,.item,.cell,.mask,.c,.p').forEach(el=>{
     '@media (min-width:' + (opt('mobileBreakpoint') + 1) + 'px){',
     '  .pnav-pop{display:none}',
     '}',
-    '/* 中屏收窄胶囊，防止 9 项溢出 */',
+    '/* 中屏收窄胶囊，防止导航项溢出 */',
     '@media (max-width:1360px) and (min-width:' + (opt('mobileBreakpoint') + 1) + 'px){',
     '  .pnav{--pill-pad-x:11px;--nav-h:38px}',
     '  .pnav-brand{font-size:13px;letter-spacing:.14em}',
