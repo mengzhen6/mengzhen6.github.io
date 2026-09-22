@@ -196,8 +196,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .dcat{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(9.5px,.85vw,12px);
   letter-spacing:.12em;color:rgba(184,255,212,.54);margin-top:auto;
   padding-top:clamp(8px,.8vw,12px);transition:color .45s}
-/* 滑动变绿 + 手风琴展开：悬停/聚焦哪块，哪块变绿并只比默认宽一点点 */
-#toc .dcard:hover,#toc .dcard:focus-visible{outline:none;z-index:19;--tilt:0deg;flex-grow:1.12;
+/* 滑动变绿：悬停/聚焦哪块，哪块整块变绿（尺寸与黑卡一致，不展开） */
+#toc .dcard:hover,#toc .dcard:focus-visible{outline:none;z-index:19;--tilt:0deg;
   background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
   box-shadow:15px 0 30px -14px rgba(0,0,0,.95),0 26px 56px -20px rgba(0,0,0,.95),
     0 0 0 1px rgba(var(--green-rgb),.85),0 0 58px rgba(var(--green-rgb),.3),
@@ -211,8 +211,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   color:#05140c;-webkit-text-stroke-color:#05140c}
 #toc .dcard:hover .den,#toc .dcard:focus-visible .den,#toc .dcard.is-on .den{color:rgba(139,139,147,.7)}
 #toc .dcard:hover .dcat,#toc .dcard:focus-visible .dcat,#toc .dcard.is-on .dcat{color:rgba(139,139,147,.6)}
-/* 点击选中：整块变绿，同款小幅展开 */
-#toc .dcard.is-on{z-index:19;--tilt:0deg;flex-grow:1.12;
+/* 点击选中：整块变绿，尺寸不变 */
+#toc .dcard.is-on{z-index:19;--tilt:0deg;
   background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
   box-shadow:15px 0 30px -14px rgba(0,0,0,.95),0 26px 56px -20px rgba(0,0,0,.95),
     0 0 0 1px rgba(var(--green-rgb),.85),0 0 58px rgba(var(--green-rgb),.3),
