@@ -661,32 +661,43 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .pk .pcdots i.on{background:var(--gold);box-shadow:0 0 8px var(--gold)}
 
 /* ---------- vista 横向滑动卡片带：完整展示 · 无外框 · 中心聚焦两侧露出 ---------- */
-/* 视觉作品 · 翻转卡片：精凑长条一排贴紧排列，点击哪张哪张翻面，其余不动 */
-#visual .flipgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
-#visual .fcard{position:relative;height:clamp(280px,26vw,350px);cursor:pointer;outline:none;
+/* 视觉作品 · 翻转卡片：一整排紧凑叠放长条，鼠标划过或点击都会翻面 */
+#visual .flipgrid{display:flex;align-items:stretch;gap:0;perspective:1600px}
+#visual .fcard{position:relative;flex:1 1 0;min-width:0;height:clamp(300px,30vw,380px);
+  cursor:pointer;outline:none;z-index:calc(20 - var(--i,0));
   transform-style:preserve-3d;transition:transform .75s cubic-bezier(.22,1,.36,1)}
-#visual .fcard.flipped{transform:rotateY(180deg)}
+#visual .fcard+.fcard{margin-left:clamp(-14px,-1.1vw,-8px)}
+#visual .fcard:hover{transform:rotateY(180deg);z-index:30}
+#visual .fcard.flipped{transform:rotateY(180deg);z-index:29}
+#visual .fcard:hover .fface,#visual .fcard.flipped .fface{box-shadow:0 26px 54px -22px rgba(0,0,0,.95),0 0 30px -10px rgba(var(--green-rgb),.28)}
 #visual .fface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
   overflow:hidden;border:1px solid rgba(255,255,255,.07);
   box-shadow:0 22px 46px -24px rgba(0,0,0,.9)}
 #visual .fface.front{background:linear-gradient(178deg,#161a1f 0%,#101318 55%,#0d1013 100%);
-  display:flex;flex-direction:column;align-items:flex-start;
-  padding:16px 14px 13px;transition:background .35s,box-shadow .35s}
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:15px 6px 11px;transition:background .35s,box-shadow .35s}
 #visual .fcard:hover .fface.front,#visual .fcard:focus-visible .fface.front{
   background:linear-gradient(178deg,#1b2822 0%,#121b16 55%,#0e1411 100%);
   box-shadow:0 22px 46px -24px rgba(0,0,0,.9),0 0 24px -8px rgba(var(--green-rgb),.3)}
-#visual .fno{font-family:var(--display);font-weight:900;font-size:clamp(24px,2.3vw,34px);line-height:1;
-  color:transparent;-webkit-text-stroke:1.2px rgba(var(--green-rgb),.6)}
-#visual .fname{margin-top:auto;font-family:var(--serif);font-weight:700;
-  font-size:clamp(11.5px,1vw,13px);letter-spacing:.05em;color:#e8ecef;line-height:1.6}
-#visual .fhint{margin-top:8px;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
+#visual .fno{font-family:var(--display);font-weight:900;font-size:clamp(20px,1.7vw,26px);line-height:1;
+  color:transparent;-webkit-text-stroke:1.1px rgba(var(--green-rgb),.6)}
+#visual .fname{writing-mode:vertical-rl;white-space:nowrap;overflow:hidden;
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(11px,.95vw,13px);letter-spacing:.08em;color:#e8ecef;line-height:1.5}
+#visual .fhint{font-size:8px;letter-spacing:.16em;text-transform:uppercase;
   color:rgba(184,255,212,.42);white-space:nowrap}
 #visual .fface.back{transform:rotateY(180deg);background:#101216;display:flex}
 #visual .fface.back img{width:100%;height:100%;object-fit:contain;padding:10px;background:#0d0f12}
-@media(max-width:1100px){#visual .flipgrid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:820px){#visual .flipgrid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:560px){#visual .flipgrid{grid-template-columns:repeat(2,1fr);gap:2px}
-  #visual .fcard{height:250px}}
+/* 窄屏：仍是这一排长条，横向滑动查看（保持「一格压一格」的叠放感） */
+@media(max-width:900px){
+  #visual .flipgrid{overflow-x:auto;padding-bottom:12px;scrollbar-width:thin}
+  #visual .fcard{flex:0 0 92px;height:300px}
+  #visual .fface.back img{padding:6px}
+}
+@media(max-width:560px){
+  #visual .fcard{flex:0 0 78px;height:270px}
+  #visual .fname{font-size:10.5px}
+}
 .vista{position:relative;width:100%;height:min(66vh,620px);overflow:hidden}
 .vista .vtrack{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;
   gap:clamp(14px,2.6vw,32px);will-change:transform;transition:transform .75s cubic-bezier(.22,1,.36,1)}
@@ -1953,9 +1964,10 @@ function initVista(cfg){
   DATA.forEach((d,i)=>{
     const c=document.createElement('div');
     c.className='fcard';c.tabIndex=0;c.setAttribute('role','button');
-    c.setAttribute('aria-label',d.name+'（点击翻转查看作品）');
+    c.style.setProperty('--i',i);
+    c.setAttribute('aria-label',d.name+'（鼠标划过或点击查看作品）');
     c.innerHTML=`<div class="fface front"><span class="fno">${String(i+1).padStart(2,'0')}</span>`+
-      `<span class="fname">${d.name}</span><span class="fhint">点击翻转 · Flip</span></div>`+
+      `<span class="fname">${d.name}</span><span class="fhint">Flip</span></div>`+
       `<div class="fface back"><img loading="lazy" decoding="async" src="${d.src}" alt="${d.name}"/></div>`;
     const flip=()=>c.classList.toggle('flipped');
     c.addEventListener('click',flip);
