@@ -576,6 +576,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #wxSelf .kolc p{font-size:13px;line-height:1.8;color:var(--muted)}
 #wxSelf .kolc p.kolnames{margin-top:12px;padding-top:12px;border-top:1px dashed rgba(61,255,143,.25);
   font-size:12px;line-height:1.9;letter-spacing:.02em;color:rgba(184,255,212,.6);word-break:break-all}
+/* 博主合作视频：卡片内嵌播放器 */
+#wxSelf .kolvid{display:block;width:100%;margin-top:14px;border-radius:10px;
+  border:1px solid var(--line);background:#000}
 /* 海外 KOC 合作内容截图：三张并排，卡片尺寸不变 */
 #wxSelf .kolpics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
 #wxSelf .kolpics img{width:100%;height:200px;object-fit:cover;object-position:top;
@@ -661,6 +664,31 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .pk .pcdots i.on{background:var(--gold);box-shadow:0 0 8px var(--gold)}
 
 /* ---------- vista 横向滑动卡片带：完整展示 · 无外框 · 中心聚焦两侧露出 ---------- */
+/* 视觉作品 · 手风琴图廊（对标 AccordionGallery）：一排竖图，悬停展开、其余灰阶后退 */
+#acGal{display:flex;gap:10px;height:clamp(400px,46vw,540px)}
+.acpanel{position:relative;flex:1 1 0;min-width:0;border-radius:16px;overflow:hidden;cursor:pointer;
+  border:1px solid var(--line);background:#0f1014;
+  transition:flex-grow .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1),
+    box-shadow .45s,border-color .45s}
+.acpanel.on{flex-grow:10;box-shadow:0 34px 70px -28px rgba(0,0,0,.95),0 0 40px -12px rgba(var(--green-rgb),.28)}
+.acpanel img{position:absolute;left:50%;top:50%;height:100%;width:var(--ag-media-size,340px);
+  transform:translate(calc(-50% + var(--px,0px)),-50%);object-fit:cover;user-select:none;
+  filter:grayscale(1) brightness(.72);transition:filter .55s}
+.acpanel.on img{filter:grayscale(0) brightness(1)}
+.acpanel .ovl{position:absolute;inset:0;background:#060010;opacity:.38;transition:opacity .55s;pointer-events:none}
+.acpanel.on .ovl{opacity:0}
+.acpanel .aglab{position:absolute;left:22px;bottom:20px;display:flex;align-items:center;gap:10px;
+  opacity:0;transform:translateX(-14px);transition:opacity .45s,transform .45s;pointer-events:none}
+.acpanel.on .aglab{opacity:1;transform:none}
+.acpanel .aglab .bar{width:26px;height:2px;background:var(--gold);box-shadow:0 0 8px rgba(var(--green-rgb),.6)}
+.acpanel .aglab .txt{font-family:var(--serif);font-weight:700;font-size:15px;letter-spacing:.06em;
+  color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.85);white-space:nowrap}
+.acpanel:focus-visible{outline:2px solid rgba(var(--green-rgb),.6);outline-offset:2px}
+@media(max-width:760px){
+  #acGal{height:340px}
+  .acpanel .aglab .txt{font-size:12.5px}
+  .acpanel .aglab{left:14px;bottom:14px}
+}
 .vista{position:relative;width:100%;height:min(66vh,620px);overflow:hidden}
 .vista .vtrack{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;
   gap:clamp(14px,2.6vw,32px);will-change:transform;transition:transform .75s cubic-bezier(.22,1,.36,1)}
@@ -1126,6 +1154,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
         <b>03</b>
         <h4>博主资源赋能活动</h4>
         <p>联动博主资源赋能线上活动，沉淀合作复盘，优化后续博主合作策略。</p>
+        <video class="kolvid" src="assets/coop.mp4" controls playsinline preload="metadata"></video>
       </div>
     </div>
   </div>
@@ -1198,14 +1227,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   <div class="content">
     <div class="kicker reveal">SELECTED WORKS</div>
     <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:34px">产品图 · 海报 · 详情页 · 流程图</h2>
-    <div class="vista reveal" id="visVista">
-      <div class="vtrack" id="visTrack"></div>
-      <div class="vbar">
-        <button class="pbtn" data-d="-1" aria-label="上一张">‹</button>
-        <div class="pcdots" id="visDots"></div>
-        <button class="pbtn" data-d="1" aria-label="下一张">›</button>
-      </div>
-    </div>
+    <div class="acgal reveal" id="acGal" role="list" aria-label="视觉作品手风琴图廊"></div>
     <p class="reveal" style="color:var(--muted);margin-top:42px;max-width:70ch">小程序游戏设计、产品图、产品详情页、流程图、海报熟练操作。场景图、文案、拍摄、修图熟练——产品图均由本人拍摄，熟练掌握 POCKET3、佳能、索尼、action 等器材。</p>
   </div>
 </section>
@@ -1914,10 +1936,10 @@ function initVista(cfg){
   place(false);
   addEventListener('resize',()=>place(false));
 }
-// 产品图 · 海报 · 详情页 · 流程图 · 横向滑动卡片带(完整 · 无外框)
-initVista({
-  id:'visVista', track:'visTrack', dots:'visDots',
-  data:[
+// 产品图 · 海报 · 详情页 · 流程图 · 手风琴图廊（一排竖图，悬停展开、其余灰阶，点击展开项放大）
+(function(){
+  const root=document.getElementById('acGal');if(!root)return;
+  const DATA=[
     {src:'assets/v1.webp', name:'SWAGE新品海报设计'},
     {src:'assets/v2.webp', name:'MELIORA详情页设计'},
     {src:'assets/v3.webp', name:'SWAGE海外社媒设计'},
@@ -1930,8 +1952,47 @@ initVista({
     {src:'assets/v10.webp', name:'LS XGT 系列 样册'},
     {src:'assets/v11.webp', name:'LS ELECTRIC 自动化 CIC 企业介绍'},
     {src:'assets/v12.webp', name:'LS展会背景板设计'}
-  ]
-});
+  ];
+  const n=DATA.length,RATIO=0.5,GAP=10;
+  const panels=[];
+  DATA.forEach((d,i)=>{
+    const p=document.createElement('div');
+    p.className='acpanel';p.tabIndex=0;p.setAttribute('role','listitem');
+    p.setAttribute('aria-label',d.name);
+    p.innerHTML=`<img loading="lazy" decoding="async" src="${d.src}" alt="${d.name}" draggable="false"/>`+
+      `<span class="ovl" aria-hidden="true"></span>`+
+      `<span class="aglab" aria-hidden="true"><span class="bar"></span><span class="txt">${d.name}</span></span>`;
+    p.addEventListener('mouseenter',()=>go(i));
+    p.addEventListener('focus',()=>go(i));
+    p.addEventListener('click',()=>{ if(i===act){lightbox(d.src);} else {go(i);} });
+    p.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight'){e.preventDefault();go((act+1)%n);}
+      else if(e.key==='ArrowLeft'){e.preventDefault();go((act-1+n)%n);}
+      else if(e.key==='Enter'){ if(i===act){lightbox(d.src);} else {go(i);} }
+    });
+    root.appendChild(p);panels.push(p);
+  });
+  let act=Math.min(2,n-1);
+  function go(i){ if(i===act)return; act=i; apply(); }
+  function apply(){
+    const size=parseFloat(getComputedStyle(root).getPropertyValue('--ag-media-size'))||340;
+    panels.forEach((p,i)=>{
+      const on=i===act;
+      p.classList.toggle('on',on);
+      p.style.transform=on?'none':`rotateY(${i<act?5:-5}deg)`;
+      const drift=Math.max(-1.5,Math.min(1.5,act-i));
+      p.querySelector('img').style.setProperty('--px',(drift*RATIO*size*0.06).toFixed(1)+'px');
+    });
+  }
+  function measure(){
+    const w=root.clientWidth||root.getBoundingClientRect().width;
+    const usable=Math.max(w-GAP*(n-1),120);
+    root.style.setProperty('--ag-media-size',Math.max(140,usable*RATIO*1.22).toFixed(1)+'px');
+  }
+  if(window.ResizeObserver){ new ResizeObserver(()=>{measure();apply();}).observe(root); }
+  addEventListener('resize',()=>{measure();apply();});
+  measure();apply();
+})();
 // 粉丝福利 · 活动赛事 · 大幅聚焦轮播
 initFocus({
   id:'fanPk', stage:'fanStage', dots:'fanDots', tag:'fanTag',
