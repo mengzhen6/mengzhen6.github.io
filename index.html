@@ -664,10 +664,11 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 视觉作品 · 翻转卡片：宽版长条相互叠放（对标参考：大序号在左上，标题在左下），划过/点击翻面 */
 #visual .flipgrid{display:flex;align-items:stretch;gap:0;perspective:1800px;
   overflow-x:auto;padding-bottom:14px;scrollbar-width:thin}
-#visual .fcard{position:relative;flex:0 0 clamp(240px,23vw,310px);height:clamp(330px,33vw,410px);
+#visual .fcard{position:relative;flex:0 0 clamp(270px,25vw,340px);height:clamp(350px,35vw,440px);
   cursor:pointer;outline:none;z-index:calc(20 - var(--i,0));
   transform-style:preserve-3d;transition:transform .75s cubic-bezier(.22,1,.36,1)}
-#visual .fcard+.fcard{margin-left:clamp(-18px,-1.4vw,-12px)}
+/* 深度叠放：后一张压住前一张大半，只露出左侧文字区 */
+#visual .fcard+.fcard{margin-left:clamp(-100px,-8vw,-60px)}
 #visual .fcard:hover,#visual .fcard.flipped{transform:rotateY(180deg);z-index:30}
 #visual .fcard:hover .fface,#visual .fcard.flipped .fface{box-shadow:0 26px 54px -22px rgba(0,0,0,.95),0 0 30px -10px rgba(var(--green-rgb),.28)}
 #visual .fface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
@@ -675,33 +676,36 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   box-shadow:0 22px 46px -24px rgba(0,0,0,.9)}
 #visual .fface.front{background:linear-gradient(178deg,#161a1f 0%,#101318 55%,#0d1013 100%);
   display:flex;flex-direction:column;align-items:flex-start;
-  padding:18px 22px 16px;transition:background .35s,box-shadow .35s}
+  padding:20px 26px 18px;transition:background .35s,box-shadow .35s}
 #visual .fcard:hover .fface.front,#visual .fcard:focus-visible .fface.front{
   background:linear-gradient(178deg,#1b2822 0%,#121b16 55%,#0e1411 100%);
   box-shadow:0 22px 46px -24px rgba(0,0,0,.9),0 0 24px -8px rgba(var(--green-rgb),.3)}
 /* 顶部小标签（对标参考图的「RAY – SELECTED WORK」） */
-#visual .flab{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(184,255,212,.5);white-space:nowrap}
-/* 大序号：左上，横向大字 */
-#visual .fno{margin-top:10px;font-family:var(--display);font-weight:900;
-  font-size:clamp(44px,4.2vw,64px);line-height:1;
-  color:transparent;-webkit-text-stroke:1.4px rgba(var(--green-rgb),.62)}
-/* 标题压在左下角（叠边不会盖到文字），下面一行小字 */
-#visual .fbot{margin-top:auto}
+#visual .flab{font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(184,255,212,.55);white-space:nowrap}
+/* 大序号：沉到卡片中下部，压轴大字 */
+#visual .fno{margin-top:auto;font-family:var(--display);font-weight:900;
+  font-size:clamp(60px,5.4vw,84px);line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px rgba(var(--green-rgb),.65)}
+/* 标题在序号下方、贴住左下（叠边只压右侧，盖不到文字） */
+#visual .fbot{margin-top:16px}
 #visual .fname{font-family:var(--serif);font-weight:700;
-  font-size:clamp(13px,1.1vw,15px);letter-spacing:.05em;color:#e8ecef;line-height:1.6}
-#visual .fhint{margin-top:6px;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(184,255,212,.42);white-space:nowrap}
+  font-size:clamp(15px,1.3vw,18px);letter-spacing:.05em;color:#eef2f4;line-height:1.6}
+#visual .fhint{margin-top:8px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(184,255,212,.45);white-space:nowrap}
 #visual .fface.back{transform:rotateY(180deg);background:#101216;display:flex}
 #visual .fface.back img{width:100%;height:100%;object-fit:contain;padding:10px;background:#0d0f12}
-/* 窄屏：同样宽版叠放，横向滑动查看 */
+/* 窄屏：同样深度叠放，横向滑动查看 */
 @media(max-width:900px){
-  #visual .fcard{flex:0 0 220px;height:320px}
-  #visual .fno{font-size:44px}
+  #visual .fcard{flex:0 0 250px;height:340px}
+  #visual .fcard+.fcard{margin-left:-62px}
+  #visual .fno{font-size:56px}
   #visual .fface.back img{padding:6px}
 }
 @media(max-width:560px){
-  #visual .fcard{flex:0 0 190px;height:290px}
+  #visual .fcard{flex:0 0 215px;height:305px}
+  #visual .fcard+.fcard{margin-left:-52px}
+  #visual .fname{font-size:14px}
 }
 .vista{position:relative;width:100%;height:min(66vh,620px);overflow:hidden}
 .vista .vtrack{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;
