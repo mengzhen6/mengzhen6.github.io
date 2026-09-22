@@ -134,7 +134,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
    长条默认中性暗色、顶部为小号空心序号、中文放大靠上；鼠标滑过/键盘聚焦/点击 → 整块变亮绿，
    但尺寸与文字形态保持不变（不再展开放大、不再折成两列、无翻页动画）。
    相邻长条用负 margin 交叠、z-index 递减，制造"叠放次序"与数字穿插的折叠立体感。 */
-#toc .content{max-width:1340px}
+#toc .content{max-width:1120px}
 #toc .deck{position:relative;display:flex;align-items:stretch;overflow:hidden;
   min-height:clamp(420px,46vw,560px);
   border-radius:16px;border:1px solid rgba(var(--green-rgb),.16);
@@ -153,7 +153,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   font-size:clamp(8px,.68vw,9.5px);color:rgba(184,255,212,.58)}
 /* 5 张折叠长条 */
 #toc .dfold{flex:1 1 auto;display:flex;align-items:stretch;min-width:0}
-#toc .dcard{position:relative;flex:.72 1 0;min-width:0;overflow:hidden;text-decoration:none;
+#toc .dcard{position:relative;flex:1 1 0;min-width:0;overflow:hidden;text-decoration:none;
   display:flex;flex-direction:column;align-items:center;
   padding:clamp(16px,1.7vw,24px) 4px clamp(13px,1.3vw,19px);
   background:linear-gradient(180deg,#1a1f26 0%,#12161b 46%,#0d1014 100%);
