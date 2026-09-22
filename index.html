@@ -661,50 +661,6 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .pk .pcdots i.on{background:var(--gold);box-shadow:0 0 8px var(--gold)}
 
 /* ---------- vista 横向滑动卡片带：完整展示 · 无外框 · 中心聚焦两侧露出 ---------- */
-/* 视觉作品 · 翻转卡片：全部叠在一排、正好铺满一屏（无滚动条），文字靠右居中不被叠边盖住 */
-#visual .flipgrid{display:flex;align-items:stretch;gap:0;perspective:1600px;overflow:hidden}
-#visual .fcard{position:relative;flex:1 1 0;min-width:0;height:clamp(280px,26vw,340px);
-  cursor:pointer;outline:none;z-index:calc(20 - var(--i,0));
-  transform-style:preserve-3d;transition:transform .75s cubic-bezier(.22,1,.36,1)}
-/* 一格压一格：前一张盖住后一张的左缘，露出的是每张卡的右侧 */
-#visual .fcard+.fcard{margin-left:calc(-1 * clamp(26px,2.6vw,40px))}
-#visual .fcard:hover,#visual .fcard.flipped{transform:rotateY(180deg);z-index:30}
-#visual .fcard:hover .fface,#visual .fcard.flipped .fface{box-shadow:0 26px 54px -22px rgba(0,0,0,.95),0 0 30px -10px rgba(var(--green-rgb),.28)}
-#visual .fface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  overflow:hidden;border:1px solid rgba(255,255,255,.07);
-  box-shadow:0 22px 46px -24px rgba(0,0,0,.9)}
-#visual .fface.front{background:linear-gradient(178deg,#161a1f 0%,#101318 55%,#0d1013 100%);
-  display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:10px;
-  padding:16px 15px;text-align:right;transition:background .35s,box-shadow .35s}
-#visual .fcard:hover .fface.front,#visual .fcard:focus-visible .fface.front{
-  background:linear-gradient(178deg,#1b2822 0%,#121b16 55%,#0e1411 100%);
-  box-shadow:0 22px 46px -24px rgba(0,0,0,.9),0 0 24px -8px rgba(var(--green-rgb),.3)}
-/* 顶部小标签（对标参考图的「RAY – SELECTED WORK」） */
-#visual .flab{font-size:8px;letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(184,255,212,.55);white-space:nowrap}
-/* 大序号：居中偏下，右对齐 */
-#visual .fno{font-family:var(--display);font-weight:900;
-  font-size:clamp(34px,3.4vw,52px);line-height:1;
-  color:transparent;-webkit-text-stroke:1.3px rgba(var(--green-rgb),.65)}
-#visual .fname{font-family:var(--serif);font-weight:700;
-  font-size:clamp(12.5px,1.05vw,14.5px);letter-spacing:.04em;color:#eef2f4;line-height:1.55}
-#visual .fhint{font-size:8px;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(184,255,212,.45);white-space:nowrap}
-#visual .fface.back{transform:rotateY(180deg);background:#101216;display:flex}
-#visual .fface.back img{width:100%;height:100%;object-fit:contain;padding:10px;background:#0d0f12}
-/* 窄屏：一排放不下，允许横向滑动但隐藏滚动条（保持叠放） */
-@media(max-width:900px){
-  #visual .flipgrid{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  #visual .flipgrid::-webkit-scrollbar{display:none}
-  #visual .fcard{flex:0 0 150px;height:300px}
-  #visual .fcard+.fcard{margin-left:-34px}
-  #visual .fface.back img{padding:6px}
-}
-@media(max-width:560px){
-  #visual .fcard{flex:0 0 128px;height:270px}
-  #visual .fcard+.fcard{margin-left:-30px}
-  #visual .fname{font-size:12px}
-}
 .vista{position:relative;width:100%;height:min(66vh,620px);overflow:hidden}
 .vista .vtrack{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;
   gap:clamp(14px,2.6vw,32px);will-change:transform;transition:transform .75s cubic-bezier(.22,1,.36,1)}
@@ -1242,7 +1198,14 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   <div class="content">
     <div class="kicker reveal">SELECTED WORKS</div>
     <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:34px">产品图 · 海报 · 详情页 · 流程图</h2>
-    <div class="flipgrid reveal" id="visFlip"></div>
+    <div class="vista reveal" id="visVista">
+      <div class="vtrack" id="visTrack"></div>
+      <div class="vbar">
+        <button class="pbtn" data-d="-1" aria-label="上一张">‹</button>
+        <div class="pcdots" id="visDots"></div>
+        <button class="pbtn" data-d="1" aria-label="下一张">›</button>
+      </div>
+    </div>
     <p class="reveal" style="color:var(--muted);margin-top:42px;max-width:70ch">小程序游戏设计、产品图、产品详情页、流程图、海报熟练操作。场景图、文案、拍摄、修图熟练——产品图均由本人拍摄，熟练掌握 POCKET3、佳能、索尼、action 等器材。</p>
   </div>
 </section>
@@ -1951,10 +1914,10 @@ function initVista(cfg){
   place(false);
   addEventListener('resize',()=>place(false));
 }
-// 产品图 · 海报 · 详情页 · 流程图 · 翻转卡片（正面=标题，点击翻面=作品图）
-(function(){
-  const grid=document.getElementById('visFlip');if(!grid)return;
-  const DATA=[
+// 产品图 · 海报 · 详情页 · 流程图 · 横向滑动卡片带(完整 · 无外框)
+initVista({
+  id:'visVista', track:'visTrack', dots:'visDots',
+  data:[
     {src:'assets/v1.webp', name:'SWAGE新品海报设计'},
     {src:'assets/v2.webp', name:'MELIORA详情页设计'},
     {src:'assets/v3.webp', name:'SWAGE海外社媒设计'},
@@ -1967,22 +1930,8 @@ function initVista(cfg){
     {src:'assets/v10.webp', name:'LS XGT 系列 样册'},
     {src:'assets/v11.webp', name:'LS ELECTRIC 自动化 CIC 企业介绍'},
     {src:'assets/v12.webp', name:'LS展会背景板设计'}
-  ];
-  DATA.forEach((d,i)=>{
-    const c=document.createElement('div');
-    c.className='fcard';c.tabIndex=0;c.setAttribute('role','button');
-    c.style.setProperty('--i',i);
-    c.setAttribute('aria-label',d.name+'（鼠标划过或点击查看作品）');
-    c.innerHTML=`<div class="fface front"><span class="flab">MZ — Selected Works</span>`+
-      `<span class="fno">${String(i+1).padStart(2,'0')}</span>`+
-      `<div class="fbot"><span class="fname">${d.name}</span><span class="fhint">点击翻转 · Flip</span></div></div>`+
-      `<div class="fface back"><img loading="lazy" decoding="async" src="${d.src}" alt="${d.name}"/></div>`;
-    const flip=()=>c.classList.toggle('flipped');
-    c.addEventListener('click',flip);
-    c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
-    grid.appendChild(c);
-  });
-})();
+  ]
+});
 // 粉丝福利 · 活动赛事 · 大幅聚焦轮播
 initFocus({
   id:'fanPk', stage:'fanStage', dots:'fanDots', tag:'fanTag',
