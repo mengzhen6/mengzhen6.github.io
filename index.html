@@ -661,6 +661,30 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .pk .pcdots i.on{background:var(--gold);box-shadow:0 0 8px var(--gold)}
 
 /* ---------- vista 横向滑动卡片带：完整展示 · 无外框 · 中心聚焦两侧露出 ---------- */
+/* 视觉作品 · 翻转卡片：正面=作品标题，点击翻面=作品图 */
+#visual .flipgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.4vw,20px)}
+#visual .fcard{position:relative;height:clamp(250px,25vw,320px);cursor:pointer;outline:none;
+  transform-style:preserve-3d;transition:transform .75s cubic-bezier(.22,1,.36,1)}
+#visual .fcard.flipped{transform:rotateY(180deg)}
+#visual .fface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border-radius:14px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:0 22px 46px -22px rgba(0,0,0,.9)}
+#visual .fface.front{background:linear-gradient(165deg,#15181d 0%,#0e1013 100%);
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;
+  padding:20px 18px 16px;transition:border-color .35s,box-shadow .35s}
+#visual .fcard:hover .fface.front,#visual .fcard:focus-visible .fface.front{
+  border-color:rgba(var(--green-rgb),.5);
+  box-shadow:0 22px 46px -22px rgba(0,0,0,.9),0 0 28px -8px rgba(var(--green-rgb),.32)}
+#visual .fno{font-family:var(--display);font-weight:900;font-size:clamp(30px,3vw,42px);line-height:1;
+  color:transparent;-webkit-text-stroke:1.3px rgba(var(--green-rgb),.6)}
+#visual .fname{font-family:var(--serif);font-weight:700;font-size:14.5px;letter-spacing:.06em;
+  color:#e8ecef;line-height:1.55}
+#visual .fhint{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:rgba(184,255,212,.5)}
+#visual .fface.back{transform:rotateY(180deg);background:#101216;display:flex}
+#visual .fface.back img{width:100%;height:100%;object-fit:contain;padding:10px;background:#0d0f12}
+@media(max-width:1100px){#visual .flipgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){#visual .flipgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){#visual .flipgrid{gap:10px}#visual .fcard{height:230px}}
 .vista{position:relative;width:100%;height:min(66vh,620px);overflow:hidden}
 .vista .vtrack{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;
   gap:clamp(14px,2.6vw,32px);will-change:transform;transition:transform .75s cubic-bezier(.22,1,.36,1)}
@@ -1198,14 +1222,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   <div class="content">
     <div class="kicker reveal">SELECTED WORKS</div>
     <h2 class="h-serif reveal" style="font-size:clamp(28px,4vw,48px);margin-bottom:34px">产品图 · 海报 · 详情页 · 流程图</h2>
-    <div class="vista reveal" id="visVista">
-      <div class="vtrack" id="visTrack"></div>
-      <div class="vbar">
-        <button class="pbtn" data-d="-1" aria-label="上一张">‹</button>
-        <div class="pcdots" id="visDots"></div>
-        <button class="pbtn" data-d="1" aria-label="下一张">›</button>
-      </div>
-    </div>
+    <div class="flipgrid reveal" id="visFlip"></div>
     <p class="reveal" style="color:var(--muted);margin-top:42px;max-width:70ch">小程序游戏设计、产品图、产品详情页、流程图、海报熟练操作。场景图、文案、拍摄、修图熟练——产品图均由本人拍摄，熟练掌握 POCKET3、佳能、索尼、action 等器材。</p>
   </div>
 </section>
@@ -1914,10 +1931,10 @@ function initVista(cfg){
   place(false);
   addEventListener('resize',()=>place(false));
 }
-// 产品图 · 海报 · 详情页 · 流程图 · 横向滑动卡片带(完整 · 无外框)
-initVista({
-  id:'visVista', track:'visTrack', dots:'visDots',
-  data:[
+// 产品图 · 海报 · 详情页 · 流程图 · 翻转卡片（正面=标题，点击翻面=作品图）
+(function(){
+  const grid=document.getElementById('visFlip');if(!grid)return;
+  const DATA=[
     {src:'assets/v1.webp', name:'SWAGE新品海报设计'},
     {src:'assets/v2.webp', name:'MELIORA详情页设计'},
     {src:'assets/v3.webp', name:'SWAGE海外社媒设计'},
@@ -1930,8 +1947,20 @@ initVista({
     {src:'assets/v10.webp', name:'LS XGT 系列 样册'},
     {src:'assets/v11.webp', name:'LS ELECTRIC 自动化 CIC 企业介绍'},
     {src:'assets/v12.webp', name:'LS展会背景板设计'}
-  ]
-});
+  ];
+  DATA.forEach((d,i)=>{
+    const c=document.createElement('div');
+    c.className='fcard';c.tabIndex=0;c.setAttribute('role','button');
+    c.setAttribute('aria-label',d.name+'（点击翻转查看作品）');
+    c.innerHTML=`<div class="fface front"><span class="fno">${String(i+1).padStart(2,'0')}</span>`+
+      `<span class="fname">${d.name}</span><span class="fhint">点击翻转 · Flip</span></div>`+
+      `<div class="fface back"><img loading="lazy" decoding="async" src="${d.src}" alt="${d.name}"/></div>`;
+    const flip=()=>c.classList.toggle('flipped');
+    c.addEventListener('click',flip);
+    c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
+    grid.appendChild(c);
+  });
+})();
 // 粉丝福利 · 活动赛事 · 大幅聚焦轮播
 initFocus({
   id:'fanPk', stage:'fanStage', dots:'fanDots', tag:'fanTag',
