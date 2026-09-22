@@ -153,7 +153,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   font-size:clamp(8px,.68vw,9.5px);color:rgba(184,255,212,.58)}
 /* 5 张折叠长条 */
 #toc .dfold{flex:1 1 auto;display:flex;align-items:stretch;min-width:0}
-#toc .dcard{position:relative;flex:.75 1 0;min-width:0;overflow:hidden;text-decoration:none;
+#toc .dcard{position:relative;flex:1 1 0;min-width:0;overflow:hidden;text-decoration:none;
   display:flex;flex-direction:column;align-items:center;
   padding:clamp(16px,1.7vw,24px) 4px clamp(13px,1.3vw,19px);
   background:linear-gradient(180deg,#1a1f26 0%,#12161b 46%,#0d1014 100%);
@@ -185,19 +185,19 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 汉字：微软雅黑 Bold（本机有真 Bold 面）；--ls 字距只做小幅呼吸，不再拉成大空隙。
    --mh0 = 单列实际高（默认态，刚好不裁切）；选中/悬停时形态不变，仍是单列 */
 #toc .dzh{writing-mode:vertical-rl;white-space:nowrap;font-family:var(--tocsans);
-  font-size:clamp(26px,2.7vw,38px);line-height:1.1;letter-spacing:var(--ls,0);
+  font-size:clamp(30px,3.1vw,44px);line-height:1.1;letter-spacing:var(--ls,0);
   font-weight:700;color:#eef8f2;-webkit-text-stroke:.3px currentColor;
   max-height:var(--mh0,none);
   transition:color .45s,-webkit-text-stroke-color .45s,max-height .5s cubic-bezier(.2,.8,.2,1)}
 /* 英文：排在汉字正下方，Arial Bold */
 #toc .den{writing-mode:vertical-rl;white-space:nowrap;text-transform:uppercase;
-  font-family:var(--tocen);font-weight:700;font-size:clamp(10px,.82vw,11.5px);
+  font-family:var(--tocen);font-weight:700;font-size:clamp(11.5px,1vw,14px);
   letter-spacing:.14em;color:rgba(184,255,212,.72);transition:color .45s}
-#toc .dcat{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(8.5px,.74vw,10.5px);
+#toc .dcat{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(9.5px,.85vw,12px);
   letter-spacing:.12em;color:rgba(184,255,212,.54);margin-top:auto;
   padding-top:clamp(8px,.8vw,12px);transition:color .45s}
-/* 滑动变绿 + 手风琴展开：悬停/聚焦哪块，哪块整块变绿并横向展开 */
-#toc .dcard:hover,#toc .dcard:focus-visible{outline:none;z-index:19;--tilt:0deg;flex-grow:1.45;
+/* 滑动变绿 + 手风琴展开：悬停/聚焦哪块，哪块变绿并只比默认宽一点 */
+#toc .dcard:hover,#toc .dcard:focus-visible{outline:none;z-index:19;--tilt:0deg;flex-grow:1.25;
   background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
   box-shadow:15px 0 30px -14px rgba(0,0,0,.95),0 26px 56px -20px rgba(0,0,0,.95),
     0 0 0 1px rgba(var(--green-rgb),.85),0 0 58px rgba(var(--green-rgb),.3),
@@ -211,8 +211,8 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
   color:#05140c;-webkit-text-stroke-color:#05140c}
 #toc .dcard:hover .den,#toc .dcard:focus-visible .den,#toc .dcard.is-on .den{color:rgba(139,139,147,.7)}
 #toc .dcard:hover .dcat,#toc .dcard:focus-visible .dcat,#toc .dcard.is-on .dcat{color:rgba(139,139,147,.6)}
-/* 点击选中：整块变绿，同款手风琴展开 */
-#toc .dcard.is-on{z-index:19;--tilt:0deg;flex-grow:1.45;
+/* 点击选中：整块变绿，同款小幅展开 */
+#toc .dcard.is-on{z-index:19;--tilt:0deg;flex-grow:1.25;
   background:linear-gradient(168deg,#52ffa8 0%,#31e681 52%,#26d273 100%);
   box-shadow:15px 0 30px -14px rgba(0,0,0,.95),0 26px 56px -20px rgba(0,0,0,.95),
     0 0 0 1px rgba(var(--green-rgb),.85),0 0 58px rgba(var(--green-rgb),.3),
@@ -221,15 +221,15 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #toc .dcard.is-on::after{background:linear-gradient(90deg,rgba(5,20,12,.14),rgba(5,20,12,0))}
 @media(max-width:1240px){
   #toc .dside{width:clamp(84px,8vw,110px)}
-  #toc .dzh{font-size:clamp(22px,2.7vw,34px)}
+  #toc .dzh{font-size:clamp(26px,3vw,38px)}
   #toc .dpart{font-size:clamp(18px,2.05vw,24px)}
 }
 @media(max-width:980px){
   #toc .deck{min-height:clamp(330px,42vw,420px)}
   #toc .dcard{padding:17px 3px 12px}
-  #toc .dzh{font-size:clamp(20px,2.7vw,26px)}
-  #toc .den{font-size:clamp(8.5px,.9vw,10px);letter-spacing:.12em}
-  #toc .dcat{font-size:clamp(7.5px,1.05vw,9.5px);letter-spacing:.08em}
+  #toc .dzh{font-size:clamp(24px,3vw,30px)}
+  #toc .den{font-size:clamp(10px,1vw,11.5px);letter-spacing:.12em}
+  #toc .dcat{font-size:clamp(8.5px,1.05vw,10px);letter-spacing:.08em}
   #toc .dpart{font-size:clamp(17px,2.3vw,22px);-webkit-text-stroke-width:1.1px}
 }
 /* 窄屏：长条改为竖向堆叠的折叠行——点击展开一行，变绿并露出类目 */
