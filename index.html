@@ -384,6 +384,7 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 /* 海外页：左栏加宽让横线+小字完整露出、不被轮播遮挡；文字块整体上移 */
 #overseas .split{grid-template-columns:minmax(0,1.2fr) minmax(0,3.8fr);align-items:start}
 #overseas .left .kicker{margin-bottom:16px}
+#overseas .left .kicker::before{flex:0 0 auto;width:34px;height:1px;background:var(--gold)}
 @media(max-width:900px){.split{grid-template-columns:1fr}}
 .left{padding:4px 0}
 /* 左侧竖向全流程条 */
