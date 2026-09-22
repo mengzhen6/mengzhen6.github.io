@@ -576,9 +576,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 #wxSelf .kolc p{font-size:13px;line-height:1.8;color:var(--muted)}
 #wxSelf .kolc p.kolnames{margin-top:12px;padding-top:12px;border-top:1px dashed rgba(61,255,143,.25);
   font-size:12px;line-height:1.9;letter-spacing:.02em;color:rgba(184,255,212,.6);word-break:break-all}
-/* 博主合作视频：卡片内嵌播放器 */
-#wxSelf .kolvid{display:block;width:100%;margin-top:14px;border-radius:10px;
-  border:1px solid var(--line);background:#000}
+/* 博主合作视频：缩成与 KOC 截图一样大的小窗（卡片尺寸不变） */
+#wxSelf .kolvid{display:block;width:calc((100% - 16px)/3);height:200px;object-fit:cover;
+  margin-top:14px;border-radius:9px;border:1px solid var(--line);background:#000}
 /* 海外 KOC 合作内容截图：三张并排，卡片尺寸不变 */
 #wxSelf .kolpics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
 #wxSelf .kolpics img{width:100%;height:200px;object-fit:cover;object-position:top;
