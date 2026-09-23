@@ -325,6 +325,10 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
 .acc-bar .acc-ico{flex:0 0 auto;color:var(--gold);font-size:22px;font-weight:400;line-height:1;
   transition:transform .35s cubic-bezier(.22,1,.28,1)}
 .acc-item.open .acc-ico{transform:rotate(45deg)}
+/* 核心洞察：固定展开，隐藏 + 号，不可点击收起 */
+.acc-item.fixed-open .acc-ico{display:none}
+.acc-item.fixed-open .acc-bar{cursor:default}
+.acc-item.fixed-open .acc-hint{display:none}
 .acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.22,1,.28,1)}
 .acc-item.open .acc-body{grid-template-rows:1fr}
 .acc-inner{overflow:hidden;min-height:0}
@@ -997,9 +1001,9 @@ h1,h2,h3,h4,.h-serif,.divider .t,.lead h2{color:var(--green) !important;font-wei
       </table>
         </div></div></div>
       </div>
-      <div class="acc-item">
-        <button class="acc-bar" type="button" aria-expanded="false">
-          <span class="acc-t">5. 核心洞察 <span style="opacity:.6">KEY INSIGHTS</span></span><span class="acc-ico">+</span>
+      <div class="acc-item open fixed-open">
+        <button class="acc-bar" type="button" aria-expanded="true">
+          <span class="acc-t">核心洞察 <span style="opacity:.6">KEY INSIGHTS</span></span><span class="acc-ico">+</span>
         </button>
         <div class="acc-body"><div class="acc-inner"><div class="acc-pad">
           <div class="insight-grid">
@@ -1575,8 +1579,12 @@ addEventListener('scroll',onScroll,{passive:true});onScroll();
     var hint=document.createElement('span');hint.className='acc-hint';hint.textContent='点击展开';
     bar.insertBefore(hint,bar.querySelector('.acc-ico'));
     bar.addEventListener('click',function(){
+      if(it.classList.contains('fixed-open'))return;   /* 核心洞察固定展开，不可收起 */
       var wasOpen=it.classList.contains('open');
-      items.forEach(function(o){o.classList.remove('open');o.classList.remove('acc-pulse');o.querySelector('.acc-bar').setAttribute('aria-expanded','false');});
+      items.forEach(function(o){
+        if(o.classList.contains('fixed-open'))return;  /* 固定项不受单开逻辑影响 */
+        o.classList.remove('open');o.classList.remove('acc-pulse');o.querySelector('.acc-bar').setAttribute('aria-expanded','false');
+      });
       if(!wasOpen){it.classList.add('open');this.setAttribute('aria-expanded','true');}
     });
   });
